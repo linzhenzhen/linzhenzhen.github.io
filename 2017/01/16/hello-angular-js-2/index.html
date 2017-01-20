@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Front-end">
+    <meta name="keyword" content="mslinzz,frontend,web,js,javascript,html,html5,css,css3,less,sass,boostrap,php,laravel,codeIginter,ci,git,sourcetree">
+    <link rel="shortcut icon" href="/img/favicon16.ico">
+
+    <title>
+        
+            AngularJs 2.0 Structure - Linzhenzhen的博客 | Linzhenzhen&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://linzhenzhen.github.io/2017/01/16/hello-angular-js-2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <!--<link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="/img/plum-blossom.png" alt="Zhenzhen Lin">
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/"> Home </a></li>
+                    
+                    
+                    
+                    
+                    <li><a href="/about/"> About </a></li>
+                    
+                    
+                    
+                    <li><a href="/archives/"> Archives </a></li>
+                    
+                    
+                    
+                    <li><a href="/tags/"> Tags </a></li>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://linzhenzhen.github.io /img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/bg-home.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#angularJs2"
+                           title="angularJs2">angularJs2</a>
+                        
+                    </div>
+                    <h1>AngularJs 2.0 Structure</h1>
+                    <h2 class="subheading">学习Angular2之前 先了解一下它的架构</h2>
+                    <span class="meta">
+                        Posted by mslinzz on
+                        2017-01-16
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>&#x524D;&#x8A00;</p>
+</blockquote>
+<p>&#x4E4B;&#x524D;&#x4E5F;&#x66FE;&#x901A;&#x8BFB;&#x8FC7; &lt;AngularJs&#x6743;&#x5A01;&#x6559;&#x7A0B;&gt; &#x57FA;&#x4E8E;1.2.+&#x7684;&#x4E66;, &#x5E76;&#x5F00;&#x53D1;&#x4E86;&#x4E00;&#x4E9B;&#x9879;&#x76EE;, &#x521A;&#x5165;&#x624B;&#x4E0D;&#x4E45;, &#x5C31;&#x8981;&#x8F6C;&#x6218; AngularJs 2.0 &#x4E86;, &#x524D;&#x7AEF;&#x771F;&#x662F;&#x66F4;&#x65B0;&#x592A;&#x5FEB;, &#x4E0D;&#x8FC7;, &#x8FD8;&#x662F;&#x5E86;&#x5E78;&#x4E86;&#x89E3;&#x4E00;&#x4E9B;AngularJs&#x7684;&#x53D8;&#x8FC1;, &#x4F46;&#x662F; 1.0 &#x4E0E; 2.0 &#x4E0D;&#x662F;&#x8BF4;&#x5DEE;&#x522B;&#x5927;&#x7684;&#x95EE;&#x9898;, &#x800C;&#x662F;&#x5199;&#x6CD5;&#x98CE;&#x683C;&#x90FD;&#x53D8;&#x4E86;, &#x4F46;&#x662F;&#x76F8;&#x5BF9;&#x800C;&#x8A00;, 2.0 &#x5BF9;&#x4E8E;&#x7EC4;&#x4EF6;&#x5C01;&#x88C5;, &#x9762;&#x5411;&#x5BF9;&#x8C61;, &#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x66F4;&#x660E;&#x786E;&#x4E00;&#x4E9B;, &#x66F4;&#x597D;&#x5165;&#x624B;&#x4E00;&#x70B9;.</p>
+<p>&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x662F;&#x5B66;&#x4E60;&#x4E86; Angular2 &#x7684;&#x57FA;&#x672C;&#x67B6;&#x6784;&#x505A;&#x7684;&#x603B;&#x7ED3;, &#x4E3A;&#x4E86;&#x81EA;&#x5DF1;&#x65B9;&#x4FBF;&#x65E5;&#x540E;&#x91CD;&#x6E29;. &#x9875;&#x811A;&#x6709;&#x7EC3;&#x4E60;&#x5B98;&#x7F51;&#x5B9E;&#x4F8B;&#x7684;demo&#x5730;&#x5740;.</p>
+<blockquote>
+<p>Angular&#x662F;&#x4EC0;&#x4E48;</p>
+</blockquote>
+<p>Angular &#x662F;&#x4E00;&#x4E2A;&#x7528; HTML &#x548C; JavaScript &#x6216;&#x8005;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x7F16;&#x8BD1;&#x6210; JavaScript &#x7684;&#x8BED;&#x8A00; (&#x4F8B;&#x5982; Dart &#x6216;&#x8005; TypeScript ), &#x6765;&#x6784;&#x5EFA;&#x5BA2;&#x6237;&#x7AEF;&#x5E94;&#x7528;&#x7684;&#x6846;&#x67B6;.</p>
+<p>&#x7528; Angular &#x6269;&#x5C55;&#x8BED;&#x8A00;&#x7F16;&#x5199; HTML &#x6A21;&#x7248;, &#x7528;&#x7EC4;&#x4EF6;&#x7C7B;&#x7BA1;&#x7406;&#x8FD9;&#x4E9B;&#x6A21;&#x7248;, &#x7528;&#x670D;&#x52A1;&#x586B;&#x5199;&#x5E94;&#x7528;&#x903B;&#x8F91;, &#x7528;&#x6A21;&#x5757;&#x6253;&#x5305;&#x53D1;&#x5E03;&#x7EC4;&#x4EF6;&#x4E0E;&#x670D;&#x52A1;.</p>
+<blockquote>
+<p>8&#x4E2A;&#x4E3B;&#x8981;&#x6784;&#x9020;&#x5757;</p>
+</blockquote>
+<ul>
+<li>&#x6A21;&#x5757; (module)</li>
+<li>&#x7EC4;&#x4EF6; (component)</li>
+<li>&#x6A21;&#x677F; (template)</li>
+<li>&#x5143;&#x6570;&#x636E; (metadata)</li>
+<li>&#x6570;&#x636E;&#x7ED1;&#x5B9A; (data binding)</li>
+<li>&#x6307;&#x4EE4; (directive)</li>
+<li>&#x670D;&#x52A1; (service)</li>
+<li>&#x4F9D;&#x8D56;&#x6CE8;&#x5165; (dependency injection)</li>
+</ul>
+<blockquote>
+<p>module &#x6A21;&#x5757;</p>
+</blockquote>
+<p>Angular &#x5E94;&#x7528;&#x662F;&#x6A21;&#x5757;&#x5316;&#x7684;, &#x6709;&#x81EA;&#x5DF1;&#x7684;&#x6A21;&#x5757;&#x7CFB;&#x7EDF;, &#x79F0;&#x4E3A; Angular &#x6A21;&#x5757;&#x6216;&#x8005; <code>NgModule</code>.</p>
+<p>&#x6BCF;&#x4E2A; Angular &#x5E94;&#x7528;&#x81F3;&#x5C11;&#x6709;&#x4E00;&#x4E2A;&#x6A21;&#x5757; (&#x6839;&#x6A21;&#x5757;), - <code>AppModule</code>, &#x90FD;&#x5E26;&#x6709; <code>@NgModule</code> &#x88C5;&#x9970;&#x5668;&#x7684;&#x7C7B;.</p>
+<p><code>NgModule</code> &#x662F;&#x4E00;&#x4E2A;&#x88C5;&#x9970;&#x5668;&#x51FD;&#x6570;, &#x5B83;&#x63A5;&#x6536;&#x4E00;&#x4E2A;&#x7528;&#x6765;&#x63CF;&#x8FF0;&#x6A21;&#x5757;&#x5C5E;&#x6027;&#x7684;&#x5143;&#x6570;&#x636E;, &#x91CD;&#x8981;&#x5C5E;&#x6027;&#x662F;:</p>
+<pre><code>declarations - &#x58F0;&#x660E;&#x672C;&#x6A21;&#x5757;&#x4E2D;&#x62E5;&#x6709;&#x7684;&#x89C6;&#x56FE;&#x7C7B;. &#x7EC4;&#x4EF6;\ &#x6307;&#x4EE4;\ &#x7BA1;&#x9053;
+exports - declarations &#x7684;&#x5B50;&#x96C6;, &#x53EF;&#x7528;&#x4E8E;&#x5176;&#x4ED6;&#x6A21;&#x5757;&#x7684;&#x7EC4;&#x4EF6;&#x6A21;&#x7248;
+imports - &#x672C;&#x6A21;&#x5757;&#x58F0;&#x660E;&#x7684;&#x7EC4;&#x4EF6;&#x6A21;&#x7248;&#x9700;&#x8981;&#x7684;&#x7C7B;&#x6240;&#x5728;&#x7684;&#x5176;&#x4ED6;&#x6A21;&#x5757;
+providers - &#x670D;&#x52A1;&#x7684;&#x521B;&#x5EFA;&#x8005;, &#x5E76;&#x52A0;&#x5165;&#x65E9;&#x5168;&#x5C40;&#x670D;&#x52A1;&#x5217;&#x8868;&#x4E2D;, &#x53EF;&#x7528;&#x4E8E;&#x5E94;&#x7528;&#x4EFB;&#x4F55;&#x90E8;&#x5206;
+bootstrap - &#x6307;&#x5B9A;&#x5E94;&#x7528;&#x7684;&#x4E3B;&#x89C6;&#x56FE; (&#x6839;&#x7EC4;&#x4EF6;), &#x5B83;&#x662F;&#x6240;&#x6709;&#x89C6;&#x56FE;&#x7684;&#x82CF;&#x4F4F;
+</code></pre><p>&#x7B80;&#x5355;&#x7684;&#x6839;&#x6A21;&#x5757;:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">import { NgModule }      from &apos;@angular/core&apos;;</div><div class="line">import { BrowserModule } from &apos;@angular/platform-browser&apos;;</div><div class="line">@NgModule({</div><div class="line">  imports:      [ BrowserModule ],</div><div class="line">  providers:    [ Logger ],</div><div class="line">  declarations: [ AppComponent ],</div><div class="line">  exports:      [ AppComponent ],</div><div class="line">  bootstrap:    [ AppComponent ]</div><div class="line">})</div><div class="line">export class AppModule { }</div></pre></td></tr></table></figure>
+<pre><code>&#x6CE8;&#x610F;: `AppComponent` &#x7684; `export` &#x5E76;&#x4E0D;&#x662F;&#x5FC5;&#x987B;&#x7684;, &#x6839;&#x6A21;&#x5757;&#x4E0D;&#x9700;&#x8981;&#x5BFC;&#x51FA;&#x4EFB;&#x4F55;&#x6570;&#x636E;, &#x56E0;&#x4E3A;&#x5176;&#x5B83;&#x7EC4;&#x4EF6;&#x4E0D;&#x9700;&#x8981;&#x5BFC;&#x5165;&#x6839;&#x6A21;&#x5757;.
+</code></pre><p>&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x5F15;&#x5BFC;&#x6839;&#x6A21;&#x5757;&#x6765;&#x542F;&#x52A8;&#x5E94;&#x7528;. &#x901A;&#x5E38;&#x5728;&#x4E00;&#x4E2A; <code>main.ts</code> &#x6587;&#x4EF6;&#x4E2D;&#x5F15;&#x5BFC; <code>AppModule</code>:</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { platformBrowserDynamic } from <span class="string">&apos;@angular/platform-browser-dynamic&apos;</span>;</div><div class="line"><span class="keyword">import</span> { AppModule } from <span class="string">&apos;./app.module&apos;</span>;</div><div class="line"></div><div class="line">platformBrowserDynamic().bootstrapModule(AppModule);</div></pre></td></tr></table></figure>
+<p>Angular &#x6A21;&#x5757;&#x5E93;&#x90FD;&#x5E26;&#x6709; <code>@angular</code> &#x7684;&#x524D;&#x7F00;.  &#x7528; <code>npm</code> &#x5305;&#x7BA1;&#x7406;&#x5DE5;&#x5177;&#x5B89;&#x88C5;&#x5B83;&#x4EEC;, &#x7528; JavaScript &#x7684; <code>import</code> &#x8BED;&#x53E5;&#x5BFC;&#x5165;&#x5176;&#x4E2D;&#x67D0;&#x4E9B;&#x90E8;&#x4EF6;. &#x4F8B;&#x5982;:</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="section">import</span> { <span class="attribute">Component</span> } from <span class="string">&apos;<span class="variable">@angular</span>/core&apos;</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { BrowserModule } <span class="keyword">from</span> <span class="string">&apos;@angular/platform-browser&apos;</span>;   <span class="comment">// &#x4F7F;&#x7528; JavaScript &#x7684;&#x5BFC;&#x5165;&#x8BED;&#x53E5;&#x4ECE; Angular &#x5E93;&#x4E2D;&#x5BFC;&#x5165;Angular&#x6A21;&#x5757;</span></div></pre></td></tr></table></figure>
+<p>&#x5728;&#x4E0A;&#x9762;&#x8BED;&#x53E5;&#x4E2D;, &#x9700;&#x8981;&#x7528;&#x5230; <code>BrowserModule</code> &#x7684;&#x67D0;&#x4E9B;&#x7D20;&#x6750;, &#x9700;&#x8981;&#x628A;&#x5B83;&#x52A0;&#x5165; <code>@NgModule</code> &#x5143;&#x6570;&#x636E; <code>imports</code> &#x4E2D;, &#x5982;&#x4E0B;:</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">imports:      <span class="string">[ BrowserModule ]</span>,</div></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;, &#x540C;&#x65F6;&#x4F7F;&#x7528;&#x4E86; Angular &#x548C; Javascript &#x7684;&#x6A21;&#x5757;&#x5316;&#x7CFB;&#x7EDF;. &#x5B83;&#x4EEC;&#x5F15;&#x5165;&#x4E86;&#x5171;&#x540C;&#x7684;&#x8BCD;&#x6C47; <code>imports</code> &#x548C; <code>exports</code>, &#x9700;&#x8981;&#x4E0D;&#x65AD;&#x5B9E;&#x8DF5;&#x6162;&#x6162;&#x5C31;&#x4F1A;&#x5206;&#x6E05;.</p>
+<blockquote>
+<p>component &#x7EC4;&#x4EF6;</p>
+</blockquote>
+<p>&#x7EC4;&#x4EF6;&#x8D1F;&#x8D23;&#x63A7;&#x5236;&#x5C4F;&#x5E55;&#x4E0A;&#x7684;&#x4E00;&#x5C0F;&#x5757;&#x533A;&#x57DF;, &#x79F0;&#x4E4B;&#x4E3A;&#x89C6;&#x56FE;.</p>
+<p>&#x5728;&#x7C7B;&#x4E2D;&#x5B9A;&#x4E49;&#x7EC4;&#x4EF6;&#x7684;&#x5E94;&#x7528;&#x903B;&#x8F91;, &#x4E3A;&#x89C6;&#x56FE;&#x63D0;&#x4F9B;&#x652F;&#x6301;. &#x7EC4;&#x4EF6;&#x901A;&#x8FC7;&#x4E00;&#x4E9B;&#x7531;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#x7EC4;&#x6210;&#x7684;API&#x4E0E;&#x89C6;&#x56FE;&#x4EA4;&#x4E92;.</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">export <span class="class"><span class="keyword">class</span> <span class="title">HeroListComponent</span> <span class="keyword">implements</span> <span class="title">OnInit</span> {</span></div><div class="line"><span class="symbol">  heroes:</span> Hero[];                                     <span class="comment">// &#x6570;&#x7EC4;&#x5C5E;&#x6027;</span></div><div class="line"><span class="symbol">  selectedHero:</span> Hero;                                 <span class="comment">// &#x5DF2;&#x9009;&#x62E9;&#x7684;&#x5355;&#x4E2A;&#x6570;&#x636E;</span></div><div class="line"></div><div class="line">  constructor(<span class="keyword">private</span> <span class="string">service:</span> HeroService) { }</div><div class="line"></div><div class="line">  ngOnInit() {</div><div class="line">    <span class="keyword">this</span>.heroes = <span class="keyword">this</span>.service.getHeroes();           <span class="comment">// &#x83B7;&#x53D6;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x6570;&#x636E;</span></div><div class="line">  }</div><div class="line"></div><div class="line">  selectHero(<span class="string">hero:</span> Hero) { <span class="keyword">this</span>.selectedHero = hero; }  <span class="comment">// &#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x65F6;, &#x8BB0;&#x5F55;&#x5355;&#x4E2A;&#x6570;&#x636E;</span></div><div class="line">}</div></pre></td></tr></table></figure>
+<blockquote>
+<p>template &#x6A21;&#x677F;</p>
+</blockquote>
+<p>&#x7528;&#x7EC4;&#x4EF6;&#x81EA;&#x5E26;&#x7684;&#x6A21;&#x677F;&#x5B9A;&#x4E49;&#x89C6;&#x56FE;, &#x8FD8;&#x662F;&#x5DF2; <code>HTML</code> &#x7684;&#x5F62;&#x5F0F;&#x4E66;&#x5199;.</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>Hero List<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">i</span>&gt;</span>Pick a hero from the list<span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> *<span class="attr">ngFor</span>=<span class="string">&quot;let hero of heroes&quot;</span> (<span class="attr">click</span>)=<span class="string">&quot;selectHero(hero)&quot;</span>&gt;</span></div><div class="line">    <span class="template-variable">{{hero.name}}</span><span class="xml"></span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">hero-detail</span> *<span class="attr">ngIf</span>=<span class="string">&quot;selectedHero&quot;</span> [<span class="attr">hero</span>]=<span class="string">&quot;selectedHero&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">hero-detail</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x4E2D;, &#x6BD4;&#x8F83;&#x964C;&#x751F;&#x7684;&#x5199;&#x6CD5;, &#x6216;&#x8005;&#x65B0;&#x7684;&#x8BED;&#x6CD5;&#x90FD;&#x662F; Angular &#x7684;&#x6A21;&#x677F;&#x8BED;&#x6CD5;. &#x5176;&#x4E2D; <code>hero-detail</code> &#x6807;&#x7B7E;&#x662F;&#x4E00;&#x4E2A;&#x65B0;&#x7EC4;&#x4EF6;&#x81EA;&#x5B9A;&#x4E49;&#x5143;&#x7D20;, &#x4E0E;&#x539F;&#x751F; HTML &#x5E03;&#x5C40;&#x76F8;&#x878D;&#x5408;. &#x5982;&#x4E0B;&#x56FE;&#x663E;&#x793A;:</p>
+<p><img src="/2017/01/16/hello-angular-js-2/component-tree.png" alt="component tree"></p>
+<blockquote>
+<p>metadata &#x5143;&#x6570;&#x636E;</p>
+</blockquote>
+<p>&#x5143;&#x6570;&#x636E;&#x662F;&#x544A;&#x8BC9; Angular &#x5982;&#x4F55;&#x5904;&#x7406;&#x4E00;&#x4E2A;&#x7C7B;.</p>
+<p>&#x5176;&#x5B9E; *.component &#x5176;&#x5B9E;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x7C7B;. &#x5982;&#x679C;&#x628A; <code>Component</code> &#x53D8;&#x6210;&#x7EC4;&#x4EF6;, &#x53EA;&#x9700;&#x8981;&#x628A;&#x5143;&#x6570;&#x636E;&#x9644;&#x52A0;&#x5230;&#x8FD9;&#x4E2A;&#x7C7B;. &#x5982;&#x4E0B;&#x4EE3;&#x7801;&#x7247;&#x6BB5;:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>({                                        <span class="comment">// @Component &#x88C5;&#x9970;&#x5668;, &#x5728; TypeScript&#x4E2D;, &#x7528; decorator &#x6765;&#x9644;&#x52A0;&#x5143;&#x6570;&#x636E;</span></div><div class="line">  moduleId: module.id,</div><div class="line">  selector: <span class="string">&apos;hero-list&apos;</span>,</div><div class="line">  templateUrl: <span class="string">&apos;hero-list.component.html&apos;</span>,</div><div class="line">  providers: [ HeroService ]</div><div class="line">})</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HeroListComponent</span> <span class="keyword">implements</span> <span class="title">OnInit</span> </span>{</div><div class="line"><span class="comment">/* . . . */</span></div><div class="line">}</div></pre></td></tr></table></figure>
+<p><code>@Component</code> &#x63A5;&#x6536;&#x4E00;&#x4E2A;&#x914D;&#x7F6E;&#x5BF9;&#x8C61;, Angular&#x4F1A;&#x57FA;&#x4E8E;&#x8FD9;&#x4E9B;&#x4FE1;&#x606F;&#x521B;&#x5EFA;&#x548C;&#x5C55;&#x793A;&#x7EC4;&#x4EF6;&#x53CA;&#x89C6;&#x56FE;.<br><code>@Component</code> &#x7684;&#x914D;&#x7F6E;&#x9879;&#x5305;&#x62EC;:</p>
+<pre><code>moduleId - &#x4E3A;&#x4E0E;&#x6A21;&#x5757;&#x76F8;&#x5173;&#x7684; URL (&#x5982; templateUrl) &#x63D0;&#x4F9B;&#x57FA;&#x5730;&#x5740;
+selector - css&#x9009;&#x62E9;&#x5668;, &#x5728;&#x7236;&#x7EA7; HTML &#x4E2D;&#x63D2;&#x5165; &lt;my-app&gt; &#x6807;&#x7B7E;
+templateUrl - HTML&#x6A21;&#x677F;&#x76F8;&#x5BF9;&#x5730;&#x5740;
+styleUrls - &#x9875;&#x9762;&#x6240;&#x9700;&#x6837;&#x5F0F;, &#x591A;&#x5219;&#x7528;&#x6570;&#x7EC4;&#x5F15;&#x7528; [&apos;1.css&apos;, &apos;2.css&apos;, &apos;3.css&apos;]
+providers - &#x7EC4;&#x4EF6;&#x6240;&#x9700;&#x670D;&#x52A1;&#x7684;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x63D0;&#x4F9B;&#x5546;&#x6570;&#x7EC4;. &#x63D0;&#x4F9B;&#x9700;&#x8981;&#x4E00;&#x4E2A; Service.
+</code></pre><p>&#x5176;&#x4ED6;&#x4E00;&#x4E9B;&#x5143;&#x6570;&#x636E;&#x88C5;&#x9970;&#x5668;. &#x4F8B;&#x5982;: <code>@Injectable</code>, <code>@Input</code>, <code>@Output</code> &#x7B49;</p>
+<blockquote>
+<p>data-binding &#x6570;&#x636E;&#x7ED1;&#x5B9A;</p>
+</blockquote>
+<p>Angular &#x7684;&#x6570;&#x636E;&#x7ED1;&#x5B9A;, &#x662F;&#x4E00;&#x79CD;&#x8BA9;&#x6A21;&#x677F;&#x7684;&#x5404;&#x90E8;&#x5206;&#x4E0E;&#x7EC4;&#x4EF6;&#x7684;&#x5404;&#x90E8;&#x5206;&#x76F8;&#x4E92;&#x7ED3;&#x5408;&#x7684;&#x673A;&#x5236;.</p>
+<p>&#x5982;&#x4E0B;&#x56FE;, &#x6570;&#x636E;&#x7ED1;&#x5B9A;&#x7684;&#x8BED;&#x6CD5;&#x6709;&#x56DB;&#x79CD;&#x5F62;&#x5F0F;, &#x6BCF;&#x79CD;&#x5F62;&#x5F0F;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x65B9;&#x5411; - &#x7ED1;&#x5B9A;&#x5230;DOM, &#x7ED1;&#x5B9A;&#x81EA;DOM, &#x53CC;&#x5411;&#x7ED1;&#x5B9A;.</p>
+<p><img src="/2017/01/16/hello-angular-js-2/databinding.png" alt="data-binding"></p>
+<p>&#x4EE3;&#x7801;&#x793A;&#x4F8B;:<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="keyword">li</span>&gt;{{hero.name}}&lt;/<span class="keyword">li</span>&gt;                              <span class="comment">// &#x63D2;&#x503C;&#x8868;&#x8FBE;&#x5F0F;</span></div><div class="line">&lt;hero-detail [hero]=<span class="string">&quot;selectedHero&quot;</span>&gt;&lt;/hero-detail&gt;   <span class="comment">// &#x5C5E;&#x6027;&#x7ED1;&#x5B9A;</span></div><div class="line">&lt;<span class="keyword">li</span> (click)=<span class="string">&quot;selectHero(hero)&quot;</span>&gt;&lt;/<span class="keyword">li</span>&gt;                <span class="comment">// &#x4E8B;&#x4EF6;&#x7ED1;&#x5B9A;</span></div><div class="line">&lt;<span class="keyword">input</span> [(ngModel)]=<span class="string">&quot;hero.name&quot;</span>&gt;                     <span class="comment">// &#x53CC;&#x5411;&#x6570;&#x636E;&#x7ED1;&#x5B9A;</span></div></pre></td></tr></table></figure></p>
+<p>&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;&#x6240;&#x6709;&#x6570;&#x636E;&#x7ED1;&#x5B9A;&#x4ECE;&#x6811;&#x7684;&#x6839;&#x90E8;, &#x9012;&#x5F52;&#x5904;&#x7406;&#x5168;&#x90E8;&#x5B50;&#x7EC4;&#x4EF6;. &#x4E0B;&#x56FE;&#x4E3A;&#x6A21;&#x677F;&#x4E0E;&#x7EC4;&#x4EF6;&#x95F4;&#x7684;&#x7ED1;&#x5B9A;&#x5173;&#x7CFB;,  &#x7236;&#x4E0E;&#x5B50;&#x7EC4;&#x4EF6;&#x95F4;&#x7684;&#x901A;&#x8BAF;&#x65B9;&#x5F0F;</p>
+<p><img src="/2017/01/16/hello-angular-js-2/component-databinding.png" alt="template and component binding"></p>
+<p><img src="/2017/01/16/hello-angular-js-2/parent-child-binding.png" alt="parent and child binding"></p>
+<blockquote>
+<p>directive &#x6307;&#x4EE4;<br>&#x8FD8;&#x6709;&#x4E24;&#x79CD;&#x5176;&#x5B83;&#x7C7B;&#x578B;&#x7684;&#x6307;&#x4EE4;&#xFF1A;&#x7ED3;&#x6784;&#x578B;&#x6307;&#x4EE4;&#x548C;&#x5C5E;&#x6027; (attribute) &#x578B;&#x6307;&#x4EE4;</p>
+</blockquote>
+<p>&#x6307;&#x4EE4;&#x662F;&#x4E00;&#x4E2A;&#x5E26;&#x6709; &#x201C;&#x6307;&#x4EE4;&#x5143;&#x6570;&#x636E;&#x201D; &#x7684;&#x7C7B;. &#x5728; TypeScript &#x4E2D;, &#x8981;&#x901A;&#x8FC7; @Directive &#x88C5;&#x9970;&#x5668; &#x628A;&#x5143;&#x6570;&#x636E;&#x9644;&#x52A0;&#x5230;&#x7C7B;&#x4E0A;.</p>
+<pre><code>&#x7EC4;&#x4EF6;&#x662F;&#x4E00;&#x4E2A;&#x5E26;&#x6A21;&#x677F;&#x7684;&#x6307;&#x4EE4;&#xFF1B;@Component&#x88C5;&#x9970;&#x5668;&#x5B9E;&#x9645;&#x4E0A;&#x5C31;&#x662F;&#x4E00;&#x4E2A;@Directive&#x88C5;&#x9970;&#x5668;&#xFF0C;&#x53EA;&#x662F;&#x6269;&#x5C55;&#x4E86;&#x4E00;&#x4E9B;&#x9762;&#x5411;&#x6A21;&#x677F;&#x7684;&#x7279;&#x6027;.
+&#x867D;&#x7136;&#x4E25;&#x683C;&#x6765;&#x8BF4;&#x7EC4;&#x4EF6;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x6307;&#x4EE4;&#xFF0C;&#x4F46;&#x662F;&#x7EC4;&#x4EF6;&#x975E;&#x5E38;&#x72EC;&#x7279;&#xFF0C;&#x5E76;&#x5728; Angular &#x4E2D;&#x4F4D;&#x4E8E;&#x4E2D;&#x5FC3;&#x5730;&#x4F4D;&#xFF0C;Angular&#x5355;&#x72EC;&#x628A;&#x7EC4;&#x4EF6;&#x4ECE;&#x6307;&#x4EE4;&#x4E2D;&#x72EC;&#x7ACB;&#x4E86;&#x51FA;&#x6765;
+</code></pre><p>&#x7ED3;&#x6784;&#x578B;&#x6307;&#x4EE4;&#x901A;&#x8FC7;&#x5728;DOM&#x4E2D;&#x6DFB;&#x52A0;, &#x79FB;&#x9664;&#x548C;&#x66FF;&#x6362;&#x5143;&#x7D20;&#x6765;&#x4FEE;&#x6539;&#x5E03;&#x5C40;. &#x4F8B;&#x5982;:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> *<span class="attr">ngFor</span>=<span class="string">&quot;let hero of heroes&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span>               // *ngFor</div><div class="line"><span class="tag">&lt;<span class="name">hero-detail</span> *<span class="attr">ngIf</span>=<span class="string">&quot;selectedHero&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">hero-detail</span>&gt;</span>    // *ngIf</div></pre></td></tr></table></figure>
+<p>&#x5C5E;&#x6027;&#x578B;&#x6307;&#x4EE4;&#x4FEE;&#x6539;&#x4E00;&#x4E2A;&#x73B0;&#x6709;&#x5143;&#x7D20;&#x7684;&#x5916;&#x89C2;&#x6216;&#x884C;&#x4E3A;. &#x4F8B;&#x5982;:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="selector-tag">input</span> [(ngModel)]=<span class="string">&quot;hero.name&quot;</span>&gt;  <span class="comment">// ngModel&#x4FEE;&#x6539;&#x73B0;&#x6709;&#x5143;&#x7D20;, input&#x884C;&#x4E3A;: &#x8BBE;&#x7F6E;&#x663E;&#x793A;&#x5C5E;&#x6027;, &#x5E76;&#x54CD;&#x5E94;change&#x4E8B;&#x4EF6;</span></div></pre></td></tr></table></figure>
+<p>Angular &#x8FD8;&#x6709;&#x5C11;&#x91CF;&#x6307;&#x4EE4;, &#x5B83;&#x4EEC;&#x6216;&#x8005;&#x4FEE;&#x6539;&#x7ED3;&#x6784;&#x5E03;&#x5C40;<code>ngSwitch</code>, &#x6216;&#x8005;&#x4FEE;&#x6539;DOM&#x5143;&#x7D20;&#x548C;&#x7EC4;&#x4EF6; <code>ngStyle</code>, <code>ngClass</code></p>
+<blockquote>
+<p>service &#x670D;&#x52A1;</p>
+</blockquote>
+<p>&#x51E0;&#x4E4E;&#x4EFB;&#x4F55;&#x90FD;&#x53EF;&#x4EE5;&#x8BF4;&#x662F;&#x4E00;&#x4E2A;&#x670D;&#x52A1;. &#x5178;&#x578B;&#x7684;&#x670D;&#x52A1;&#x662F;&#x4E00;&#x4E2A;&#x7C7B;, &#x5177;&#x6709;&#x4E13;&#x6CE8;&#x7684;, &#x660E;&#x786E;&#x7684;&#x7528;&#x9014;, &#x505A;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x4E8B;&#x4EF6;, &#x5E76;&#x505A;&#x597D;. &#x4F8B;&#x5982;:</p>
+<ul>
+<li>&#x65E5;&#x5FD7;&#x670D;&#x52A1;</li>
+<li>&#x6570;&#x636E;&#x670D;&#x52A1;</li>
+<li>&#x6D88;&#x606F;&#x603B;&#x7EBF;</li>
+<li>&#x7A0E;&#x6B3E;&#x8BA1;&#x7B97;&#x5668;</li>
+<li>&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x914D;&#x7F6E;</li>
+</ul>
+<p>&#x670D;&#x52A1;&#x6CA1;&#x662F;&#x90A3;&#x4E48;&#x7279;&#x522B;&#x5C5E;&#x4E8E; Angular &#x7684;&#x7279;&#x6027;, Angular &#x5BF9;&#x4E8E;&#x670D;&#x52A1;&#x4E5F;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x5B9A;&#x4E49;. &#x4F46;&#x662F;, &#x670D;&#x52A1;&#x4ECD;&#x7136;&#x662F;&#x4EFB;&#x4F55; Angular &#x5E94;&#x7528;&#x7684;&#x57FA;&#x7840;, &#x7EC4;&#x4EF6;&#x5C31;&#x662F;&#x6700;&#x4E2A;&#x7684;&#x670D;&#x52A1;&#x6D88;&#x8D39;&#x8005;.</p>
+<p>&#x670D;&#x52A1;&#x7C7B;&#x793A;&#x4F8B;, &#x5427;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x63A7;&#x5236;&#x53F0;:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">export</span> <span class="selector-tag">class</span> <span class="selector-tag">Logger</span> {</div><div class="line">  <span class="selector-tag">log</span>(<span class="attribute">msg</span>: any)   { <span class="selector-tag">console</span><span class="selector-class">.log</span>(msg); }</div><div class="line">  <span class="selector-tag">error</span>(<span class="attribute">msg</span>: any) { <span class="selector-tag">console</span><span class="selector-class">.error</span>(msg); }</div><div class="line">  <span class="selector-tag">warn</span>(<span class="attribute">msg</span>: any)  { <span class="selector-tag">console</span><span class="selector-class">.warn</span>(msg); }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x6709;&#x4E86;&#x670D;&#x52A1;, &#x53EF;&#x4EE5;&#x628A;&#x83B7;&#x53D6;&#x6570;&#x636E;, &#x9A8C;&#x8BC1;&#x8F93;&#x5165;, &#x63A7;&#x5236;&#x53F0;&#x65E5;&#x5FD7;&#x7B49;&#x7410;&#x4E8B;&#x59D4;&#x6258;&#x7ED9;&#x670D;&#x52A1;. <code>&#x7EC4;&#x4EF6;&#x7C7B;&#x5E94;&#x4FDD;&#x6301;&#x7CBE;&#x7B80;, &#x53EA;&#x4E3A;&#x8BBE;&#x8BA1;&#x53CA;&#x63D0;&#x4F9B;&#x6570;&#x636E;&#x7684;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;.</code></p>
+<blockquote>
+<p>dependency injection &#x4F9D;&#x8D56;&#x6CE8;&#x5165;</p>
+</blockquote>
+<p>&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x662F;&#x63D0;&#x4F9B;&#x7C7B;&#x7684;&#x65B0;&#x5B9E;&#x4F8B;&#x7684;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;, &#x8D1F;&#x8D23;&#x5904;&#x7406;&#x597D;&#x7C7B;&#x6240;&#x9700;&#x7684;&#x5168;&#x90E8;&#x4F9D;&#x8D56;. &#x5927;&#x591A;&#x6570;&#x4F9D;&#x8D56;&#x90FD;&#x662F;&#x670D;&#x52A1;. Angular &#x4F7F;&#x7528;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x6765;&#x63D0;&#x4F9B;&#x7EC4;&#x4EF6;&#x4EE5;&#x53CA;&#x7EC4;&#x4EF6;&#x6240;&#x9700;&#x7684;&#x670D;&#x52A1;. &#x4F8B;&#x5982;:</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">constructor</span><span class="params">(<span class="keyword">private</span> service: HeroService)</span> <span class="comment">{ }</span>  <span class="comment">// &#x901A;&#x8FC7;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#x5F97;&#x77E5;&#x7EC4;&#x4EF6;&#x9700;&#x8981;&#x90A3;&#x4E9B;&#x670D;&#x52A1;</span></span></div></pre></td></tr></table></figure>
+<p>&#x7528;&#x4E00;&#x5F20;&#x56FE;&#x6765;&#x8868;&#x793A;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x5728;&#x7EC4;&#x4EF6;&#x4E2D;&#x7684;&#x670D;&#x52A1;&#x5F15;&#x5165;<br><img src="/2017/01/16/hello-angular-js-2/injector-injects.png" alt="injector"></p>
+<p>&#x5728;&#x7528;&#x6CE8;&#x5165;&#x670D;&#x52A1;&#x4E4B;&#x524D;, &#x9700;&#x8981;&#x5728;&#x6CE8;&#x5165;&#x5668;&#x4E2D;&#x6CE8;&#x518C;&#x63D0;&#x4F9B;&#x5546; <code>Provider</code>.</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">providers:</span> [             <span class="comment">// &#x6DFB;&#x52A0;&#x5728;&#x6839;&#x6A21;&#x5757;&#x4E0A;, &#x5728;&#x4EFB;&#x4F55;&#x5730;&#x65B9;&#x4F7F;&#x7528;&#x670D;&#x52A1;&#x7684;&#x540C;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;</span></div><div class="line">  BackendService,</div><div class="line">  HeroService,</div><div class="line">  Logger</div><div class="line">],</div></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Component</span>({             <span class="comment">// &#x5728; @Component &#x5143;&#x6570;&#x636E;&#x4E2D;&#x7684; providers &#x5C5E;&#x6027;&#x4E2D;&#x6CE8;&#x518C;&#x5728;&#x7EC4;&#x4EF6;&#x5C42;</span></div><div class="line">  <span class="attribute">moduleId</span>: module.id,</div><div class="line">  <span class="attribute">selector</span>:    <span class="string">&apos;hero-list&apos;</span>,</div><div class="line">  <span class="attribute">templateUrl</span>: <span class="string">&apos;hero-list.component.html&apos;</span>,</div><div class="line">  <span class="attribute">providers</span>:  [ HeroService ]</div><div class="line">})</div></pre></td></tr></table></figure>
+<p>&#x9700;&#x8981;&#x8BB0;&#x4F4F;&#x7684;&#x5173;&#x4E8E;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x7684;&#x8981;&#x70B9;&#x662F;&#xFF1A;</p>
+<ul>
+<li>&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x6E17;&#x900F;&#x5728;&#x6574;&#x4E2A; Angular &#x6846;&#x67B6;&#x4E2D;&#xFF0C;&#x88AB;&#x5230;&#x5904;&#x4F7F;&#x7528;&#x3002;</li>
+<li>&#x6CE8;&#x5165;&#x5668; (injector) &#x662F;&#x672C;&#x673A;&#x5236;&#x7684;&#x6838;&#x5FC3;&#x3002;</li>
+<li>&#x6CE8;&#x5165;&#x5668;&#x8D1F;&#x8D23;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;&#x5BB9;&#x5668;&#xFF0C;&#x7528;&#x4E8E;&#x5B58;&#x653E;&#x5B83;&#x521B;&#x5EFA;&#x8FC7;&#x7684;&#x670D;&#x52A1;&#x5B9E;&#x4F8B;&#x3002;</li>
+<li>&#x6CE8;&#x5165;&#x5668;&#x80FD;&#x4F7F;&#x7528;&#x63D0;&#x4F9B;&#x5546;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x670D;&#x52A1;&#x5B9E;&#x4F8B;&#x3002;</li>
+<li>&#x63D0;&#x4F9B;&#x5546;&#x662F;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x521B;&#x5EFA;&#x670D;&#x52A1;&#x7684;&#x914D;&#x65B9;&#x3002;</li>
+<li>&#x628A;&#x63D0;&#x4F9B;&#x5546;&#x6CE8;&#x518C;&#x5230;&#x6CE8;&#x5165;&#x5668;&#x3002;</li>
+</ul>
+<blockquote>
+<p>Take exercises</p>
+</blockquote>
+<p>&#x4E86;&#x89E3;&#x4EE5;&#x4E0A;Angular&#x67B6;&#x6784;&#x7EC4;&#x6210;&#x4E4B;&#x540E;, &#x770B;&#x61C2;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7EC4;&#x4EF6;&#x521D;&#x59CB;&#x5316; <code>Hello Angular</code> &#x5C31;&#x5BB9;&#x6613;&#x7684;&#x591A;&#x4E86;.</p>
+<p>&#x521D;&#x59CB;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684; Hello Angular <a href="http://origin.angular.live/docs/ts/latest/quickstart.html" target="_blank" rel="external">&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x5B98;&#x7F51; - &#x5FEB;&#x901F;&#x4F53;&#x9A8C;Angular</a><br>&#x5B98;&#x7F51;&#x7EC3;&#x4E60;&#x82F1;&#x96C4;&#x5217;&#x8868;Demo, &#x5305;&#x62EC;&#x4E3B;&#x5BFC;&#x822A;, &#x6700;&#x65B0;Top, &#x5217;&#x8868;, &#x67E5;&#x770B;&#x8BE6;&#x60C5;&#x4EE5;&#x53CA;&#x8FD4;&#x56DE;&#x7B49;&#x529F;&#x80FD;. <a href="https://github.com/linzhenzhen/angular-js-2-demo" target="_blank" rel="external">&#x70B9;&#x51FB;&#x67E5;&#x770B;&#x6700;&#x7EC8;&#x4EE3;&#x7801;</a></p>
+<blockquote>
+<p>&#x5176;&#x6B21;</p>
+</blockquote>
+<p>&#x4E86;&#x89E3;&#x8FD9;&#x4E9B;&#x4E4B;&#x540E;, Angular2.0 &#x8FD8;&#x6709;&#x4E00;&#x4E9B;&#x91CD;&#x8981;&#x7279;&#x6027;&#x548C;&#x670D;&#x52A1;&#x9700;&#x8981;&#x5B66;&#x4E60;, &#x5982;: &#x52A8;&#x753B;, &#x53D8;&#x66F4;&#x68C0;&#x6D4B;, &#x4E8B;&#x4EF6;, &#x8868;&#x5355;, HTTP, &#x751F;&#x547D;&#x5468;&#x671F;&#x94A9;&#x5B50;, &#x7BA1;&#x9053;, &#x8DEF;&#x7531;&#x5668;, &#x6D4B;&#x8BD5;&#x7B49;.</p>
+<blockquote>
+<p>&#x5C0F;&#x6269;&#x5C55;</p>
+</blockquote>
+<p>TypeScript &#x662F; ES6 JavaScript &#x7C7B;&#x578B;&#x5316;&#x7684;&#x8D85;&#x96C6;&#x3002;ES6 JavaScript &#x662F; ES5 JavaScript &#x7684;&#x8D85;&#x96C6;&#x3002;ES5 &#x662F;&#x53EF;&#x4EE5;&#x5728;&#x6240;&#x6709;&#x73B0;&#x4EE3;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x8FD0;&#x884C;&#x7684; JavaScript</p>
+<p>&#x964D;&#x7EA7;&#x7684;&#x8FC7;&#x7A0B;&#x662F;</p>
+<pre><code>TypeScript &#x964D;&#x7EA7;&#x5230; &#x5E26;&#x88C5;&#x9970;&#x5668;&#x7684; ES6
+&#x5E26;&#x88C5;&#x9970;&#x5668;&#x7684; ES6 &#x964D;&#x7EA7;&#x5230; &#x6CA1;&#x6709;&#x88C5;&#x9970;&#x5668;&#x7684; ES6 (&#x201C;&#x666E;&#x901A; ES6&#x201D;)
+&#x6CA1;&#x6709;&#x88C5;&#x9970;&#x5668;&#x7684; ES6 &#x964D;&#x7EA7;&#x5230; ES5
+</code></pre>
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2017/01/16/hello-angular-js-2/"
+                     data-title="AngularJs 2.0 Structure"
+                     data-url="https://linzhenzhen.github.io/2017/01/16/hello-angular-js-2/"
+                     data-images=""
+                     data-content="
+&#x524D;&#x8A00;
+
+&#x4E4B;&#x524D;&#x4E5F;&#x6... | Linzhenzhen的博客 | Linzhenzhen&#39;s Blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat"> 微信 </a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo"> 微博 </a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban"> 豆瓣 </a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/01/12/hello-mini-apps/" data-toggle="tooltip" data-placement="top"
+                           title="Welcome to Mini Apps from WeChat">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2017/01/16/hello-angular-js-2/"
+                         data-title="AngularJs 2.0 Structure"
+                         data-url="https://linzhenzhen.github.io/2017/01/16/hello-angular-js-2/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+            <!-- Side Catalog Container -->
+            
+
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#angularJs2"
+                           title="angularJs2">angularJs2</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                    <li><a href="#" target="_blank">scarlett</a></li>
+                    
+                    <li><a href="http://www.malin.xyz/" target="_blank">malin&#39;s blog</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'linzhenzhen';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "linzhenzhen";
+    var disqus_identifier = "https://linzhenzhen.github.io/2017/01/16/hello-angular-js-2/";
+    var disqus_url = "https://linzhenzhen.github.io/2017/01/16/hello-angular-js-2/";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+                o = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) {
+            o.addEventListener('load', function (e) {
+                c(null, e);
+            }, false);
+        }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function () {
+        anchors.options = {
+            visible: 'always',
+            placement: 'right',
+            icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link {
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top: -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+<li>
+    <a target="_blank"
+       href="https://github.com/linzhenzhen"
+       data-toggle="tooltip" data-placement="top" title="linzhenzhen">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="http://weibo.com/mslinzz"
+       data-toggle="tooltip" data-placement="top" title="mslinzz">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="mailto:mslinzz@sina.com"
+       data-toggle="tooltip" data-placement="top" title="mslinzz@sina.com">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="javascript:void(0)"
+       data-toggle="tooltip" data-placement="top" title="549221572">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weixin fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ms.Linzz 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">
+                    <span style="display: inline-block; margin: 0 3px;">
+                        <i class="fa fa-thumbs-up"></i>
+                    </span> Hux </a>
+                    Ported by <a href="http://mslinzz.com"> Ms.Linzz </a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=linzhenzhen&repo=linzhenzhen.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://linzhenzhen.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!--http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js-->
+<script>
+    async("https://linzhenzhen.github.io/js/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'flase';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://linzhenzhen.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+</body>
+</html>
