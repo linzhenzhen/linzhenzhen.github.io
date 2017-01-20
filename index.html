@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Front-end">
+    <meta name="keyword" content="mslinzz,frontend,web,js,javascript,html,html5,css,css3,less,sass,boostrap,php,laravel,codeIginter,ci,git,sourcetree">
+    <link rel="shortcut icon" href="/img/favicon16.ico">
+
+    <title>
+        
+            Linzhenzhen的博客 | Linzhenzhen&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://linzhenzhen.github.io/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <!--<link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="/img/plum-blossom.png" alt="Zhenzhen Lin">
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/"> Home </a></li>
+                    
+                    
+                    
+                    
+                    <li><a href="/about/"> About </a></li>
+                    
+                    
+                    
+                    <li><a href="/archives/"> Archives </a></li>
+                    
+                    
+                    
+                    <li><a href="/tags/"> Tags </a></li>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    
+<!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/bg-home.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Ms.Linzz</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">The truth is out there !</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+        <!-- USE SIDEBAR -->
+        <!-- Post Container -->
+        <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+
+            
+
+<div class="post-preview">
+
+    <a href="/2017/01/16/hello-angular-js-2/">
+        <h2 class="post-title">
+            AngularJs 2.0 Structure
+        </h2>
+        <h3 class="post-subtitle">
+            学习Angular2之前 先了解一下它的架构
+        </h3>
+        <div class="post-content-preview">
+            
+&#x524D;&#x8A00;
+
+&#x4E4B;&#x524D;&#x4E5F;&#x66FE;&#x901A;&#x8BFB;&#x8FC7; &lt;AngularJs&#x6743;&#x5A01;&#x6559;&#x7A0B;&gt; &#x57FA;&#x4E8E;1.2.+&#x7684;&#x4E66;, &#x5E76;&#x5F00;&#x53D1;&#x4E86;......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by mslinzz on
+        2017-01-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/01/12/hello-mini-apps/">
+        <h2 class="post-title">
+            Welcome to Mini Apps from WeChat
+        </h2>
+        <h3 class="post-subtitle">
+            开发微信小程序的初认识
+        </h3>
+        <div class="post-content-preview">
+            
+&#x524D;&#x8A00;
+
+&#x5F20;&#x5C0F;&#x9F99;&#x5728;2017&#x5FAE;&#x4FE1;&#x516C;&#x5F00;&#x8BFE;Pro&#x4E0A;&#x53D1;&#x5E03;&#x7684;&#x5C0F;&#x7A0B;&#x5E8F;&#x4E8E;2017&#x5E74;1&#x6708;9&#x65E5;&#x6B......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Zhenzhen Lin on
+        2017-01-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/01/03/nice-blessing/">
+        <h2 class="post-title">
+            Happy New Year - 2017
+        </h2>
+        <h3 class="post-subtitle">
+            <&frasl;2016><2017> 来自前端的特别祝福
+        </h3>
+        <div class="post-content-preview">
+            
+&#x524D;&#x8A00;
+
+&#x5728;&#x5FAE;&#x4FE1;&#x8BA2;&#x9605;&#x53F7; &#x524D;&#x7AEF;&#x5927;&#x5168; &#x770B;&#x5230;&#x6709;&#x610F;&#x601D;&#x7684;&#x4E00;&#x7EC4;&#x56FE;&#x7247;, &#x8BED;&#x4E4......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by mslinzz on
+        2017-01-03
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/01/03/js-history/">
+        <h2 class="post-title">
+            Javascript History
+        </h2>
+        <h3 class="post-subtitle">
+            Javascript的诞生历史
+        </h3>
+        <div class="post-content-preview">
+            
+&#x524D;&#x8A00;
+
+&#x524D;&#x7AEF;&#x5DE5;&#x7A0B;&#x5E08;, &#x5F88;&#x591A;&#x65F6;&#x5019;&#x90FD;&#x88AB;&#x95EE;&#x8D77;, &#x4F60;&#x7684;js&#x600E;&#x4E48;&#x6837;, &#x53EA;&#x80FD;&#x652F;&#......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by mslinzz on
+        2017-01-03
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/01/01/hello-2017/">
+        <h2 class="post-title">
+            Welcome to Twilight Blog
+        </h2>
+        <h3 class="post-subtitle">
+            使用Hexo搭建个人博客步骤
+        </h3>
+        <div class="post-content-preview">
+            
+&#x524D;&#x8A00;&#x4ECA;&#x5929;&#x662F; 2017-01-01, &#x5143;&#x65E6;&#x8282;, &#x8282;&#x65E5;&#x5FEB;&#x4E50;!
+
+&#x4ECE;2013-10&#x6708;&#x4ECE;&#x4E8B;&#x7F16;&#x7A0B;&#x5F00;&#x59CB;, &#x4E09;&......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by mslinzz on
+        2017-01-01
+    </p>
+
+</div>
+<hr>
+
+
+<!-- Pager -->
+<ul class="pager">
+    
+    
+</ul>
+
+
+            <!-- 如果开启评论功能 -->
+            
+
+        </div>
+        <!-- Sidebar Container -->
+        <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+            <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        <a href="/tags/#前端生活" title="前端生活" rel="3">前端生活</a>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </div>
+</section>
+
+
+<!-- Short About -->
+<section class="visible-md visible-lg">
+    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
+        
+        <img src="/img/avatar.jpg" />
+        
+
+        
+        <p>不巧, 我在等你 !</p>
+        
+
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+<li>
+    <a target="_blank"
+       href="https://github.com/linzhenzhen"
+       data-toggle="tooltip" data-placement="top" title="linzhenzhen">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="http://weibo.com/mslinzz"
+       data-toggle="tooltip" data-placement="top" title="mslinzz">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="mailto:mslinzz@sina.com"
+       data-toggle="tooltip" data-placement="top" title="mslinzz@sina.com">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="javascript:void(0)"
+       data-toggle="tooltip" data-placement="top" title="549221572">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weixin fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+        </ul>
+    </div>
+</section>
+
+<!-- Friends Blog -->
+
+<hr>
+<h5> FRIENDS </h5>
+
+<div class="media">
+    <a class="media-left media-middle" href="#" target="_blank">
+        <img src="/./img/friends/avatar-xiaoying.png" alt="scarlett" width="48" class="img-circle">
+    </a>
+    <div class="media-body">
+        <h5 class="media-heading" style="padding-bottom: 0;">scarlett</h5>
+        Android - 简单 美好 奋发
+    </div>
+</div>
+
+<div class="media">
+    <a class="media-left media-middle" href="http://www.malin.xyz/" target="_blank">
+        <img src="/./img/friends/avatar-malin-xyz.jpg" alt="malin&#39;s blog" width="48" class="img-circle">
+    </a>
+    <div class="media-body">
+        <h5 class="media-heading" style="padding-bottom: 0;">malin&#39;s blog</h5>
+        Android - 越努力，越幸运
+    </div>
+</div>
+
+<!--<ul class="list-inline">-->
+    <!---->
+    <!--<li><a href="#" target="_blank">scarlett</a></li>-->
+    <!---->
+    <!--<li><a href="http://www.malin.xyz/" target="_blank">malin&#39;s blog</a></li>-->
+    <!---->
+<!--</ul>-->
+
+        </div>
+        
+    </div> <!-- /.row -->
+</div> <!-- /.container -->
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+<li>
+    <a target="_blank"
+       href="https://github.com/linzhenzhen"
+       data-toggle="tooltip" data-placement="top" title="linzhenzhen">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="http://weibo.com/mslinzz"
+       data-toggle="tooltip" data-placement="top" title="mslinzz">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="mailto:mslinzz@sina.com"
+       data-toggle="tooltip" data-placement="top" title="mslinzz@sina.com">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="javascript:void(0)"
+       data-toggle="tooltip" data-placement="top" title="549221572">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weixin fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ms.Linzz 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">
+                    <span style="display: inline-block; margin: 0 3px;">
+                        <i class="fa fa-thumbs-up"></i>
+                    </span> Hux </a>
+                    Ported by <a href="http://mslinzz.com"> Ms.Linzz </a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=linzhenzhen&repo=linzhenzhen.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://linzhenzhen.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!--http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js-->
+<script>
+    async("https://linzhenzhen.github.io/js/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'flase';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://linzhenzhen.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+</body>
+</html>
