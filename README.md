@@ -17,6 +17,6 @@
 
 `如果是自己搭建Hexo博客的话, 可查看个人博客写的操作详细步骤` [点击跳转] (https://linzhenzhen.github.io/2017/01/01/hello-2017/)
 
-`如果想复制该主题的话, 请转战 - &gt;` [Hexo-Theme-Twilight](https://github.com/linzhenzhen/hexo-theme-twilight.git)
+`如果想复制该主题的话, 请转战 - >` [Hexo-Theme-Twilight](https://github.com/linzhenzhen/hexo-theme-twilight.git)
 
 
