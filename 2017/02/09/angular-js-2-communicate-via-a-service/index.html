@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Front-end">
+    <meta name="keyword" content="mslinzz,frontend,web,js,javascript,html,html5,css,css3,less,sass,boostrap,php,laravel,codeIginter,ci,git,sourcetree">
+    <link rel="shortcut icon" href="/img/favicon16.ico">
+
+    <title>
+        
+            Parent and children communicate via a service in AngularJs2. - Linzhenzhen的博客 | Linzhenzhen&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://linzhenzhen.github.io/2017/02/09/angular-js-2-communicate-via-a-service/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <!--<link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="/img/plum-blossom.png" alt="Zhenzhen Lin">
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/"> Home </a></li>
+                    
+                    
+                    
+                    
+                    <li><a href="/about/"> About </a></li>
+                    
+                    
+                    
+                    <li><a href="/tags/"> Tags </a></li>
+                    
+                    
+                    
+                    <li><a href="/archives/"> Archives </a></li>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://linzhenzhen.github.io /img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/bg-home.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#angularJs2"
+                           title="angularJs2">angularJs2</a>
+                        
+                        <a class="tag" href="/tags/#experiences"
+                           title="experiences">experiences</a>
+                        
+                    </div>
+                    <h1>Parent and children communicate via a service in AngularJs2.</h1>
+                    <h2 class="subheading">通俗易懂的父组件和多个子组件之间通讯之服务通讯</h2>
+                    <span class="meta">
+                        Posted by mslinzz on
+                        2017-02-09
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>&#x524D;&#x8A00;</p>
+</blockquote>
+<p>&#x76EE;&#x524D;&#x5728;&#x63A5;&#x624B;&#x516C;&#x53F8;&#x7684;&#x4E00;&#x4E2A;&#x5F00;&#x53D1;&#x76F8;&#x518C;&#x7684;&#x4EFB;&#x52A1;, &#x5728;&#x7F16;&#x7801;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;, &#x53D1;&#x73B0;&#x4E00;&#x4E2A;&#x4F1A;&#x963B;&#x788D;&#x4E4B;&#x540E;&#x5F00;&#x53D1;&#x800C;&#x4E14;&#x975E;&#x5E38;&#x68D8;&#x624B;&#x7684;&#x95EE;&#x9898;, &#x5148;&#x4E86;&#x89E3;&#x4E00;&#x4E0B;&#x73B0;&#x5728;&#x7684;&#x73AF;&#x5883;:</p>
+<p>&#x76EE;&#x524D;&#x7684;&#x7ED3;&#x6784;&#x7EC4;&#x7EC7;&#x5927;&#x6982;&#x662F;&#x8FD9;&#x6837;:</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby"> photoComponent             /<span class="regexp">/ &#x7236;&#x7EC4;&#x4EF6;</span></span></div><div class="line"></div><div class="line">     -<span class="ruby"><span class="regexp"> headerComponent       /</span><span class="regexp">/ &#x5B50;&#x7EC4;&#x4EF6;</span></span></div><div class="line">     -<span class="ruby"><span class="regexp"> ContentComponent      /</span><span class="regexp">/ &#x5B50;&#x7EC4;&#x4EF6;</span></span></div><div class="line">     -<span class="ruby"><span class="regexp"> footerComponent       /</span><span class="regexp">/ &#x5B50;&#x7EC4;&#x4EF6;</span></span></div></pre></td></tr></table></figure>
+<p>&#x76EE;&#x524D;&#x7684;&#x7EC4;&#x4EF6;&#x8F93;&#x51FA;&#x7ED3;&#x6784;&#x5927;&#x6982;&#x662F;&#x8FD9;&#x6837;:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;wrapper&quot;</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- header &#x7EC4;&#x4EF6; --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">header</span>&gt;</span><span class="tag">&lt;/<span class="name">header</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main&quot;</span> [<span class="attr">class.full-width</span>]=<span class="string">&quot;fullWidth&quot;</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-view</span> <span class="attr">autoscroll</span>=<span class="string">&quot;true&quot;</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!-- content &#x7EC4;&#x4EF6; &#x4F1A;&#x901A;&#x8FC7; router-outlet &#x8F93;&#x51FA;&#x5E03;&#x5C40;  --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- footer &#x7EC4;&#x4EF6; --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>&#x90A3;&#x4E48;&#x95EE;&#x9898;&#x6765;&#x4E86;:</p>
+<p>&#x5728;<code>header</code>&#x4E2D;&#x6709;&#x4E2A;&#x83DC;&#x5355;&#x662F;&#x6765;&#x6539;&#x53D8;<code>content</code>&#x4E2D;&#x76F8;&#x518C;&#x7684;&#x5E03;&#x5C40;&#x7684;, &#x5E03;&#x5C40;&#x6709;&#x5206;: &#x5E74;/&#x6708;/&#x5468;, &#x5F53;&#x6211;&#x5728;<code>header</code>&#x5B50;&#x7EC4;&#x4EF6;&#x4E2D;&#x9009;&#x62E9;&#x67D0;&#x4E2A;&#x5E03;&#x5C40;&#x7684;&#x4E0B;&#x62C9;&#x503C;&#x65F6;, &#x9700;&#x8981;&#x544A;&#x8BC9;<code>content</code>&#x5B50;&#x7EC4;&#x4EF6;&#x8FD9;&#x4E2A;&#x503C;&#x662F;&#x4EC0;&#x4E48;, &#x770B;&#x8FC7;<code>Angular2</code>&#x7EC4;&#x4EF6;&#x901A;&#x8BAF;&#x7684;&#x5927;&#x5BB6;&#x5E94;&#x8BE5;&#x77E5;&#x9053;, &#x901A;&#x8BAF;&#x5927;&#x90E8;&#x5206;&#x901A;&#x8FC7;&#x5C5E;&#x6027;&#x7ED1;&#x5B9A;&#x6765;&#x4F20;&#x9012;&#x548C;&#x63A5;&#x6536;, &#x4F46;&#x662F;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x53EA;&#x80FD;&#x662F;, &#x76F4;&#x7CFB;&#x4EB2;&#x5C5E;&#x7236;&#x4E0E;&#x5B50;&#x7684;&#x4F20;&#x9012;, &#x56E0;&#x4E3A;&#x5728;&#x4E0A;&#x8FF0;&#x7ED3;&#x6784;&#x89C6;&#x56FE;&#x4E2D;, &#x5F88;&#x660E;&#x663E;&#x7236;&#x7EC4;&#x4EF6;&#x4E2D;&#x76F4;&#x63A5;&#x5F15;&#x5165;&#x4E86;&#x5B50;&#x7EC4;&#x4EF6;&#x7684;&#x5E03;&#x5C40;, &#x6211;&#x4EEC;&#x73B0;&#x5728;&#x7684;&#x95EE;&#x9898;&#x662F;<code>content</code>&#x5B50;&#x7EC4;&#x4EF6;&#x867D;&#x7136;&#x4E5F;&#x662F;&#x5728;<code>photo</code>&#x7236;&#x7EC4;&#x4EF6;&#x4E2D;&#x6765;&#x5C55;&#x793A;, &#x4F46;&#x662F;&#x5F88;&#x4E0D;&#x5E78;&#x7684;&#x662F;&#x4E0B;&#x9762;&#x8FD9;&#x884C;:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="section">&lt;router-outlet&gt;</span><span class="section">&lt;/router-outlet&gt;</span></div></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x8DEF;&#x7531;&#x8F93;&#x51FA;&#x963B;&#x65AD;&#x4E86;&#x4F20;&#x9012;, &#x5B83;&#x4E0D;&#x80FD;&#x5E2E;&#x4F60;&#x4F20;&#x9012;&#x4EFB;&#x4F55;&#x7ED1;&#x5B9A;&#x7684;&#x5C5E;&#x6027;&#x503C;, &#x5C31;&#x662F;&#x4E0D;&#x80FD;&#x5728;&#x8FD9;&#x884C;&#x4EE3;&#x7801;&#x662F;&#x60F3;&#x529E;&#x6CD5;, &#x7ED1;&#x5B9A;&#x5C5E;&#x6027;&#x4F1A;&#x62A5;&#x9519;, &#x800C;&#x4E14;&#x4E0D;&#x7BA1;&#x52A0;&#x4EC0;&#x4E48;, &#x5B50;&#x7EC4;&#x4EF6;<code>content</code>&#x4E5F;&#x4E0D;&#x4F1A;&#x63A5;&#x6536;&#x5230;&#x503C;.</p>
+<p>&#x4F46;&#x662F;&#x6211;&#x60F3;&#x7740;<code>AngularJs2</code>&#x80AF;&#x5B9A;&#x6709;&#x8F7B;&#x677E;&#x89E3;&#x51B3;&#x7684;&#x529E;&#x6CD5;, &#x7136;&#x540E;&#x5C31;&#x901A;&#x8BFB;<a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#" target="_blank" rel="external">Angular2-&#x7EC4;&#x4EF6;&#x901A;&#x8BAF;</a>, &#x7BC7;&#x5E45;&#x5F88;&#x957F;, &#x7B2C;&#x4E00;&#x904D;&#x4E0D;&#x61C2;, &#x7B2C;&#x4E8C;&#x904D;&#x7B2C;&#x4E09;&#x904D;&#x5C1D;&#x8BD5;, &#x7EC8;&#x4E8E;&#x660E;&#x767D;&#x70B9;&#x539F;&#x7406;&#x4E86;, &#x8FD9;&#x91CC;&#x7684;&#x7EC4;&#x4EF6;&#x901A;&#x8BAF;&#x6709;&#x5F88;&#x591A;&#x65B9;&#x6CD5;, &#x4F46;&#x662F;&#x80FD;&#x89E3;&#x51B3;&#x73B0;&#x5728;&#x95EE;&#x9898;&#x7684;&#x65B9;&#x6CD5;, &#x5C31;&#x662F;<a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#!#bidirectional-service" target="_blank" rel="external">&#x7236;&#x4E0E;&#x5B50;&#x7EC4;&#x4EF6;&#x901A;&#x8FC7;&#x670D;&#x52A1;&#x6765;&#x901A;&#x8BAF;</a></p>
+<p><code>AngularJs2</code>&#x5B98;&#x7F51;&#x7684;&#x8D44;&#x6599;&#x6709;&#x65F6;&#x5019;&#x5199;&#x7684;&#x4E0D;&#x5BB9;&#x6613;&#x7406;&#x89E3;, &#x5728;&#x8FD9;&#x91CC;&#x6211;&#x6765;&#x7B80;&#x5355;&#x9610;&#x8FF0;&#x4E00;&#x4E0B;&#x600E;&#x4E48;&#x8FD0;&#x7528;&#x670D;&#x52A1;&#x6765;&#x901A;&#x8BAF;.</p>
+<blockquote>
+<p>&#x5148;&#x4E86;&#x89E3;&#x4E00;&#x4E0B;&#x670D;&#x52A1;&#x901A;&#x8BAF;&#x7684;&#x57FA;&#x672C;&#x673A;&#x5236;</p>
+</blockquote>
+<p>&#x629B;&#x5F00;&#x7236;&#x4E0E;&#x5B50;&#x7684;&#x5173;&#x7CFB;, &#x7B80;&#x5355;&#x7406;&#x89E3;&#x5C31;&#x662F;: <code>&#x4E00;&#x4E2A;&#x8D1F;&#x8D23;&#x4F20;&#x9012;, &#x4E00;&#x4E2A;&#x8D1F;&#x8D23;&#x8BA2;&#x9605;&#x63A5;&#x6536;</code></p>
+<blockquote>
+<p>&#x5355;&#x9879;&#x670D;&#x52A1;&#x4F20;&#x9012;</p>
+</blockquote>
+<p>&#x6211;&#x6765;&#x5148;&#x4ECB;&#x7ECD;&#x4E00;&#x4E2A;&#x5355;&#x9879;&#x4F20;&#x9012;, &#x5C31;&#x662F;&#x7531;<code>header</code>&#x70B9;&#x51FB;&#x67D0;&#x4E2A;&#x83DC;&#x5355;&#x65F6;, &#x628A;&#x8FD9;&#x4E2A;&#x503C;&#x4F20;&#x9012;&#x7ED9;<code>content</code>&#x6765;&#x63A5;&#x6536;.</p>
+<p>1.&#x5148;&#x5199;&#x4E00;&#x4E2A;<code>headerService</code>&#x670D;&#x52A1;:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { Injectable } from <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"><span class="keyword">import</span> { Subject }    from <span class="string">&apos;rxjs/Subject&apos;</span>;</div><div class="line"></div><div class="line"><span class="meta">@Injectable</span>()</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeaderService {</div><div class="line"></div><div class="line">    <span class="comment">// 1. Observable Subjects</span></div><div class="line">    <span class="keyword">private</span> viewType = <span class="keyword">new</span> Subject&lt;<span class="built_in">string</span>&gt;();</div><div class="line"></div><div class="line">    <span class="comment">// 2. Observable Streams</span></div><div class="line">    view$ = <span class="keyword">this</span>.viewType.asObservable();</div><div class="line"></div><div class="line">    <span class="comment">// 3. Service Announcements</span></div><div class="line">    announceViewType(view: <span class="built_in">string</span>): <span class="built_in">void</span> {</div><div class="line">        <span class="keyword">this</span>.viewType.next(view);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p><code>1</code> &#x90E8;&#x5206;&#x4EE3;&#x7801;: &#x58F0;&#x660E;&#x79C1;&#x6709;&#x8D44;&#x6E90;<code>Subject</code>&#x7684;&#x5BF9;&#x8C61;, <code>string</code> &#x662F;&#x4F20;&#x9012;&#x503C;&#x7684;&#x7C7B;&#x578B;, &#x53EF;&#x4EE5;&#x4E0D;&#x5199;, &#x5982;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">private viewType = <span class="keyword">new</span> Subject();</div><div class="line"><span class="comment">// &#x6216;&#x8005;</span></div><div class="line">private viewType = <span class="keyword">new</span> Subject&lt;number&gt;();</div><div class="line"><span class="comment">// &#x6216;&#x8005;</span></div><div class="line">private viewType = <span class="keyword">new</span> Subject&lt;boolean&gt;();</div><div class="line"><span class="comment">// &#x6216;&#x8005;</span></div><div class="line">private viewType = <span class="keyword">new</span> Subject&lt;any&gt;();</div></pre></td></tr></table></figure>
+<p><code>2</code> &#x90E8;&#x5206;&#x4EE3;&#x7801;: &#x58F0;&#x660E;&#x5BF9;&#x5916;&#x516C;&#x5171;&#x7684;&#x53EF;&#x89C2;&#x5BDF;&#x5BF9;&#x8C61;, &#x5173;&#x952E;&#x8BCD;&#x662F;: <code>asObservable</code> - &#x4F5C;&#x4E3A;&#x53EF;&#x89C2;&#x5BDF;&#x5BF9;&#x8C61;<br><code>3</code> &#x90E8;&#x5206;&#x4EE3;&#x7801;: &#x521B;&#x5EFA;&#x901A;&#x8BAF;&#x5E7F;&#x64AD;&#x7684;&#x65B9;&#x6CD5;, &#x62EC;&#x53F7;&#x5185;&#x662F;&#x4F60;&#x8981;&#x5E7F;&#x64AD;&#x7684;&#x503C;, &#x5728;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x662F;<code>header</code>&#x70B9;&#x51FB;&#x7684;&#x83DC;&#x5355;, <code>next</code>&#x5F88;&#x91CD;&#x8981;, &#x662F;&#x628A;&#x8FD9;&#x4E2A;<code>&#x53EF;&#x89C2;&#x5BDF;&#x5BF9;&#x8C61;</code>&#x5411;&#x8BA2;&#x9605;&#x5B83;&#x7684;&#x7EC4;&#x4EF6;&#x4E2D;&#x6269;&#x6563;&#x4FE1;&#x606F;, &#x8BA2;&#x9605;&#x4E4B;&#x540E;&#x4F1A;&#x8BB2;&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x8BF4;&#x7684;&#x63A5;&#x6536;.</p>
+<p>2.&#x628A;&#x670D;&#x52A1;&#x6CE8;&#x5165;&#x5230;&#x4F9B;&#x5E94;&#x5546;&#x4E2D;, &#x8FD9;&#x4E2A;&#x968F;&#x4F60;&#x7231;&#x597D;, &#x6CE8;&#x5165;&#x5728;&#x7236;&#x7EC4;&#x4EF6;&#x7684;<code>providers</code>&#x4E2D;&#x4E5F;&#x884C;, &#x6CE8;&#x5165;&#x5728;&#x603B;&#x5165;&#x53E3;&#x6A21;&#x5757;<code>module</code>&#x7684;<code>providers</code>&#x4E2D;&#x4E5F;&#x884C;, &#x6CE8;&#x5165;&#x5728;&#x8FD9;&#x4E24;&#x4E2A;&#x603B;&#x5165;&#x53E3;&#x4E2D;&#x7684;&#x8BDD;, &#x5B50;&#x7EC4;&#x4EF6;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x5355;&#x72EC;&#x6CE8;&#x5165;&#x4E86;, &#x53EA;&#x8D1F;&#x8D23;&#x5728;&#x6784;&#x9020;&#x51FD;&#x6570;<code>constructor</code>&#x5B9E;&#x4F8B;&#x5316;&#x8BE5;&#x670D;&#x52A1;&#x5373;&#x53EF;.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">providers: [</div><div class="line">    HeaderService</div><div class="line">]</div></pre></td></tr></table></figure>
+<p>3.&#x6211;&#x4EEC;&#x5F00;&#x59CB;&#x5728;<code>HeaderComponent</code>&#x4F20;&#x9012;&#x4E86;, &#x60C5;&#x666F;&#x662F;&#x70B9;&#x51FB;<code>header</code>&#x4E2D;&#x7684;&#x83DC;&#x5355;&#x65F6;, &#x5E7F;&#x64AD;&#x53D1;&#x6563;&#x4FE1;&#x606F;&#x5230;&#x8BA2;&#x9605;&#x8BE5;&#x503C;&#x7684;&#x5730;&#x65B9;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { Component } <span class="keyword">from</span> <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { HeaderService } <span class="keyword">from</span> <span class="string">&quot;../../../services/components/common/header/header.service&quot;</span>;</div><div class="line"></div><div class="line">@Component({</div><div class="line">    <span class="attr">moduleId</span>: <span class="built_in">module</span>.id,</div><div class="line">    <span class="attr">selector</span>: <span class="string">&apos;header&apos;</span>,</div><div class="line">    <span class="attr">templateUrl</span>: <span class="string">&apos;header.component.html&apos;</span>,</div><div class="line">    <span class="attr">styleUrls</span>: [<span class="string">&apos;header.component.css&apos;</span>]</div><div class="line">})</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HeaderComponent</span> </span>{</div><div class="line"></div><div class="line">    <span class="keyword">constructor</span>(private headerService: HeaderService) {}</div><div class="line"></div><div class="line">    private viewStyles = [</div><div class="line">        {<span class="attr">typeTitle</span>: <span class="string">&apos;&#x9ED8;&#x8BA4;&#x89C6;&#x56FE;&apos;</span>, <span class="attr">viewType</span>: <span class="string">&apos;years&apos;</span>},</div><div class="line">        {<span class="attr">typeTitle</span>: <span class="string">&apos;&#x5468;&#x89C6;&#x56FE;&apos;</span>,   <span class="attr">viewType</span>: <span class="string">&apos;weeks&apos;</span>},</div><div class="line">        {<span class="attr">typeTitle</span>: <span class="string">&apos;&#x6708;&#x89C6;&#x56FE;&apos;</span>,   <span class="attr">viewType</span>: <span class="string">&apos;months&apos;</span>}</div><div class="line">    ];</div><div class="line"></div><div class="line">    private viewStylesSelected = <span class="keyword">this</span>.viewStyles[<span class="number">0</span>];</div><div class="line"></div><div class="line">    <span class="comment">/* &#x70B9;&#x51FB;: &#x9009;&#x62E9;&#x67D0;&#x4E2A;&#x83DC;&#x5355; */</span></div><div class="line">    private onSelect(view: any): <span class="keyword">void</span> {</div><div class="line">        <span class="keyword">this</span>.viewStylesSelected = view;</div><div class="line">        <span class="keyword">this</span>.on = <span class="literal">false</span>;</div><div class="line"></div><div class="line">        <span class="comment">// &#x5F00;&#x59CB;&#x5E7F;&#x64AD;</span></div><div class="line">        <span class="keyword">this</span>.headerService.announceViewType(<span class="keyword">this</span>.viewStylesSelected.viewType);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x4E2D;, &#x505A;&#x4E86;&#x4E24;&#x4EF6;&#x4E8B;&#x60C5;, &#x4E00;&#x662F;&#x5B9E;&#x4F8B;&#x5316;&#x4E86;<code>headerService</code>&#x670D;&#x52A1;, &#x4E8C;&#x662F;&#x5728;<code>onSelect</code>&#x70B9;&#x51FB;&#x83DC;&#x5355;&#x65F6;, &#x8C03;&#x7528;<code>headerService</code>&#x4E2D;&#x5E7F;&#x64AD;&#x7684;&#x65B9;&#x6CD5;<code>announceViewType</code>, &#x8BA9;&#x5B83;&#x5229;&#x7528;<code>next</code>&#x7684;&#x6027;&#x80FD;&#x53BB;&#x4F20;&#x64AD;&#x8FD9;&#x4E2A;&#x503C;, &#x54EA;&#x91CC;&#x8BA2;&#x9605;&#x8FD9;&#x4E2A;&#x503C;&#x5C31;&#x4F20;&#x64AD;&#x5728;&#x54EA;&#x91CC;.</p>
+<p>4.&#x4F20;&#x64AD;&#x597D;&#x4E86;, &#x90A3;&#x6211;&#x4EEC;&#x5C31;&#x5F00;&#x59CB;&#x5728;<code>ContentComponent</code>&#x4E2D;&#x63A5;&#x6536;, &#x5728;&#x8FD9;&#x91CC;&#x662F;&#x7528;&#x8BA2;&#x9605;&#x6765;&#x5B8C;&#x6210;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { Component, AfterViewChecked} <span class="keyword">from</span> <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { HeaderService } <span class="keyword">from</span> <span class="string">&quot;../../services/components/common/header/header.service&quot;</span>;</div><div class="line"></div><div class="line">@Component({</div><div class="line">    <span class="attr">moduleId</span>: <span class="built_in">module</span>.id,</div><div class="line">    <span class="attr">selector</span>: <span class="string">&apos;my-content&apos;</span>,</div><div class="line">    <span class="attr">templateUrl</span>: <span class="string">&apos;content.component.html&apos;</span>,</div><div class="line">    <span class="attr">styleUrls</span>: [<span class="string">&apos;content.component.css&apos;</span>]</div><div class="line">})</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">ContentComponent</span> <span class="title">implements</span> <span class="title">AfterViewChecked</span> </span>{</div><div class="line"></div><div class="line">    <span class="keyword">constructor</span>(private headerService: HeaderService) {}</div><div class="line"></div><div class="line">    private isViewChanged: boolean = <span class="literal">false</span>;</div><div class="line"></div><div class="line">    ngAfterViewChecked(): <span class="keyword">void</span> {</div><div class="line">        <span class="keyword">let</span> _that = <span class="keyword">this</span>;</div><div class="line">        <span class="keyword">if</span> (_that.isViewChanged) <span class="keyword">return</span>;</div><div class="line">        _that.isViewChanged = <span class="literal">true</span>;</div><div class="line"></div><div class="line">        <span class="comment">// &#x8BA2;&#x9605;</span></div><div class="line">        _that.headerService.view$.subscribe(<span class="function">(<span class="params">view: string</span>) =&gt;</span> {</div><div class="line">            <span class="comment">// view &#x4E3A; header &#x9009;&#x62E9;&#x7684;&#x83DC;&#x5355;, &#x63A5;&#x6536;&#x5230;&#x503C;&#x4E86;, &#x53EF;&#x4EE5;&#x6539;&#x53D8;&#x5E03;&#x5C40;&#x4E86;</span></div><div class="line">        });</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x5728;<code>ContentComponent</code>&#x7EC4;&#x4EF6;&#x4E2D;, &#x505A;&#x4E86;&#x8FD9;&#x4E48;&#x51E0;&#x4EF6;&#x4E8B;&#x60C5;:<br>&#x4E00;&#x662F;, &#x6211;&#x4EEC;&#x5728;&#x6784;&#x9020;&#x51FD;&#x6570;&#x5185;&#x58F0;&#x660E;<code>headerService</code>&#x7684;&#x5B9E;&#x4F8B;;<br>&#x4E8C;&#x662F;, &#x8BA2;&#x9605;, &#x5173;&#x952E;&#x5B57;&#x662F;<code>subscribe</code>, &#x8C03;&#x7528;<code>headerService</code>&#x7684;&#x5BF9;&#x5916;&#x7684;&#x53EF;&#x89C2;&#x5BDF;&#x53D8;&#x91CF;, &#x8BA2;&#x9605;&#x5B83;&#x5373;&#x53EF;, &#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x5728;&#x670D;&#x52A1;&#x4E2D;&#x5DF2;&#x58F0;&#x660E;&#x8BE5;&#x5BF9;&#x8C61;&#x4E3A;<code>Subject</code>&#x7684;&#x4E00;&#x4E2A;&#x2019;asObservable&#x2019;.<br>&#x4E09;&#x662F;, &#x5728;&#x54EA;&#x91CC;&#x8BA2;&#x9605;&#x5462;, &#x5728;&#x8FD9;&#x8FD8;&#x6D89;&#x53CA;&#x4E00;&#x4E2A;&#x77E5;&#x8BC6;&#x70B9;, &#x751F;&#x547D;&#x5468;&#x671F;&#x94A9;&#x5B50;, &#x770B;&#x4E0B;&#x56FE;&#x603B;&#x7ED3;:</p>
+<table>
+<thead>
+<tr>
+<th>&#x6307;&#x4EE4;&#x548C;&#x7EC4;&#x4EF6;&#x7684;&#x53D8;&#x66F4;&#x68C0;&#x6D4B;&#x4E0E;&#x751F;&#x547D;&#x5468;&#x671F;&#x94A9;&#x5B50;</th>
+<th style="text-align:center">(&#x4F5C;&#x4E3A;&#x7C7B;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>constructor(myService: MyService, &#x2026;) { &#x2026; }</td>
+<td style="text-align:center">&#x7C7B;&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4F1A;&#x5728;&#x6240;&#x6709;&#x5176;&#x5B83;&#x751F;&#x547D;&#x5468;&#x671F;&#x94A9;&#x5B50;&#x4E4B;&#x524D;&#x8C03;&#x7528;&#x3002;&#x4F7F;&#x7528;&#x5B83;&#x6765;&#x6CE8;&#x5165;&#x4F9D;&#x8D56;&#xFF0C;&#x4F46;&#x662F;&#x8981;&#x907F;&#x514D;&#x7528;&#x5B83;&#x505A;&#x8F83;&#x91CD;&#x7684;&#x5DE5;&#x4F5C;&#x3002;</td>
+</tr>
+<tr>
+<td>ngOnChanges(changeRecord) { &#x2026; }</td>
+<td style="text-align:center">&#x5728;&#x8F93;&#x5165;&#x5C5E;&#x6027;&#x6BCF;&#x6B21;&#x53D8;&#x5316;&#x4E86;&#x4E4B;&#x540E;&#x3001;&#x5F00;&#x59CB;&#x5904;&#x7406;&#x5185;&#x5BB9;&#x6216;&#x5B50;&#x89C6;&#x56FE;&#x4E4B;&#x524D;&#x88AB;&#x8C03;&#x7528;&#x3002;</td>
+</tr>
+<tr>
+<td>ngOnInit() { &#x2026; }</td>
+<td style="text-align:center">&#x5728;&#x6267;&#x884C;&#x6784;&#x9020;&#x51FD;&#x6570;&#x3001;&#x521D;&#x59CB;&#x5316;&#x8F93;&#x5165;&#x5C5E;&#x6027;&#x3001;&#x7B2C;&#x4E00;&#x6B21;&#x8C03;&#x7528;&#x5B8C;ngOnChanges&#x4E4B;&#x540E;&#x8C03;&#x7528;&#x3002;</td>
+</tr>
+<tr>
+<td>ngDoCheck() { &#x2026; }</td>
+<td style="text-align:center">&#x6BCF;&#x5F53;&#x68C0;&#x67E5;&#x7EC4;&#x4EF6;&#x6216;&#x6307;&#x4EE4;&#x7684;&#x8F93;&#x5165;&#x5C5E;&#x6027;&#x662F;&#x5426;&#x53D8;&#x5316;&#x65F6;&#x8C03;&#x7528;&#x3002;&#x901A;&#x8FC7;&#x5B83;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x68C0;&#x67E5;&#x65B9;&#x5F0F;&#x6765;&#x6269;&#x5C55;&#x53D8;&#x66F4;&#x68C0;&#x6D4B;&#x903B;&#x8F91;&#x3002;</td>
+</tr>
+<tr>
+<td>ngAfterContentInit() { &#x2026; }</td>
+<td style="text-align:center">&#x5F53;&#x7EC4;&#x4EF6;&#x6216;&#x6307;&#x4EE4;&#x7684;&#x5185;&#x5BB9;&#x5DF2;&#x7ECF;&#x521D;&#x59CB;&#x5316;&#x3001;ngOnInit&#x5B8C;&#x6210;&#x4E4B;&#x540E;&#x8C03;&#x7528;&#x3002;</td>
+</tr>
+<tr>
+<td>ngAfterContentChecked() { &#x2026; }</td>
+<td style="text-align:center">&#x5728;&#x6BCF;&#x6B21;&#x68C0;&#x67E5;&#x5B8C;&#x7EC4;&#x4EF6;&#x6216;&#x6307;&#x4EE4;&#x7684;&#x5185;&#x5BB9;&#x4E4B;&#x540E;&#x8C03;&#x7528;&#x3002;</td>
+</tr>
+<tr>
+<td>ngAfterViewInit() { &#x2026; }</td>
+<td style="text-align:center">&#x5F53;&#x7EC4;&#x4EF6;&#x7684;&#x89C6;&#x56FE;&#x5DF2;&#x7ECF;&#x521D;&#x59CB;&#x5316;&#x5B8C;&#x6BD5;&#xFF0C;&#x6BCF;&#x6B21;ngAfterContentInit&#x4E4B;&#x540E;&#x88AB;&#x8C03;&#x7528;&#x3002;&#x53EA;&#x9002;&#x7528;&#x4E8E;&#x7EC4;&#x4EF6;&#x3002;</td>
+</tr>
+<tr>
+<td>ngAfterViewChecked() { &#x2026; }</td>
+<td style="text-align:center">&#x6BCF;&#x6B21;&#x68C0;&#x67E5;&#x5B8C;&#x7EC4;&#x4EF6;&#x7684;&#x89C6;&#x56FE;&#x4E4B;&#x540E;&#x8C03;&#x7528;&#x3002;&#x53EA;&#x9002;&#x7528;&#x4E8E;&#x7EC4;&#x4EF6;&#x3002;</td>
+</tr>
+<tr>
+<td>ngOnDestroy() { &#x2026; }</td>
+<td style="text-align:center">&#x5728;&#x6240;&#x5C5E;&#x5B9E;&#x4F8B;&#x88AB;&#x9500;&#x6BC1;&#x524D;&#xFF0C;&#x53EA;&#x8C03;&#x7528;&#x4E00;&#x6B21;&#x3002;</td>
+</tr>
+</tbody>
+</table>
+<p>&#x4ECE;&#x4E0A;&#x8FF0;&#x8868;&#x683C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;:<br>&#x6267;&#x884C;&#x4E00;&#x6B21;&#x7684;&#x6709; <code>constructor()</code>, <code>ngOnInit()</code>, <code>ngAfterContentInit()</code>, <code>ngAfterViewInit()</code>, <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#x68C0;&#x67E5;&#x5C5E;&#x6027;&#x8F93;&#x5165;&#x6216;&#x53D8;&#x5316;&#x7684;&#x6709; `ngOnChanges()`</div><div class="line">&#x68C0;&#x67E5;&#x7EC4;&#x4EF6;&#x53D8;&#x5316;&#x7684;&#x6709; `ngAfterContentChecked()`, `ngAfterViewChecked()`, `ngDoCheck()`</div><div class="line"></div><div class="line">&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x4E0D;&#x80FD;&#x7528;&#x53EA;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x7684;, &#x800C;&#x4E14;&#x4E5F;&#x4E0D;&#x662F;&#x5C5E;&#x6027;&#x4F20;&#x9012;, &#x53EA;&#x80FD;&#x5B9E;&#x5728;&#x7EC4;&#x4EF6;&#x89C6;&#x56FE;&#x53D8;&#x5316;&#x65F6;, &#x53BB;&#x8BA2;&#x9605;&#x5E7F;&#x64AD;&#x7684;&#x503C;, &#x53EF;&#x4EE5;&#x7528;&#x8FD9;&#x4E09;&#x4E2A;&#x94A9;&#x5B50; `ngAfterContentChecked()`, `ngAfterViewChecked()`, `ngDoCheck()`, &#x6211;&#x9009;&#x62E9;&#x4E86;`ngAfterViewChecked()`, &#x4F46;&#x662F;&#x6709;&#x4E2A;&#x95EE;&#x9898;, &#x8FD9;&#x51E0;&#x4E2A;&#x94A9;&#x5B50;, &#x68C0;&#x67E5;&#x89C6;&#x56FE;&#x65F6;&#x4F1A;&#x6267;&#x884C;&#x591A;&#x6B21;, &#x4F46;&#x662F;&#x6211;&#x4EEC;&#x62FF;&#x4E00;&#x6B21;&#x503C;&#x505A;&#x4E00;&#x6B21;&#x52A8;&#x4F5C;&#x5C31;&#x597D;, &#x6240;&#x4EE5;&#x6211;&#x51B3;&#x5B9A;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;boolean&#x503C;, &#x53BB;&#x8BA9;&#x5B83;&#x7ED3;&#x675F;&#x4E00;&#x6B21;&#x4E4B;&#x540E;&#x7684;&#x52A8;&#x4F5C;, &#x867D;&#x7136;&#x8FD9;&#x6837;&#x505A;, &#x611F;&#x89C9;&#x4F1A;&#x5F71;&#x54CD;&#x8BE5;&#x65B9;&#x6CD5;&#x539F;&#x5148;&#x7684;&#x4E3A;&#x4EC0;&#x4E48;&#x8BBE;&#x5B9A;&#x591A;&#x6B21;&#x6267;&#x884C;&#x7684;&#x529F;&#x80FD;, &#x4F46;&#x662F;&#x76EE;&#x524D;&#x8FD9;&#x4E2A;&#x662F;&#x6211;&#x4EEC;&#x4EC0;&#x4E48;&#x4E8B;&#x540E;&#x8BA2;&#x9605;&#x63A5;&#x6536;&#x5E7F;&#x64AD;&#x7684;&#x503C;&#x6700;&#x597D;&#x7684;&#x5730;&#x65B9;, &#x6240;&#x4EE5;&#x6211;&#x7528;&#x8FD9;&#x4E09;&#x884C;&#x4EE3;&#x7801;&#x963B;&#x65AD;&#x4E86;&#x8BE5;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x591A;&#x6B21;,</div></pre></td></tr></table></figure></p>
+<p>let _that = this;<br>if (_that.isViewChanged) return;<br>_that.isViewChanged = true;<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&#x4EE5;&#x4E0A;&#x6211;&#x4EEC;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x8131;&#x79BB;&#x7236;&#x4E0E;&#x5B50;, &#x5B50;&#x4E0E;&#x5B50;&#x4E4B;&#x95F4;&#x7528;&#x670D;&#x52A1;&#x6765;&#x5E7F;&#x64AD;&#x503C;&#x7684;&#x65B9;&#x6CD5;, &#x4E3A;&#x5355;&#x9879;&#x4F20;&#x9012;.</div><div class="line"></div><div class="line">&#x90A3;&#x53CC;&#x5411;&#x901A;&#x8BAF;&#x662F;&#x4EC0;&#x4E48;&#x5462;?</div><div class="line"></div><div class="line">&gt; &#x53CC;&#x5411;&#x901A;&#x8BAF;&#x670D;&#x52A1;&#x4F20;&#x9012;</div><div class="line"></div><div class="line">&#x5176;&#x5B9E;&#x61C2;&#x4E86;&#x5355;&#x9879;&#x901A;&#x8BAF;, &#x53CC;&#x5411;&#x901A;&#x8BAF;&#x5C31;&#x662F;&#x8BA9;&#x5B83;&#x4EEC;&#x7684;&#x4F4D;&#x7F6E;&#x6362;&#x4E86;&#x4E00;&#x4E0B;, &#x76F4;&#x63A5;&#x6539;&#x826F;&#x4E00;&#x4E0B;&#x4E0A;&#x8FF0;&#x4E09;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x4EE3;&#x7801;, &#x770B;&#x4E00;&#x4E0B;&#x5C31;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E86;</div><div class="line"></div><div class="line"><span class="number">1.</span>`headerService` &#x670D;&#x52A1;</div><div class="line">```js</div><div class="line"><span class="keyword">import</span> { Injectable } from <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"><span class="keyword">import</span> { Subject }    from <span class="string">&apos;rxjs/Subject&apos;</span>;</div><div class="line"></div><div class="line">@Injectable()</div><div class="line"><span class="keyword">export</span> <span class="keyword">class</span> HeaderService {</div><div class="line"></div><div class="line">    <span class="comment">// 1. Observable Subjects</span></div><div class="line">    <span class="keyword">private</span> viewType = <span class="keyword">new</span> Subject&lt;<span class="keyword">string</span>&gt;();</div><div class="line">    <span class="keyword">private</span> viewTypeCurrent = <span class="keyword">new</span> Subject&lt;<span class="keyword">string</span>&gt;();</div><div class="line"></div><div class="line">    <span class="comment">// 2. Observable Streams</span></div><div class="line">    view$ = <span class="keyword">this</span>.viewType.asObservable();</div><div class="line">    viewCurrent$ = <span class="keyword">this</span>.viewTypeCurrent.asObservable();</div><div class="line"></div><div class="line">    <span class="comment">// 3. Service Announcements</span></div><div class="line">    announceViewType(view: <span class="keyword">string</span>): <span class="keyword">void</span> {</div><div class="line">        <span class="keyword">this</span>.viewType.next(view);</div><div class="line">    }</div><div class="line"></div><div class="line">    announceViewTypeCurrent(view: <span class="keyword">string</span>): <span class="keyword">void</span> {</div><div class="line">        <span class="keyword">this</span>.viewTypeCurrent.next(view);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x4E0A;&#x8FF0;&#x670D;&#x52A1;&#x53C8;&#x751F;&#x6210;&#x4E00;&#x4E2A;<code>viewCurrent$</code>&#x53EF;&#x8BA2;&#x9605;&#x7684;&#x5BF9;&#x8C61;</p>
+<p>2.<code>ContentComponent</code>&#x5E7F;&#x64AD;&#x4FE1;&#x606F;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { Component, OnInit, AfterViewChecked} <span class="keyword">from</span> <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { HeaderService } <span class="keyword">from</span> <span class="string">&quot;../../services/components/common/header/header.service&quot;</span>;</div><div class="line"></div><div class="line">@Component({</div><div class="line">    <span class="attr">moduleId</span>: <span class="built_in">module</span>.id,</div><div class="line">    <span class="attr">selector</span>: <span class="string">&apos;my-content&apos;</span>,</div><div class="line">    <span class="attr">templateUrl</span>: <span class="string">&apos;content.component.html&apos;</span>,</div><div class="line">    <span class="attr">styleUrls</span>: [<span class="string">&apos;content.component.css&apos;</span>]</div><div class="line">})</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">ContentComponent</span> <span class="title">implements</span> <span class="title">OnInit</span>, <span class="title">AfterViewChecked</span> </span>{</div><div class="line"></div><div class="line">    <span class="keyword">constructor</span>(private headerService: HeaderService) {}</div><div class="line"></div><div class="line">    private isViewChanged: boolean = <span class="literal">false</span>;</div><div class="line"></div><div class="line">    private currentView: string = <span class="string">&apos;years&apos;</span>;</div><div class="line"></div><div class="line">    ngOnInit(): <span class="keyword">void</span> {</div><div class="line">            <span class="keyword">let</span> _that = <span class="keyword">this</span>;</div><div class="line"></div><div class="line">            <span class="comment">// &#x5F00;&#x59CB;&#x5E7F;&#x64AD;</span></div><div class="line">            _that.headerService.announceViewTypeCurrent(_that.currentView);</div><div class="line">    }</div><div class="line"></div><div class="line">    ngAfterViewChecked(): <span class="keyword">void</span> {</div><div class="line">        <span class="keyword">let</span> _that = <span class="keyword">this</span>;</div><div class="line">        <span class="keyword">if</span> (_that.isViewChanged) <span class="keyword">return</span>;</div><div class="line">        _that.isViewChanged = <span class="literal">true</span>;</div><div class="line"></div><div class="line">        <span class="comment">// &#x8BA2;&#x9605;</span></div><div class="line">        _that.headerService.view$.subscribe(<span class="function">(<span class="params">view: string</span>) =&gt;</span> {</div><div class="line">            <span class="comment">// view &#x4E3A; header &#x9009;&#x62E9;&#x7684;&#x83DC;&#x5355;, &#x63A5;&#x6536;&#x5230;&#x503C;&#x4E86;, &#x53EF;&#x4EE5;&#x6539;&#x53D8;&#x5E03;&#x5C40;&#x4E86;</span></div><div class="line">        });</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x4E0A;&#x8FF0;&#x7EC4;&#x4EF6;&#x662F;&#x5728;<code>ngOnInit()</code>&#x7684;&#x94A9;&#x5B50;&#x4E2D;&#x505A;&#x4E86;&#x670D;&#x52A1;&#x7684;&#x5E7F;&#x64AD;, &#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x8FDB;&#x5165;&#x8BE5;&#x9875;&#x9762;&#x7684;&#x65F6;&#x5019;, &#x2018;header&#x2019;&#x7684;&#x83DC;&#x5355;&#x59CB;&#x7EC8;&#x662F;&#x4EE5;&#x9ED8;&#x8BA4;&#x2019;&#x5E74;&#x2019;&#x89C6;&#x56FE;&#x5C55;&#x793A;, &#x907F;&#x514D;&#x5176;&#x4ED6;&#x9875;&#x9762;&#x4F1A;&#x5F71;&#x54CD;&#x8BE5;&#x9ED8;&#x8BA4;&#x503C;, &#x6240;&#x4EE5;&#x6211;&#x9009;&#x62E9;&#x4E86;&#x5728;<code>ngOnInit()</code>&#x521D;&#x59CB;&#x9875;&#x9762;&#x65F6;&#x4F20;&#x9012;&#x7ED9;<code>header</code>&#x9ED8;&#x8BA4;&#x7684;&#x503C;. &#x5927;&#x5BB6;&#x53EF;&#x6839;&#x636E;&#x4E2A;&#x4EBA;&#x60C5;&#x666F;&#x800C;&#x5B9A;.</p>
+<p>3.<code>HeaderComponent</code>&#x8BA2;&#x9605;&#x63A5;&#x6536;&#x4FE1;&#x606F;<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { Component, OnInit } <span class="keyword">from</span> <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { HeaderService } <span class="keyword">from</span> <span class="string">&quot;../../../services/components/common/header/header.service&quot;</span>;</div><div class="line"></div><div class="line">@Component({</div><div class="line">    <span class="attr">moduleId</span>: <span class="built_in">module</span>.id,</div><div class="line">    <span class="attr">selector</span>: <span class="string">&apos;header&apos;</span>,</div><div class="line">    <span class="attr">templateUrl</span>: <span class="string">&apos;header.component.html&apos;</span>,</div><div class="line">    <span class="attr">styleUrls</span>: [<span class="string">&apos;header.component.css&apos;</span>]</div><div class="line">})</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HeaderComponent</span> <span class="title">implements</span> <span class="title">OnInit</span> </span>{</div><div class="line"></div><div class="line">    <span class="keyword">constructor</span>(private headerService: HeaderService) {}</div><div class="line"></div><div class="line">    private viewStyles = [</div><div class="line">        {<span class="attr">typeTitle</span>: <span class="string">&apos;&#x9ED8;&#x8BA4;&#x89C6;&#x56FE;&apos;</span>, <span class="attr">viewType</span>: <span class="string">&apos;years&apos;</span>},</div><div class="line">        {<span class="attr">typeTitle</span>: <span class="string">&apos;&#x5468;&#x89C6;&#x56FE;&apos;</span>,   <span class="attr">viewType</span>: <span class="string">&apos;weeks&apos;</span>},</div><div class="line">        {<span class="attr">typeTitle</span>: <span class="string">&apos;&#x6708;&#x89C6;&#x56FE;&apos;</span>,   <span class="attr">viewType</span>: <span class="string">&apos;months&apos;</span>}</div><div class="line">    ];</div><div class="line"></div><div class="line">    private viewStylesSelected = <span class="keyword">this</span>.viewStyles[<span class="number">0</span>];</div><div class="line"></div><div class="line">    ngOnInit(): <span class="keyword">void</span> {</div><div class="line">            <span class="keyword">let</span> _that = <span class="keyword">this</span>;</div><div class="line"></div><div class="line">            <span class="comment">// &#x8BA2;&#x9605;</span></div><div class="line">            _that.headerService.viewCurrent$.subscribe(<span class="function">(<span class="params">view: string</span>) =&gt;</span> {</div><div class="line">                <span class="keyword">if</span> (view === <span class="string">&apos;years&apos;</span>) {</div><div class="line">                    _that.viewStylesSelected = _that.viewStyles[<span class="number">0</span>];</div><div class="line">                }</div><div class="line">            });</div><div class="line">        }</div><div class="line"></div><div class="line">    <span class="comment">/* &#x70B9;&#x51FB;: &#x9009;&#x62E9;&#x67D0;&#x4E2A;&#x83DC;&#x5355; */</span></div><div class="line">    private onSelect(view: any): <span class="keyword">void</span> {</div><div class="line">        <span class="keyword">this</span>.viewStylesSelected = view;</div><div class="line">        <span class="keyword">this</span>.on = <span class="literal">false</span>;</div><div class="line"></div><div class="line">        <span class="comment">// &#x5F00;&#x59CB;&#x5E7F;&#x64AD;</span></div><div class="line">        <span class="keyword">this</span>.headerService.announceViewType(<span class="keyword">this</span>.viewStylesSelected.viewType);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x4E2D;, &#x6211;&#x4E5F;&#x662F;&#x9009;&#x62E9;&#x7528;<code>ngOnInit()</code>&#x7684;&#x94A9;&#x5B50;&#x53BB;&#x8BA2;&#x9605;<code>ContentComponent</code>&#x4F20;&#x9001;&#x6765;&#x7684;&#x503C;.</p>
+<p>&#x81F3;&#x6B64;, &#x95EE;&#x9898;&#x5DF2;&#x7ECF;&#x5B8C;&#x7F8E;&#x89E3;&#x51B3;&#x4E86;, &#x5927;&#x5BB6;&#x53EF;&#x6309;&#x7167;&#x81EA;&#x5DF1;&#x7684;&#x60C5;&#x666F;&#x53BB;&#x6309;&#x7167;&#x8FD9;&#x4E2A;&#x6B65;&#x9AA4;&#x53BB;&#x4F20;&#x9012;:</p>
+<pre><code>1.&#x5728;&#x670D;&#x52A1;&#x58F0;&#x660E;&#x53EF;&#x89C2;&#x5BDF;&#x5BF9;&#x8C61;, &#x7528;&#x5230;&#x7684;&#x662F; `Subject`&#x7684; `asObservable()`
+2.&#x4E00;&#x4E2A;&#x8D1F;&#x8D23;&#x5E7F;&#x64AD;&#x8BAF;&#x606F;, &#x7528;&#x5230;&#x7684;&#x662F; `next()`
+3.&#x4E00;&#x4E2A;&#x8D1F;&#x8D23;&#x8BA2;&#x9605;, &#x7528;&#x5230;&#x7684;&#x662F; `subscribe()`
+</code></pre><blockquote>
+<p>&#x5176;&#x4ED6;&#x670D;&#x52A1;&#x901A;&#x8BAF;</p>
+</blockquote>
+<p>&#x8FD9;&#x91CC;&#x89E3;&#x51B3;&#x4E86;&#x7531; <code>&lt;router-outlet&gt;&lt;/router-outlet&gt;</code> &#x622A;&#x65AD;&#x7684;&#x7EC4;&#x4EF6;&#x901A;&#x8BAF;, &#x6709;&#x670D;&#x52A1;&#x901A;&#x8BAF;&#x4F20;&#x9012;&#x5B8C;&#x6210;&#x4E86;.</p>
+<p>&#x5176;&#x4ED6;&#x5982;&#x679C;&#x662F;&#x5EFA;&#x7ACB;&#x5728;&#x7236;&#x4E0E;&#x5B50;&#x7684;&#x901A;&#x8BAF;&#x4E4B;&#x95F4;, &#x53EF;&#x5C1D;&#x8BD5;&#x8FD0;&#x7528;&#x5C5E;&#x6027;&#x7ED1;&#x5B9A;, &#x6216;&#x8005; <code>EventEmitter</code> &#x7531;&#x5B50;&#x7EC4;&#x4EF6;&#x5411;&#x4E0A;&#x5F39;&#x5C04;(&#x5373;&#x7236;&#x7EC4;&#x4EF6;&#x63A5;&#x6536;).</p>
+<p>AngularJs2 &#x670D;&#x52A1;&#x901A;&#x8BAF;&#x7684;&#x65B9;&#x6CD5;&#x6709;:</p>
+<p><a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#!#parent-to-child" target="_blank" rel="external">&#x4F7F;&#x7528;&#x8F93;&#x5165;&#x578B;&#x7ED1;&#x5B9A;&#xFF0C;&#x628A;&#x6570;&#x636E;&#x4ECE;&#x7236;&#x7EC4;&#x4EF6;&#x4F20;&#x5230;&#x5B50;&#x7EC4;&#x4EF6;</a><br><a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#!#parent-to-child-setter" target="_blank" rel="external">&#x901A;&#x8FC7;setter&#x62E6;&#x622A;&#x8F93;&#x5165;&#x5C5E;&#x6027;&#x503C;&#x7684;&#x53D8;&#x5316;</a><br><a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#!#parent-to-child-on-changes" target="_blank" rel="external">&#x4F7F;&#x7528;ngOnChanges&#x62E6;&#x622A;&#x8F93;&#x5165;&#x5C5E;&#x6027;&#x503C;&#x7684;&#x53D8;&#x5316;</a><br><a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#!#child-to-parent" target="_blank" rel="external">&#x7236;&#x7EC4;&#x4EF6;&#x76D1;&#x542C;&#x5B50;&#x7EC4;&#x4EF6;&#x7684;&#x4E8B;&#x4EF6;</a><br><a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#!#parent-to-child-local-var" target="_blank" rel="external">&#x7236;&#x7EC4;&#x4EF6;&#x4E0E;&#x5B50;&#x7EC4;&#x4EF6;&#x901A;&#x8FC7;&#x672C;&#x5730;&#x53D8;&#x91CF;local variable&#x4E92;&#x52A8;</a><br><a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#!#parent-to-view-child" target="_blank" rel="external">&#x7236;&#x7EC4;&#x4EF6;&#x8C03;&#x7528;ViewChild</a><br><a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#!#bidirectional-service" target="_blank" rel="external">&#x7236;&#x7EC4;&#x4EF6;&#x548C;&#x5B50;&#x7EC4;&#x4EF6;&#x901A;&#x8FC7;&#x670D;&#x52A1;&#x6765;&#x901A;&#x8BAF;</a>, &#x8FD9;&#x4E2A;&#x662F;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x9610;&#x8FF0;&#x7684;.</p>
+<p>Well Done ~</p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2017/02/09/angular-js-2-communicate-via-a-service/"
+                     data-title="Parent and children communicate via a service in AngularJs2."
+                     data-url="https://linzhenzhen.github.io/2017/02/09/angular-js-2-communicate-via-a-service/"
+                     data-images=""
+                     data-content="
+&#x524D;&#x8A00;
+
+&#x76EE;&#x524D;&#x5728;&#x6... | Linzhenzhen的博客 | Linzhenzhen&#39;s Blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat"> 微信 </a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo"> 微博 </a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban"> 豆瓣 </a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/02/09/experiences-browser-compatible/" data-toggle="tooltip" data-placement="top"
+                           title="How to remind IE upgrade in new version 11.">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2017/02/09/angular-js-2-communicate-via-a-service/"
+                         data-title="Parent and children communicate via a service in AngularJs2."
+                         data-url="https://linzhenzhen.github.io/2017/02/09/angular-js-2-communicate-via-a-service/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+            <!-- Side Catalog Container -->
+            
+
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#angularJs2"
+                           title="angularJs2">angularJs2</a>
+                        
+                        <a class="tag" href="/tags/#experiences"
+                           title="experiences">experiences</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                    <li><a href="#" target="_blank">scarlett</a></li>
+                    
+                    <li><a href="http://www.malin.xyz/" target="_blank">malin&#39;s blog</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'linzhenzhen';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "linzhenzhen";
+    var disqus_identifier = "https://linzhenzhen.github.io/2017/02/09/angular-js-2-communicate-via-a-service/";
+    var disqus_url = "https://linzhenzhen.github.io/2017/02/09/angular-js-2-communicate-via-a-service/";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+                o = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) {
+            o.addEventListener('load', function (e) {
+                c(null, e);
+            }, false);
+        }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function () {
+        anchors.options = {
+            visible: 'always',
+            placement: 'right',
+            icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link {
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top: -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+<li>
+    <a target="_blank"
+       href="https://github.com/linzhenzhen"
+       data-toggle="tooltip" data-placement="top" title="linzhenzhen">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="http://weibo.com/mslinzz"
+       data-toggle="tooltip" data-placement="top" title="mslinzz">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="mailto:mslinzz@sina.com"
+       data-toggle="tooltip" data-placement="top" title="mslinzz@sina.com">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="javascript:void(0)"
+       data-toggle="tooltip" data-placement="top" title="549221572">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weixin fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ms.Linzz 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">
+                    <span style="display: inline-block; margin: 0 3px;">
+                        <i class="fa fa-thumbs-up"></i>
+                    </span> Hux </a>
+                    Ported by <a href="http://mslinzz.com"> Ms.Linzz </a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=linzhenzhen&repo=linzhenzhen.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://linzhenzhen.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!--http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js-->
+<script>
+    async("https://linzhenzhen.github.io/js/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'flase';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://linzhenzhen.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+</body>
+</html>
