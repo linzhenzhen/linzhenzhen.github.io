@@ -84,11 +84,11 @@
                     
                     
                     
-                    <li><a href="/archives/"> Archives </a></li>
-                    
-                    
-                    
                     <li><a href="/about/"> About </a></li>
+                    
+                    
+                    
+                    <li><a href="/archives/"> Archives </a></li>
                     
                     
                     
@@ -261,7 +261,7 @@
 </tr>
 </tbody>
 </table>
-<p>&#x4ECE;&#x4E0A;&#x8FF0;&#x8868;&#x683C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;:<br>&#x6267;&#x884C;&#x4E00;&#x6B21;&#x7684;&#x6709; <code>constructor()</code>, <code>ngOnInit()</code>, <code>ngAfterContentInit()</code>, <code>ngAfterViewInit()</code>, <code>ngOnDestroy()</code><br>&#x68C0;&#x67E5;&#x5C5E;&#x6027;&#x8F93;&#x5165;&#x6216;&#x53D8;&#x5316;&#x7684;&#x6709; <code>ngOnChanges()</code><br>&#x68C0;&#x67E5;&#x7EC4;&#x4EF6;&#x53D8;&#x5316;&#x7684;&#x6709; <code>ngAfterContentChecked()</code>, <code>ngAfterViewChecked()</code>, <code>ngDoCheck()</code></p>
+<p>&#x4ECE;&#x4E0A;&#x8FF0;&#x8868;&#x683C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;:<br>&#x6267;&#x884C;&#x4E00;&#x6B21;&#x7684;&#x6709; <code>constructor()</code>, <code>ngOnInit()</code>, <code>ngAfterContentInit()</code>, <code>ngAfterViewInit()</code>, <code>ngOnDestroy()</code><br>&#x68C0;&#x67E5;&#x5C5E;&#x6027;&#x8F93;&#x5165;&#x6216;&#x53D8;&#x5316;&#x7684;&#x6709; <code>ngOnChanges()</code><br>&#x68C0;&#x67E5;&#x7EC4;&#x4EF6;&#x89C6;&#x56FE;&#x53D8;&#x5316;&#x7684;&#x6709; <code>ngAfterContentChecked()</code>, <code>ngAfterViewChecked()</code>, <code>ngDoCheck()</code></p>
 <p>&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x4E0D;&#x80FD;&#x7528;&#x53EA;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x7684;, &#x800C;&#x4E14;&#x4E5F;&#x4E0D;&#x662F;&#x5C5E;&#x6027;&#x4F20;&#x9012;, &#x53EA;&#x80FD;&#x5B9E;&#x5728;&#x7EC4;&#x4EF6;&#x89C6;&#x56FE;&#x53D8;&#x5316;&#x65F6;, &#x53BB;&#x8BA2;&#x9605;&#x5E7F;&#x64AD;&#x7684;&#x503C;, &#x53EF;&#x4EE5;&#x7528;&#x8FD9;&#x4E09;&#x4E2A;&#x94A9;&#x5B50; <code>ngAfterContentChecked()</code>, <code>ngAfterViewChecked()</code>, <code>ngDoCheck()</code>, &#x6211;&#x9009;&#x62E9;&#x4E86;<code>ngAfterViewChecked()</code>, &#x4F46;&#x662F;&#x6709;&#x4E2A;&#x95EE;&#x9898;, &#x8FD9;&#x51E0;&#x4E2A;&#x94A9;&#x5B50;, &#x68C0;&#x67E5;&#x89C6;&#x56FE;&#x65F6;&#x4F1A;&#x6267;&#x884C;&#x591A;&#x6B21;, &#x4F46;&#x662F;&#x6211;&#x4EEC;&#x62FF;&#x4E00;&#x6B21;&#x503C;&#x505A;&#x4E00;&#x6B21;&#x52A8;&#x4F5C;&#x5C31;&#x597D;, &#x6240;&#x4EE5;&#x6211;&#x51B3;&#x5B9A;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;boolean&#x503C;, &#x53BB;&#x8BA9;&#x5B83;&#x7ED3;&#x675F;&#x4E00;&#x6B21;&#x4E4B;&#x540E;&#x7684;&#x52A8;&#x4F5C;, &#x867D;&#x7136;&#x8FD9;&#x6837;&#x505A;, &#x611F;&#x89C9;&#x4F1A;&#x5F71;&#x54CD;&#x8BE5;&#x65B9;&#x6CD5;&#x539F;&#x5148;&#x7684;&#x4E3A;&#x4EC0;&#x4E48;&#x8BBE;&#x5B9A;&#x591A;&#x6B21;&#x6267;&#x884C;&#x7684;&#x529F;&#x80FD;, &#x4F46;&#x662F;&#x76EE;&#x524D;&#x8FD9;&#x4E2A;&#x662F;&#x6211;&#x4EEC;&#x4EC0;&#x4E48;&#x4E8B;&#x540E;&#x8BA2;&#x9605;&#x63A5;&#x6536;&#x5E7F;&#x64AD;&#x7684;&#x503C;&#x6700;&#x597D;&#x7684;&#x5730;&#x65B9;, &#x6240;&#x4EE5;&#x6211;&#x7528;&#x8FD9;&#x4E09;&#x884C;&#x4EE3;&#x7801;&#x963B;&#x65AD;&#x4E86;&#x8BE5;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x591A;&#x6B21;,</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">let _that = <span class="keyword">this</span>;</div><div class="line"><span class="keyword">if</span> (_that.isViewChanged) <span class="keyword">return</span>;</div><div class="line">_that.isViewChanged = <span class="literal">true</span>;</div></pre></td></tr></table></figure>
 <p>&#x4EE5;&#x4E0A;&#x6211;&#x4EEC;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x8131;&#x79BB;&#x7236;&#x4E0E;&#x5B50;, &#x5B50;&#x4E0E;&#x5B50;&#x4E4B;&#x95F4;&#x7528;&#x670D;&#x52A1;&#x6765;&#x5E7F;&#x64AD;&#x503C;&#x7684;&#x65B9;&#x6CD5;, &#x4E3A;&#x5355;&#x9879;&#x4F20;&#x9012;.</p>
