@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Front-end">
+    <meta name="keyword" content="mslinzz,frontend,web,js,javascript,html,html5,css,css3,less,sass,boostrap,php,laravel,codeIginter,ci,git,sourcetree">
+    <link rel="shortcut icon" href="/img/favicon16.ico">
+
+    <title>
+        
+            have a look on Array in Javascript. - Linzhenzhen的博客 | Linzhenzhen&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://linzhenzhen.github.io/2017/03/01/js-array/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <!--<link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="/img/plum-blossom.png" alt="Zhenzhen Lin">
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/"> Home </a></li>
+                    
+                    
+                    
+                    
+                    <li><a href="/about/"> About </a></li>
+                    
+                    
+                    
+                    <li><a href="/archives/"> Archives </a></li>
+                    
+                    
+                    
+                    <li><a href="/tags/"> Tags </a></li>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://linzhenzhen.github.io /img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header {
+        background-image: url('bg-js.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                    <h1>have a look on Array in Javascript.</h1>
+                    <h2 class="subheading">看看 Javascript 的引用类型 Array 的认识及对其的操作</h2>
+                    <span class="meta">
+                        Posted by mslinzz on
+                        2017-03-01
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>&#x524D;&#x8A00;</p>
+</blockquote>
+<p>&#x9664; Object &#x4E4B;&#x5916;, Array &#x7C7B;&#x578B;&#x6050;&#x6015;&#x662F; ECMAScript &#x4E2D;&#x6700;&#x5E38;&#x7528;&#x7684;&#x7C7B;&#x578B;&#x4E86;. &#x800C;&#x4E14;, ECMAScript&#x4E2D;&#x7684;&#x6570;&#x7EC4;&#x4E0E;&#x5176;&#x5B83;&#x591A;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x6570;&#x7EC4;&#x6709;&#x7740;&#x76F8;&#x5F53;&#x6253;&#x7684;&#x533A;&#x522B;. &#x867D;&#x7136; ECMAScript &#x6570;&#x7EC4;&#x4E0E;&#x5176;&#x5B83;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x6570;&#x7EC4;&#x90FD;&#x662F;&#x6570;&#x636E;&#x7684;&#x6709;&#x5E8F;&#x5217;&#x8868;, &#x4F46;&#x4E0E;&#x5176;&#x4ED6;&#x8BED;&#x8A00;&#x4E0D;&#x540C;&#x7684;&#x662F;, ECMAScript &#x6570;&#x7EC4;&#x7684;&#x6BCF;&#x4E00;&#x9879;&#x53EF;&#x4EE5;&#x4FDD;&#x5B58;&#x4EFB;&#x4F55;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;. &#x4E5F;&#x5C31;&#x662F;&#x8BF4;, &#x53EF;&#x4EE5;&#x7528;&#x6570;&#x7EC4;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x6765;&#x4FDD;&#x5B58;&#x5B57;&#x7B26;&#x4E32;, &#x7528;&#x7B2C;&#x4E8C;&#x4E2A;&#x4F4D;&#x7F6E;&#x6765;&#x4FDD;&#x5B58;&#x6570;&#x503C;, &#x7528;&#x7B2C;&#x4E09;&#x4E2A;&#x4F4D;&#x7F6E;&#x6765;&#x4FDD;&#x5B58;&#x5BF9;&#x8C61;, &#x4EE5;&#x6B64;&#x7C7B;&#x63A8;. &#x800C;&#x4E14;, ECMAScript &#x6570;&#x7EC4;&#x7684;&#x5927;&#x5C0F;&#x662F;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x8C03;&#x6574;&#x7684;, &#x5373;&#x53EF;&#x4EE5;&#x968F;&#x7740;&#x6570;&#x636E;&#x7684;&#x6DFB;&#x52A0;&#x81EA;&#x52A8;&#x589E;&#x957F;&#x4EE5;&#x5BB9;&#x7EB3;&#x65B0;&#x589E;&#x6570;&#x636E;.</p>
+<blockquote>
+<p>&#x521B;&#x5EFA;&#x6570;&#x7EC4;&#x7684;&#x4E0D;&#x540C;&#x65B9;&#x5F0F;</p>
+</blockquote>
+<p>&#x7B2C;&#x4E00;&#x79CD;&#x4F7F;&#x7528; Array &#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line"><span class="comment">// OR</span></div><div class="line"><span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">20</span>);</div><div class="line"><span class="comment">// OR</span></div><div class="line"><span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">&apos;white&apos;</span>);</div><div class="line"><span class="comment">// OR</span></div><div class="line"><span class="keyword">var</span> colors = <span class="built_in">Array</span>(<span class="number">3</span>);</div><div class="line"><span class="comment">// OR</span></div><div class="line"><span class="keyword">var</span> colors = <span class="built_in">Array</span>(<span class="string">&apos;white&apos;</span>);</div></pre></td></tr></table></figure>
+<p>&#x7B2C;&#x4E8C;&#x79CD;&#x662F;&#x4F7F;&#x7528;&#x6570;&#x7EC4;&#x5B57;&#x9762;&#x91CF;&#x8868;&#x793A;&#x6CD5;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> colors = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>, <span class="string">&apos;purple&apos;</span>];</div><div class="line"><span class="comment">// OR</span></div><div class="line"><span class="keyword">var</span> colors = [];</div></pre></td></tr></table></figure>
+<p><code>&#x6CE8;&#x610F;</code>: &#x8BF7;&#x4E0D;&#x8981;&#x5728;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#x540E;&#x9762;&#x52A0; <code>,</code> &#x7528;&#x4EE5;&#x9694;&#x5F00;&#x524D;&#x540E;&#x5143;&#x7D20;, &#x5982;&#x4E0B;&#x6848;&#x4F8B;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> colors = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>, <span class="string">&apos;purple&apos;</span>,];  <span class="comment">// &#x4E0D;&#x8981;&#x8FD9;&#x6837;&#x505A;! &#x8FD9;&#x6837;&#x4F1A;&#x5BFC;&#x81F4;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&apos;undefined&apos;&#x7684;&#x503C;, &#x76F8;&#x5E94;&#x7684;&#x6570;&#x7EC4;&#x957F;&#x5EA6;&#x4E5F;&#x4F1A; + 1</span></div><div class="line"><span class="comment">// OR</span></div><div class="line"><span class="keyword">var</span> colors = [, , ,];  <span class="comment">// &#x66F4;&#x4E0D;&#x8981;&#x8FD9;&#x6837;!</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x83B7;&#x53D6;&#x6570;&#x7EC4;&#x7684;&#x957F;&#x5EA6;</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> colors = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>, <span class="string">&apos;purple&apos;</span>];</div><div class="line"><span class="keyword">var</span>    len = colors.length;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x68C0;&#x6D4B;&#x662F;&#x6570;&#x7EC4;. &#x5E38;&#x5E38;&#x88AB;&#x95EE;&#x5230;&#x4E00;&#x4E2A;&#x9762;&#x8BD5;&#x9898;</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isArrayFn</span>(<span class="params">val</span>) </span>{</div><div class="line">    <span class="comment">//  &#x5148;&#x5224;&#x65AD;&#x662F;&#x5426;&#x652F;&#x6301; ES5 &#x63D0;&#x4F9B;&#x7684; Array.isArray</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">Array</span>.isArray === <span class="string">&apos;function&apos;</span>) {</div><div class="line">        <span class="keyword">return</span> <span class="built_in">Array</span>.isArray(val);</div><div class="line">    } <span class="keyword">else</span> {</div><div class="line">        <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(val) === <span class="string">&apos;[object Array]&apos;</span>;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x4EE5;&#x4E0A;&#x4EE3;&#x7801;&#x4E3A;&#x6700;&#x4F18;&#x89E3;&#x51B3;&#x65B9;&#x6CD5; ~</p>
+<p><code>&#x6269;&#x5C55;1</code>: typeof &#x53EF;&#x5224;&#x65AD; - Function, String, Number, Boolean, Undefined<br><code>&#x6269;&#x5C55;2</code>: &#x4E5F;&#x53EF;&#x7528; <code>arr instanceof Array</code> &#x5224;&#x65AD;&#x662F;&#x5426;&#x662F;&#x6570;&#x7EC4;<br><code>&#x6269;&#x5C55;3</code>: &#x4E5F;&#x53EF;&#x7528; <code>arr.constructor === Array</code> &#x5224;&#x65AD;&#x662F;&#x5426;&#x662F;&#x6570;&#x7EC4;</p>
+<blockquote>
+<p>&#x6570;&#x7EC4;&#x4E4B; - &#x8F6C;&#x5316;&#x65B9;&#x6CD5;</p>
+</blockquote>
+<p>&#x7B80;&#x5355;&#x7684;&#x8F6C;&#x6362;&#x65B9;&#x5F0F;:</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var colors = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>, <span class="string">&apos;purple&apos;</span>];</div><div class="line">console.log(colors.toString());        <span class="regexp">//</span> white,black,purple</div><div class="line">console.log(colors.toLocaleString());  <span class="regexp">//</span> white,black,purple</div><div class="line">console.log(colors.valueOf());         <span class="regexp">//</span> [<span class="string">&quot;white&quot;</span>, <span class="string">&quot;black&quot;</span>, <span class="string">&quot;purple&quot;</span>]</div><div class="line">console.log(colors);                   <span class="regexp">//</span> [<span class="string">&quot;white&quot;</span>, <span class="string">&quot;black&quot;</span>, <span class="string">&quot;purple&quot;</span>]</div></pre></td></tr></table></figure>
+<p>&#x4E0D;&#x540C;&#x5206;&#x9694;&#x7B26;&#x8F6C;&#x6362;&#x65B9;&#x5F0F;, &#x7B26;&#x53F7;&#x53EF;&#x81EA;&#x5B9A;&#x4E49;:</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var colors = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>, <span class="string">&apos;purple&apos;</span>];</div><div class="line">console.<span class="built_in">log</span>(colors.<span class="built_in">join</span>(<span class="string">&apos;,&apos;</span>));         <span class="comment">// &#x4EE5; `,`  &#x9694;&#x5F00; // white,black,purple</span></div><div class="line">console.<span class="built_in">log</span>(colors.<span class="built_in">join</span>(<span class="string">&apos;||&apos;</span>));        <span class="comment">// &#x4EE5; `||` &#x9694;&#x5F00; // white||black||purple</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x6570;&#x7EC4;&#x4E4B; - &#x6808;&#x65B9;&#x6CD5;</p>
+</blockquote>
+<p>&#x6808;&#x7684;&#x7279;&#x70B9;&#x662F; <code>LIFO</code> (Last-In-First-Out) &#x540E;&#x8FDB;&#x5148;&#x51FA;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;, &#x4E5F;&#x5C31;&#x662F;&#x540E;&#x6DFB;&#x52A0;&#x7684;&#x9879;&#x6700;&#x65E9;&#x88AB;&#x79FB;&#x9664;.</p>
+<p>&#x6A21;&#x62DF;&#x6808;&#x7684;&#x65B9;&#x5F0F;, &#x63D2;&#x5165;(&#x5373;&#x63A8;&#x5165;), &#x79FB;&#x9664;(&#x5373;&#x5F39;&#x51FA;), &#x53EA;&#x53D1;&#x751F;&#x5728;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E; &#x2014;&#x2014; &#x6808;&#x7684;&#x9876;&#x90E8;.</p>
+<p>ECMAScript &#x4E3A;&#x6570;&#x7EC4;&#x6A21;&#x62DF;&#x6808;&#x7684;&#x65B9;&#x5F0F;&#x63D0;&#x4F9B;&#x4E86; <code>push()</code> &#x548C; <code>pop()</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> colors = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>];</div><div class="line">colors.push(<span class="string">&apos;purple&apos;</span>);          <span class="comment">// &#x6DFB;&#x52A0;&#x4E00;&#x9879;</span></div><div class="line"><span class="built_in">console</span>.log(colors);            <span class="comment">// [&quot;white&quot;, &quot;black&quot;, &quot;purple&quot;]</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> item = colors.pop();        <span class="comment">// &#x63A8;&#x51FA;&#x6700;&#x540E;&#x4E00;&#x9879;, &#x5E76;&#x53D6;&#x5F97;&#x63A8;&#x51FA;&#x7684;&#x9879;</span></div><div class="line"><span class="built_in">console</span>.log(item);              <span class="comment">// &quot;purple&quot;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x6570;&#x7EC4;&#x4E4B; - &#x961F;&#x5217;&#x65B9;&#x6CD5;</p>
+</blockquote>
+<p>&#x961F;&#x5217;&#x7684;&#x7279;&#x70B9;&#x662F; <code>FIFO</code> (First-In-First-Out) &#x5148;&#x8FDB;&#x5148;&#x51FA;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;, &#x5373;&#x5728;&#x961F;&#x5217;&#x7684;&#x5217;&#x8868;&#x672B;&#x5C3E;&#x6DFB;&#x52A0;&#x9879;, &#x4ECE;&#x5217;&#x8868;&#x7684;&#x524D;&#x7AEF;&#x79FB;&#x9664;&#x9879;.</p>
+<p>&#x6A21;&#x62DF;&#x961F;&#x5217;&#x7684;&#x65B9;&#x5F0F;, ECMAScript &#x4E3A;&#x6570;&#x7EC4;&#x79FB;&#x9664;&#x5217;&#x8868;&#x524D;&#x7AEF;&#x63D0;&#x4F9B;&#x4E86; <code>shift()</code> &#x7684;&#x65B9;&#x6CD5;.</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var colors = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>];</div><div class="line">colors.push(<span class="string">&apos;purple&apos;</span>);          <span class="regexp">//</span> &#x6DFB;&#x52A0;&#x4E00;&#x9879;</div><div class="line">console.log(colors);            <span class="regexp">//</span> [<span class="string">&quot;white&quot;</span>, <span class="string">&quot;black&quot;</span>, <span class="string">&quot;purple&quot;</span>]</div><div class="line"></div><div class="line">var item = colors.shift();      <span class="regexp">//</span> &#x63A8;&#x51FA;&#x6700;&#x540E;&#x4E00;&#x9879;, &#x5E76;&#x53D6;&#x5F97;&#x63A8;&#x51FA;&#x7684;&#x9879;</div><div class="line">console.log(item);              <span class="regexp">//</span> <span class="string">&quot;white&quot;</span></div></pre></td></tr></table></figure>
+<p>&#x53E6;&#x5916;, ECMAScript &#x8FD8;&#x4E3A;&#x6570;&#x7EC4;&#x63D0;&#x4F9B;&#x4E86;&#x4E0E; <code>shift()</code> &#x76F8;&#x53CD;&#x7684; <code>unshift()</code>, <code>unshift()</code> &#x80FD;&#x5728;&#x6570;&#x7EC4;&#x524D;&#x7AEF;&#x6DFB;&#x52A0;&#x4EFB;&#x610F;&#x9879;&#x5E76;&#x8FD4;&#x56DE;&#x65B0;&#x6570;&#x7EC4;&#x7684;&#x957F;&#x5EA6;. &#x56E0;&#x6B64;, &#x540C;&#x65F6;&#x4F7F;&#x7528; <code>unshift()</code> &#x548C; <code>pop()</code> &#x53EF;&#x4EE5;&#x4ECE;&#x76F8;&#x53CD;&#x7684;&#x65B9;&#x5411;&#x6765;&#x6A21;&#x62DF;&#x961F;&#x5217;, &#x5373;&#x5728;&#x6570;&#x7EC4;&#x7684;&#x524D;&#x7AEF;&#x6DFB;&#x52A0;&#x9879;, &#x4ECE;&#x6570;&#x7EC4;&#x7684;&#x672B;&#x7AEF;&#x79FB;&#x9664;&#x9879;, &#x5982;&#x4E0B;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> colors = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>];</div><div class="line">colors.unshift(<span class="string">&apos;blue&apos;</span>);         <span class="comment">// &#x5728;&#x524D;&#x7AEF;&#x63A8;&#x5165;&#x4E00;&#x9879;</span></div><div class="line"><span class="built_in">console</span>.log(colors);            <span class="comment">// [&quot;blue&quot;, &quot;&quot;white&quot;, &quot;black&quot;]</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> item = colors.pop();        <span class="comment">// &#x63A8;&#x51FA;&#x6700;&#x540E;&#x4E00;&#x9879;, &#x5E76;&#x53D6;&#x5F97;&#x63A8;&#x51FA;&#x7684;&#x9879;</span></div><div class="line"><span class="built_in">console</span>.log(item);              <span class="comment">// &quot;black&quot;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x6570;&#x7EC4;&#x4E4B; - &#x91CD;&#x6392;&#x5E8F;&#x65B9;&#x6CD5;</p>
+</blockquote>
+<p>&#x6570;&#x7EC4;&#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#x4E24;&#x4E2A;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7528;&#x6765;&#x91CD;&#x6392;&#x5E8F;&#x7684;&#x65B9;&#x6CD5;, &#x5373; <code>reverse()</code> &#x548C; <code>sort()</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"><span class="built_in">console</span>.log(num.reverse());   <span class="comment">// [9, 2, 7, 3, 6]</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(num.sort());      <span class="comment">// [2, 3, 6, 7, 9]</span></div></pre></td></tr></table></figure>
+<p><code>reverse()</code> &#x53CD;&#x8F6C;&#x6570;&#x7EC4;. <code>sort()</code> &#x5BF9;&#x6570;&#x7EC4;&#x5347;&#x5E8F;&#x6392;&#x5E8F;. &#x4F46;&#x662F;&#x4EE5;&#x4E0A;&#x4E24;&#x4E2A;&#x90FD;&#x4E0D;&#x591F;&#x7075;&#x6D3B;, &#x5982;&#x4E0B;&#x6848;&#x4F8B;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"><span class="built_in">console</span>.log(num.sort());      <span class="comment">// [15, 2, 5, 6, 9]</span></div></pre></td></tr></table></figure>
+<p>&#x7ECF; <code>sort()</code> &#x91CD;&#x6392;&#x5E8F;&#x540E;, 15 &#x6362;&#x5728; &#x5176;&#x4ED6;&#x5404;&#x4F4D;&#x6570;&#x7684;&#x524D;&#x9762;, &#x56E0;&#x4E3A; <code>sort()</code> &#x4F1A;&#x628A;&#x5404;&#x9879;&#x5148;&#x8F6C;&#x6362;&#x6210; <code>toString()</code> &#x7136;&#x540E;&#x5728;&#x8FDB;&#x884C;&#x6BD4;&#x8F83;, &#x663E;&#x7136; <code>&quot;15&quot;</code> &#x7684;&#x5B57;&#x7B26;&#x4E32;&#x4F4D;&#x4E8E;&#x5176;&#x4ED6;&#x4E2A;&#x4F4D;&#x7684;&#x5B57;&#x7B26;&#x4E32;, &#x6240;&#x4EE5;&#x76F4;&#x63A5;&#x7528; <code>sort()</code> &#x6BD4;&#x8F83;&#x662F;&#x6709;&#x7F3A;&#x9677;&#x7684;, &#x4F46;&#x662F;&#x597D;&#x7684;&#x4E00;&#x70B9;&#x662F;, <code>sort()</code> &#x53EF;&#x4EE5;&#x63A5;&#x6536;&#x4E00;&#x4E2A;&#x6BD4;&#x8F83;&#x51FD;&#x6570;&#x6700;&#x4E3A;&#x53C2;&#x6570;, &#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5BF9; <code>sort()</code> &#x8FDB;&#x884C;&#x6269;&#x5C55;, &#x5982;&#x4E0B;&#x4EE3;&#x7801;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare</span>(<span class="params">value1, value2</span>) </span>{</div><div class="line">   <span class="keyword">if</span> (value1 &lt; value2) {</div><div class="line">       <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">   } <span class="keyword">else</span> <span class="keyword">if</span> (value1 &gt; value2) {</div><div class="line">       <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">   } <span class="keyword">else</span> {</div><div class="line">       <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">   }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p><code>compare()</code> &#x51FD;&#x6570;&#x63A5;&#x6536;&#x4E24;&#x4E2A;&#x53C2;&#x6570;, &#x5982;&#x679C;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x5E94;&#x8BE5;&#x4F4D;&#x4E8E;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x4E4B;&#x524D;&#x5219;&#x8FD4;&#x56DE; <code>-1</code>, &#x5982;&#x679C;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#x76F8;&#x7B49;, &#x5219;&#x8FD4;&#x56DE; <code>0</code>, &#x5982;&#x679C;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x5E94;&#x8BE5;&#x4F4D;&#x4E8E;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x4E4B;&#x540E;&#x5219;&#x8FD4;&#x56DE; <code>1</code>. &#x4F7F;&#x7528;&#x6B64;&#x65B9;&#x6CD5;&#x6BD4;&#x8F83;&#x5982;&#x4E0B;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line">num.sort(compare);</div><div class="line"><span class="built_in">console</span>.log(num.sort());      <span class="comment">// [2, 5, 6, 9, 15]</span></div></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x6BD4;&#x8F83;&#x51FD;&#x6570;&#x9002;&#x7528;&#x4E8E;&#x5927;&#x591A;&#x6570;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;, &#x53EA;&#x8981;&#x5C06;&#x5176;&#x51FD;&#x6570;&#x505A;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x7ED9; <code>sort()</code> &#x5373;&#x53EF;.</p>
+<p>&#x53E6;&#x5916;, &#x4E0A;&#x8FF0; <code>compare()</code> &#x7684;&#x6269;&#x5C55;&#x662F;&#x5347;&#x5E8F;&#x6392;&#x5E8F;, &#x5F53;&#x7136;&#x4E5F;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x964D;&#x5E8F;&#x6392;&#x5E8F;. &#x5982;&#x4E0B;&#x4EE3;&#x7801;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare</span>(<span class="params">value1, value2</span>) </span>{</div><div class="line">   <span class="keyword">if</span> (value1 &lt; value2) {</div><div class="line">       <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">   } <span class="keyword">else</span> <span class="keyword">if</span> (value1 &gt; value2) {</div><div class="line">       <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">   } <span class="keyword">else</span> {</div><div class="line">       <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">   }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line">num.sort(compare);</div><div class="line"><span class="built_in">console</span>.log(num.sort());      <span class="comment">// [15, 9, 6, 5, 2]</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x6570;&#x7EC4;&#x4E4B; - &#x64CD;&#x4F5C;&#x65B9;&#x6CD5;</p>
+</blockquote>
+<p>ECMAScript &#x4E3A;&#x64CD;&#x4F5C;&#x5DF2;&#x7ECF;&#x5305;&#x542B;&#x5728;&#x6570;&#x7EC4;&#x4E2D;&#x9879;&#x63D0;&#x4F9B;&#x4E86;&#x5F88;&#x591A;&#x65B9;&#x6CD5;.</p>
+<p><code>concat()</code> &#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x57FA;&#x4E8E;&#x5F53;&#x524D;&#x6570;&#x7EC4;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x6570;&#x7EC4;, &#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x539F;&#x6570;&#x7EC4;. &#x76F4;&#x63A5;&#x770B;&#x4EE3;&#x7801;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> colors  = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>, <span class="string">&apos;purple&apos;</span>];</div><div class="line"><span class="keyword">var</span> colors2 = colors.concat();               <span class="comment">// colors2 &#x4E3A; colors &#x7684;&#x4E00;&#x4E2A;&#x526F;&#x672C;</span></div><div class="line"><span class="built_in">console</span>.log(color2);                         <span class="comment">// [&quot;white&quot;, &quot;black&quot;, &quot;purple&quot;]</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> colors3 = colors.concat(<span class="string">&apos;yellow&apos;</span>, [<span class="string">&apos;blue&apos;</span>, <span class="string">&apos;orange&apos;</span>]);</div><div class="line"><span class="built_in">console</span>.log(color3);                         <span class="comment">// [&quot;white&quot;, &quot;black&quot;, &quot;purple&quot;, &quot;yellow&quot;, &quot;blue&quot;, &quot;orange&quot;]</span></div></pre></td></tr></table></figure>
+<p><code>slice()</code> &#x65B9;&#x6CD5;&#x80FD;&#x591F;&#x57FA;&#x4E8E;&#x5F53;&#x524D;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x9879;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x6570;&#x7EC4;, &#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x539F;&#x6570;&#x7EC4;. &#x76F4;&#x63A5;&#x770B;&#x4EE3;&#x7801;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> colors  = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>, <span class="string">&apos;purple&apos;</span>, <span class="string">&apos;blue&apos;</span>, <span class="string">&apos;green&apos;</span>];</div><div class="line"><span class="keyword">var</span> colors2 = colors.slice(<span class="number">1</span>);               <span class="comment">// &#x53EA;&#x4F20;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x65F6;, &#x4ECE;&#x8BE5;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;&#x5230;&#x6570;&#x7EC4;&#x7684;&#x672B;&#x5C3E;&#x6240;&#x6709;&#x9879;</span></div><div class="line"><span class="built_in">console</span>.log(colors2);                        <span class="comment">// [&quot;black&quot;, &quot;purple&quot;, &quot;blue&quot;, &quot;green&quot;]</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> colors3 = colors.slice(<span class="number">1</span>, <span class="number">3</span>);            <span class="comment">// &#x4F20;&#x4E24;&#x4E2A;&#x4E2A;&#x53C2;&#x6570;&#x65F6;, &#x4ECE;&#x8BE5;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;&#x5230;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E; - 1 &#x7684;&#x4E2D;&#x95F4;&#x6240;&#x6709;&#x9879;, &#x5373;&#x4E0D;&#x5305;&#x62EC;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x7ED3;&#x675F;&#x4F4D;&#x7F6E;&#x7684;&#x9879;</span></div><div class="line"><span class="built_in">console</span>.log(colors3);                        <span class="comment">// [&quot;black&quot;, &quot;purple&quot;]</span></div></pre></td></tr></table></figure>
+<p><code>splice()</code> &#x65B9;&#x6CD5;&#x53EF;&#x8C13;&#x662F;&#x6700;&#x5F3A;&#x5927;&#x7684;, &#x5B83;&#x662F;&#x5411;&#x6570;&#x7EC4;&#x7684;&#x4E2D;&#x90E8;&#x63D2;&#x5165;&#x9879;, &#x4E5F;&#x53EF;&#x5220;&#x9664;&#x9879;&#x7684;&#x540C;&#x65F6;&#x63D2;&#x5165;&#x957F;&#x5EA6;&#x4E0D;&#x7B49;&#x7684;&#x96C6;&#x5408;, &#x4E3B;&#x8981;&#x7528;&#x9014;&#x6709;: &#x5220;&#x9664;, &#x63D2;&#x5165;, &#x66FF;&#x6362;. &#x6CE8;&#x610F;&#x7684;&#x662F;, &#x8BE5;&#x65B9;&#x6CD5;&#x4F1A;&#x5F71;&#x54CD;&#x539F;&#x6570;&#x7EC4;.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> colors  = [<span class="string">&apos;white&apos;</span>, <span class="string">&apos;black&apos;</span>, <span class="string">&apos;purple&apos;</span>];</div><div class="line"><span class="keyword">var</span> removed = colors.splice(<span class="number">0</span>, <span class="number">1</span>);                  <span class="comment">// &#x5220;&#x9664;&#x7B2C;&#x4E00;&#x9879;</span></div><div class="line"><span class="built_in">console</span>.log(colors);                                <span class="comment">// [&quot;black&quot;, &quot;purple&quot;]</span></div><div class="line"><span class="built_in">console</span>.log(removed);                               <span class="comment">// [&quot;white&quot;]</span></div><div class="line"></div><div class="line">removed = colors.splice(<span class="number">1</span>, <span class="number">0</span>, <span class="string">&apos;yellow&apos;</span>, <span class="string">&apos;orange&apos;</span>);  <span class="comment">// &#x4ECE; 1 &#x7684;&#x4F4D;&#x7F6E;&#x63D2;&#x5165;&#x4E24;&#x9879;</span></div><div class="line"><span class="built_in">console</span>.log(colors);                                <span class="comment">// [&quot;black&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;purple&quot;]</span></div><div class="line"><span class="built_in">console</span>.log(removed);                               <span class="comment">// []</span></div><div class="line"></div><div class="line">removed = colors.splice(<span class="number">1</span>, <span class="number">1</span>, <span class="string">&apos;red&apos;</span>, <span class="string">&apos;green&apos;</span>);      <span class="comment">// &#x4ECE; 1 &#x7684;&#x4F4D;&#x7F6E;&#x63D2;&#x5165;&#x4E24;&#x9879;, &#x5220;&#x9664;&#x4E00;&#x9879;</span></div><div class="line"><span class="built_in">console</span>.log(colors);                                <span class="comment">// [&quot;black&quot;, &quot;red&quot;, &quot;green&quot;, &quot;orange&quot;, &quot;purple&quot;]</span></div><div class="line"><span class="built_in">console</span>.log(removed);                               <span class="comment">// [&quot;yellow&quot;]</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x6570;&#x7EC4;&#x4E4B; - &#x4F4D;&#x7F6E;&#x65B9;&#x6CD5;</p>
+</blockquote>
+<p>ECMAScript5 &#x4E3A;&#x6570;&#x7EC4;&#x5B9E;&#x4F8B;&#x6DFB;&#x52A0;&#x4E86;&#x4E24;&#x4E2A;&#x4F4D;&#x7F6E;&#x65B9;&#x6CD5;: <code>indexOf()</code> &#x548C; <code>lastIndexOf()</code>, &#x53EF;&#x7528;&#x4E8E;&#x67E5;&#x627E;&#x7279;&#x5B9A;&#x9879;&#x5728;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;, &#x8BE5;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x90FD;&#x6709;&#x4E24;&#x4E2A;&#x53C2;&#x6570;, &#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x8981;&#x67E5;&#x627E;&#x7684;&#x9879;, &#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x53EF;&#x9009;&#x53C2;&#x6570;, &#x8868;&#x793A;&#x67E5;&#x627E;&#x8D77;&#x70B9;&#x4F4D;&#x7F6E;&#x7684;&#x7D22;&#x5F15;.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"><span class="built_in">console</span>.log(num.indexOf(<span class="number">5</span>));    <span class="comment">// 1</span></div><div class="line"><span class="built_in">console</span>.log(num.indexOf(<span class="number">20</span>));   <span class="comment">// -1</span></div><div class="line"><span class="built_in">console</span>.log(num.indexOf(<span class="number">2</span>));    <span class="comment">// 3</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(num.lastIndexOf(<span class="number">15</span>));  <span class="comment">// 2</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(num.indexOf(<span class="number">3</span>, <span class="number">3</span>));    <span class="comment">// -1, &#x67E5;&#x627E; 3 &#x4ECE;&#x7D22;&#x5F15; 3 &#x7684;&#x4F4D;&#x7F6E;&#x5F00;&#x59CB;, &#x6CA1;&#x6709;&#x627E;&#x5230;, &#x8FD4;&#x56DE; -1</span></div><div class="line"><span class="built_in">console</span>.log(num.indexOf(<span class="number">9</span>, <span class="number">3</span>));    <span class="comment">//  4, &#x67E5;&#x627E; 4 &#x4ECE;&#x7D22;&#x5F15; 3 &#x7684;&#x4F4D;&#x7F6E;&#x5F00;&#x59CB;, &#x53EF;&#x4EE5;&#x627E;&#x5230;</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(num.lastIndexOf(<span class="number">5</span>, <span class="number">3</span>));  <span class="comment">// 1</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person = {<span class="attr">name</span>: <span class="string">&apos;awesome&apos;</span>};</div><div class="line"><span class="keyword">var</span> people = [{<span class="attr">name</span>: <span class="string">&apos;awesome&apos;</span>}];</div><div class="line"><span class="keyword">var</span> morePeople = [person];</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(people.indexOf(person));      <span class="comment">// -1</span></div><div class="line"><span class="built_in">console</span>.log(morePeople.indexOf(person));  <span class="comment">// 0</span></div></pre></td></tr></table></figure>
+<p>&#x652F;&#x6301;&#x4EE5;&#x4E0A;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x5305;&#x62EC; IE 9+, Firefox 2+, Safari 3+, Opera 9.5+, Chrome</p>
+<blockquote>
+<p>&#x6570;&#x7EC4;&#x4E4B; - &#x8FED;&#x4EE3;&#x65B9;&#x6CD5;</p>
+</blockquote>
+<p>ECMAScript5 &#x4E3A;&#x6570;&#x7EC4;&#x5B9A;&#x4E49;&#x4E86; 5 &#x4E2A;&#x8FED;&#x4EE3;&#x65B9;&#x6CD5;, &#x6BCF;&#x4E2A;&#x65B9;&#x6CD5;&#x90FD;&#x63A5;&#x6536;&#x4E24;&#x4E2A;&#x53C2;&#x6570;, &#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x8981;&#x5728;&#x6BCF;&#x4E00;&#x9879;&#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x51FD;&#x6570;, &#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;&#x53EF;&#x9009;&#x9879;&#x8868;&#x793A;&#x8FD0;&#x884C;&#x8BE5;&#x51FD;&#x6570;&#x7684;&#x4F5C;&#x7528;&#x57DF;&#x5BF9;&#x8C61; &#x2014;&#x2014; &#x5F71;&#x54CD; this &#x7684;&#x503C;. &#x4F20;&#x5165;&#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x51FD;&#x6570;&#x4F1A;&#x63A5;&#x6536;&#x4E09;&#x4E2A;&#x53C2;&#x6570;, &#x5206;&#x522B;&#x662F;: &#x6570;&#x7EC4;&#x9879;&#x7684;&#x503C;, &#x8BE5;&#x9879;&#x5728;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#x548C;&#x6570;&#x7EC4;&#x5BF9;&#x8C61;&#x672C;&#x8EAB;. &#x4F46;&#x662F;&#x4ED6;&#x4EEC;&#x76F8;&#x5BF9;&#x5E94;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x4E0D;&#x540C;, &#x9996;&#x5148;&#x4E0B;&#x9762;&#x662F;&#x8FD9; 5 &#x4E2A;&#x8FED;&#x4EE3;&#x65B9;&#x6CD5;:</p>
+<ul>
+<li>every()   - &#x5982;&#x679C;&#x8BE5;&#x51FD;&#x6570;&#x5BF9;&#x6BCF;&#x4E00;&#x9879;&#x90FD;&#x8FD4;&#x56DE; true, &#x5219;&#x8FD4;&#x56DE; true</li>
+<li>filter()  - &#x8FD4;&#x56DE;&#x8BE5;&#x51FD;&#x6570;&#x4F1A;&#x8FD4;&#x56DE; true &#x7684;&#x9879;&#x7EC4;&#x6210;&#x7684;&#x6570;&#x7EC4;</li>
+<li>forEach() - &#x6CA1;&#x6709;&#x8FD4;&#x56DE;&#x503C;, &#x76F8;&#x5F53;&#x4E8E;&#x5FAA;&#x73AF;</li>
+<li>map()     - &#x8FD4;&#x56DE;&#x6BCF;&#x6B21;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x7684;&#x7ED3;&#x679C;&#x7EC4;&#x6210;&#x7684;&#x6570;&#x7EC4;</li>
+<li>some()    - &#x5982;&#x679C;&#x8BE5;&#x51FD;&#x6570;&#x5BF9;&#x4EFB;&#x4E00;&#x9879;&#x8FD4;&#x56DE; true, &#x5219;&#x8FD4;&#x56DE; true</li>
+</ul>
+<p>&#x4EE5;&#x4E0A;&#x65B9;&#x6CD5;&#x90FD;&#x4E0D;&#x4F1A;&#x4FEE;&#x6539;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x5305;&#x542B;&#x7684;&#x503C;, &#x8BF7;&#x770B;&#x4EE3;&#x7801;&#x6F14;&#x793A;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"></div><div class="line"><span class="keyword">var</span> everyRes = num.every(<span class="function"><span class="keyword">function</span>(<span class="params">item, index, array</span>) </span>{</div><div class="line">    <span class="keyword">return</span> (item &gt; <span class="number">2</span>);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(everyRes);    <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"></div><div class="line"><span class="keyword">var</span> someRes = num.some(<span class="function"><span class="keyword">function</span>(<span class="params">item, index, array</span>) </span>{</div><div class="line">    <span class="keyword">return</span> (item &gt; <span class="number">2</span>);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(someRes);     <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"></div><div class="line"><span class="keyword">var</span> filterRes = num.filter(<span class="function"><span class="keyword">function</span>(<span class="params">item, index, array</span>) </span>{</div><div class="line">    <span class="keyword">return</span> (item &gt; <span class="number">2</span>);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(filterRes);   <span class="comment">// [6, 5, 15, 9]</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"></div><div class="line"><span class="keyword">var</span> mapRes = num.map(<span class="function"><span class="keyword">function</span>(<span class="params">item, index, array</span>) </span>{</div><div class="line">    <span class="keyword">return</span> (item * <span class="number">2</span>);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(mapRes);   <span class="comment">// [12, 10, 30, 4, 18]</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"></div><div class="line">num.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item, index, array</span>) </span>{</div><div class="line">    <span class="comment">// &#x6267;&#x884C;&#x67D0;&#x4E9B;&#x64CD;&#x4F5C;</span></div><div class="line">    <span class="built_in">console</span>.log(item);</div><div class="line">})</div></pre></td></tr></table></figure>
+<p>&#x652F;&#x6301;&#x8FD9;&#x4E9B;&#x8FED;&#x4EE3;&#x65B9;&#x6CD5;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x5305;&#x62EC; IE 9+, Firefox 2+, Safari 3+, Opera 9.5+, Chrome</p>
+<blockquote>
+<p>&#x6570;&#x7EC4;&#x4E4B; - &#x5F52;&#x5E76;&#x65B9;&#x6CD5;</p>
+</blockquote>
+<p>ECMAScript5 &#x8FD8;&#x65B0;&#x589E;&#x4E86;&#x4E24;&#x4E2A;&#x5F52;&#x5E76;&#x6570;&#x7EC4;&#x7684;&#x65B9;&#x6CD5;, <code>reduce()</code> &#x548C; <code>reduceRight()</code>. &#x8FD9;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x90FD;&#x4F1A;&#x8FED;&#x4EE3;&#x6570;&#x7EC4;&#x7684;&#x6240;&#x6709;&#x9879;, &#x7136;&#x540E;&#x6784;&#x5EFA;&#x4E00;&#x4E2A;&#x6700;&#x7EC8;&#x8FD4;&#x56DE;&#x503C;.</p>
+<p><code>reduce()</code> &#x4ECE;&#x6570;&#x7EC4;&#x7684;&#x7B2C;&#x4E00;&#x9879;&#x5F00;&#x59CB;(&#x5373; 0 &#x9879;), &#x9010;&#x4E2A;&#x5411;&#x540E;&#x904D;&#x5386;<br><code>reduceRight()</code> &#x4ECE;&#x6570;&#x7EC4;&#x7684;&#x6700;&#x540E;&#x4E00;&#x9879;&#x5F00;&#x59CB;(&#x5373; length - 1 &#x9879;), &#x9010;&#x4E2A;&#x5411;&#x524D;&#x904D;&#x5386;</p>
+<p>&#x4EE5;&#x4E0A;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;, &#x63A5;&#x6536;&#x4E24;&#x4E2A;&#x53C2;&#x6570;, &#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x6BCF;&#x9879;&#x4E0A;&#x8C03;&#x7528;&#x7684;&#x51FD;&#x6570;, &#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x53EF;&#x9009;&#x8868;&#x793A;&#x505A;&#x4E3A;&#x5F52;&#x5E76;&#x57FA;&#x7840;&#x7684;&#x521D;&#x59CB;&#x503C;. &#x8BE5;&#x51FD;&#x6570;&#x65B9;&#x6CD5;&#x6709; 4 &#x4E2A;&#x53C2;&#x6570;, &#x5206;&#x522B;&#x662F;: &#x524D;&#x4E00;&#x4E2A;&#x503C;, &#x5F53;&#x524D;&#x503C;, &#x9879;&#x7684;&#x7D22;&#x5F15;&#x548C;&#x6570;&#x7EC4;&#x5BF9;&#x8C61;&#x672C;&#x8EAB;. &#x5176;&#x4E2D;&#x7279;&#x70B9;&#x5C31;&#x662F;, &#x5F53;&#x524D;&#x503C;&#x4F1A;&#x505A;&#x4E3A;&#x4E0B;&#x4E2A;&#x6267;&#x884C;&#x51FD;&#x6570;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;, &#x8BF7;&#x770B;&#x4EE3;&#x7801;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"></div><div class="line"><span class="keyword">var</span> sum = num.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur, index, array</span>) </span>{</div><div class="line">    <span class="keyword">return</span> prev + cur;</div><div class="line">})</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(sum);    <span class="comment">// 37 &#x4ECE;&#x524D;&#x5230;&#x540E;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num = [<span class="number">6</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">2</span>, <span class="number">9</span>];</div><div class="line"></div><div class="line"><span class="keyword">var</span> sum = num.reduceRight(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur, index, array</span>) </span>{</div><div class="line">    <span class="keyword">return</span> prev + cur;</div><div class="line">})</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(sum);    <span class="comment">// 37 &#x4ECE;&#x540E;&#x5230;&#x524D;</span></div></pre></td></tr></table></figure>
+<p>&#x4E24;&#x4E2A;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x662F;&#x4E00;&#x6837;&#x7684;, &#x4F46;&#x662F;&#x6267;&#x884C;&#x987A;&#x5E8F;&#x4E0D;&#x4E00;&#x6837;, &#x56E0;&#x4E3A;&#x73B0;&#x5728;&#x662F;&#x7528;&#x4E8E;&#x6BD4;&#x8F83;&#x57FA;&#x7840;&#x7684;&#x903B;&#x8F91;&#x8FD0;&#x7B97;.</p>
+<p>&#x652F;&#x6301;&#x8FD9;&#x4E24;&#x4E2A;&#x5F52;&#x5E76;&#x51FD;&#x6570;&#x7684;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x5305;&#x62EC; IE 9+, Firefox 3+, Safari 4+, Opera 10.5+, Chrome</p>
+<blockquote>
+<p>&#x603B;&#x7ED3;</p>
+</blockquote>
+<p>&#x4EE5;&#x4E0A;&#x51FA;&#x81EA; &lt;&lt; JavaScript &#x9AD8;&#x7EA7;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;(&#x7B2C;3&#x7248;) &gt;&gt; &#x5BF9;&#x4E8E;&#x5F15;&#x7528;&#x7C7B;&#x578B; <code>Array</code> &#x7684;&#x603B;&#x7ED3;&#x62DB;&#x5F55;. &#x4F9B;&#x4E2A;&#x4EBA;&#x6E29;&#x6545;&#x77E5;&#x65B0;.</p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2017/03/01/js-array/"
+                     data-title="have a look on Array in Javascript."
+                     data-url="https://linzhenzhen.github.io/2017/03/01/js-array/"
+                     data-images="https://linzhenzhen.github.io/2017/03/01/js-array/bg-js.jpg"
+                     data-content="
+&#x524D;&#x8A00;
+
+&#x9664; Object &#x4E4B;&#x5... | Linzhenzhen的博客 | Linzhenzhen&#39;s Blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat"> 微信 </a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo"> 微博 </a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban"> 豆瓣 </a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/02/16/angular-js-2-communicate-via-a-service/" data-toggle="tooltip" data-placement="top"
+                           title="Parent and children communicate via a service in AngularJs2.">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2017/03/01/js-array/"
+                         data-title="have a look on Array in Javascript."
+                         data-url="https://linzhenzhen.github.io/2017/03/01/js-array/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+            <!-- Side Catalog Container -->
+            
+
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                    <li><a href="#" target="_blank">scarlett</a></li>
+                    
+                    <li><a href="http://www.malin.xyz/" target="_blank">malin&#39;s blog</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'linzhenzhen';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "linzhenzhen";
+    var disqus_identifier = "https://linzhenzhen.github.io/2017/03/01/js-array/";
+    var disqus_url = "https://linzhenzhen.github.io/2017/03/01/js-array/";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+                o = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) {
+            o.addEventListener('load', function (e) {
+                c(null, e);
+            }, false);
+        }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function () {
+        anchors.options = {
+            visible: 'always',
+            placement: 'right',
+            icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link {
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top: -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+<li>
+    <a target="_blank"
+       href="https://github.com/linzhenzhen"
+       data-toggle="tooltip" data-placement="top" title="linzhenzhen">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="http://weibo.com/mslinzz"
+       data-toggle="tooltip" data-placement="top" title="mslinzz">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="mailto:mslinzz@sina.com"
+       data-toggle="tooltip" data-placement="top" title="mslinzz@sina.com">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="javascript:void(0)"
+       data-toggle="tooltip" data-placement="top" title="549221572">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weixin fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ms.Linzz 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">
+                    <span style="display: inline-block; margin: 0 3px;">
+                        <i class="fa fa-thumbs-up"></i>
+                    </span> Hux </a>
+                    Ported by <a href="http://mslinzz.com"> Ms.Linzz </a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=linzhenzhen&repo=linzhenzhen.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://linzhenzhen.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!--http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js-->
+<script>
+    async("https://linzhenzhen.github.io/js/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'flase';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://linzhenzhen.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+</body>
+</html>
