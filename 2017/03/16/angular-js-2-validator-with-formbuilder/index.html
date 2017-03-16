@@ -84,11 +84,11 @@
                     
                     
                     
-                    <li><a href="/archives/"> Archives </a></li>
-                    
-                    
-                    
                     <li><a href="/about/"> About </a></li>
+                    
+                    
+                    
+                    <li><a href="/archives/"> Archives </a></li>
                     
                     
                     
@@ -269,6 +269,11 @@
 <p>&#x66F4;&#x591A;&#x8D44;&#x6599;, &#x53EF;&#x53C2;&#x8003;:</p>
 <p><a href="https://angular.cn/docs/ts/latest/cookbook/form-validation.html#" target="_blank" rel="external">Angular2&#x5B98;&#x7F51; - &#x8868;&#x5355;&#x9A8C;&#x8BC1;</a><br><a href="https://github.com/kittencup/angular2-ama-cn/issues/39#issuecomment-172760342" target="_blank" rel="external">Github - Angular2&#x4E2D;&#x7684;&#x8868;&#x5355;</a> &#x8FD9;&#x4E2A;&#x662F;&#x5BF9; Angular2 &#x8FD8;&#x672A;&#x5370;&#x5237;&#x7684;&#x82F1;&#x6587;&#x4E66;&#x7C4D;&#x505A;&#x7684;&#x7FFB;&#x8BD1;, &#x4EC5;&#x8868;&#x5355;&#x90E8;&#x5206;</p>
 <p>&#x4E24;&#x8005;&#x5C11;&#x770B;&#x4E00;&#x4E2A;&#x90FD;&#x4E0D;&#x884C;, &#x5EFA;&#x8BAE;&#x5148;&#x770B;&#x5B98;&#x7F51;&#x7684;.</p>
+<blockquote>
+<p>&#x53EF;&#x80FD;&#x51FA;&#x73B0;&#x7684;&#x5C0F;&#x5751;</p>
+</blockquote>
+<p>1.&#x6709;&#x6CA1;&#x6709;&#x5728; <code>@NgModule</code> &#x4E2D;&#x5F15;&#x5165; <code>FormsModule</code> &#x5462;?</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { NgModule } <span class="keyword">from</span> <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"><span class="keyword">import</span> { BrowserModule } <span class="keyword">from</span> <span class="string">&apos;@angular/platform-browser&apos;</span>;</div><div class="line"></div><div class="line"><span class="comment">// &#x91CD;&#x8981;&#x7684;&#x4E00;&#x90E8;&#x5206;</span></div><div class="line"><span class="keyword">import</span> { FormsModule, ReactiveFormsModule }   <span class="keyword">from</span> <span class="string">&apos;@angular/forms&apos;</span>;</div><div class="line"></div><div class="line">@NgModule({</div><div class="line">    <span class="attr">imports</span>: [</div><div class="line">        BrowserModule,</div><div class="line">        FormsModule,             <span class="comment">// &#x5728;&#x8FD9;&#x91CC; imports</span></div><div class="line">        ReactiveFormsModule</div><div class="line">    ],</div><div class="line">    <span class="attr">declarations</span>: [</div><div class="line">        AppComponent</div><div class="line">    ],</div><div class="line">    <span class="attr">providers</span>: [],</div><div class="line">    <span class="attr">bootstrap</span>: [AppComponent]</div><div class="line">})</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AppModule</span> </span>{}</div></pre></td></tr></table></figure>
 
 
                 <hr>
