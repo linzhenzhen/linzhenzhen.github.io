@@ -84,11 +84,11 @@
                     
                     
                     
-                    <li><a href="/archives/"> Archives </a></li>
-                    
-                    
-                    
                     <li><a href="/about/"> About </a></li>
+                    
+                    
+                    
+                    <li><a href="/archives/"> Archives </a></li>
                     
                     
                     
@@ -181,58 +181,50 @@
 <p>&#x524D;&#x8A00;</p>
 </blockquote>
 <p>&#x8BA4;&#x8BC6; javascript &#x5982;&#x4F55;&#x8FD0;&#x7528;&#x5728; html &#x4E2D;, &#x5D4C;&#x5165;&#x7684;&#x591A;&#x79CD;&#x65B9;&#x5F0F;, &#x8FD8;&#x4F1A;&#x8BA8;&#x8BBA; javascript &#x7684;&#x5185;&#x5BB9;&#x7C7B;&#x578B;(content-type)&#x53CA;&#x5176;&#x4E0E; &lt;script&gt; &#x5143;&#x7D20;&#x7684;&#x5173;&#x7CFB;.</p>
-<p>&#x672C;&#x7BC7;&#x4E3B;&#x8981;&#x8BB0;&#x5F55;:</p>
-<ul>
-<li>&#x4F7F;&#x7528; &lt;script&gt; &#x5143;&#x7D20;</li>
-<li>&#x5D4C;&#x5165;&#x811A;&#x672C;&#x4E0E;&#x5916;&#x90E8;&#x811A;&#x672C;</li>
-<li>&#x6587;&#x6863;&#x6A21;&#x5F0F;&#x5BF9; JavaScript &#x7684;&#x5F71;&#x54CD;</li>
-<li>&#x8003;&#x8651;&#x7981;&#x7528; JavaScript &#x7684;&#x573A;&#x666F;</li>
-</ul>
 <blockquote>
 <p>&#x4F7F;&#x7528; &lt;script&gt; &#x5143;&#x7D20;</p>
 </blockquote>
-<p>&#x5411; HTML &#x4E2D;&#x63D2;&#x5165; JavaScript &#x7684;&#x4E3B;&#x8981;&#x65B9;&#x6CD5;, &#x5C31;&#x662F;&#x4F7F;&#x7528; &lt;script&gt;. &#x8FD9;&#x4E2A;&#x5143;&#x7D20;&#x6709; NetScape &#x521B;&#x9020;&#x5E76;&#x5728; NetScape Navigator2 &#x4E2D;&#x9996;&#x5148;&#x5B9E;&#x73B0;. HTML4.01 &#x4E3A;&#x5176;&#x5B9A;&#x4E49;&#x4E86;&#x4E0B;&#x5217;6&#x4E2A;&#x5C5E;&#x6027;:</p>
-<pre><code>async: &#x8868;&#x793A;&#x7ACB;&#x5373;&#x4E0B;&#x8F7D;&#x811A;&#x672C;, &#x4F46;&#x4E0D;&#x59A8;&#x788D;&#x9875;&#x9762;&#x4E2D;&#x7684;&#x5176;&#x4ED6;&#x64CD;&#x4F5C;. &#x53EF;&#x9009;
-charset: &#x6307;&#x5B9A;&#x4EE3;&#x7801;&#x7684;&#x5B57;&#x7B26;&#x96C6;. &#x53EF;&#x9009;
-defer: &#x811A;&#x672C;&#x5EF6;&#x8FDF;, &#x8868;&#x793A;&#x6587;&#x6863;&#x5B8C;&#x5168;&#x88AB;&#x89E3;&#x6790;&#x548C;&#x663E;&#x793A;&#x4E4B;&#x540E;&#x5728;&#x6267;&#x884C;. &#x53EF;&#x9009;
-language: &#x8868;&#x793A;&#x7F16;&#x5199;&#x4EE3;&#x7801;&#x4F7F;&#x7528;&#x7684;&#x811A;&#x672C;&#x8BED;&#x8A00;, &#x5982;: JavaScript, JavaScript1.2 &#x6216; VBScript. &#x5DF2;&#x5E9F;&#x5F03;
-src: &#x5F15;&#x5165;&#x5916;&#x90E8;&#x6587;&#x4EF6;. &#x53EF;&#x9009;
-type: &#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x662F; language &#x7684;&#x66FF;&#x4EE3;&#x5C5E;&#x6027;, &#x8868;&#x793A;&#x7F16;&#x5199;&#x4EE3;&#x7801;&#x7684;&#x811A;&#x672C;&#x8BED;&#x8A00;&#x7684;&#x5185;&#x5BB9;&#x7C7B;&#x578B;(MIME), type=&quot;text/javascript&quot;. &#x53EF;&#x9009;
+<p>&#x5411; HTML &#x4E2D;&#x63D2;&#x5165; JavaScript &#x7684;&#x4E3B;&#x8981;&#x65B9;&#x6CD5;, &#x5C31;&#x662F;&#x4F7F;&#x7528; <script>. 这个元素有 NetScape 创造并在 NetScape Navigator2 中首先实现. HTML4.01 为其定义了下列6个属性:</p>
+<pre><code>async: 表示立即下载脚本, 但不妨碍页面中的其他操作. 可选
+charset: 指定代码的字符集. 可选
+defer: 脚本延迟, 表示文档完全被解析和显示之后在执行. 可选
+language: 表示编写代码使用的脚本语言, 如: JavaScript, JavaScript1.2 或 VBScript. 已废弃
+src: 引入外部文件. 可选
+type: 可以看作是 language 的替代属性, 表示编写代码的脚本语言的内容类型(MIME), type=&quot;text/javascript&quot;. 可选
 </code></pre><blockquote>
-<p>&#x5D4C;&#x5165;&#x811A;&#x672C;&#x4E0E;&#x5916;&#x90E8;&#x811A;&#x672C;</p>
+<p>嵌入脚本与外部脚本</p>
 </blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// &#x5185;&#x90E8;&#x5D4C;&#x5165;</div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="actionscript"></span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">hello</span><span class="params">()</span> </span>{</div><div class="line">    alert(<span class="string">&apos;hello&apos;</span>)</div><div class="line">  }</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// &#x5916;&#x90E8;&#x5F15;&#x5165;</div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;demo.js&quot;</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 内部嵌入 --&gt;</div><div class="line">&lt;script type="text/javascript"&gt;</div><div class="line">  function hello() &#123;</div><div class="line">    alert('hello')</div><div class="line">  &#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 外部引入 --&gt;</div><div class="line">&lt;script type="text/javascript" src="demo.js"&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
 <blockquote>
-<p>&#x6587;&#x6863;&#x6A21;&#x5F0F;&#x5BF9; JavaScript &#x7684;&#x5F71;&#x54CD;</p>
+<p>文档模式对 JavaScript 的影响</p>
 </blockquote>
-<p>&#x6587;&#x6863;&#x6A21;&#x5F0F;</p>
-<p>IE 5.5 &#x5F15;&#x5165;&#x4E86;&#x6587;&#x6863;&#x6A21;&#x5F0F;&#x7684;&#x6982;&#x5FF5;, &#x662F;&#x4F7F;&#x7528;&#x6587;&#x6863;&#x7C7B;&#x578B; (doctype) &#x5207;&#x6362;&#x5B9E;&#x73B0;&#x7684;. &#x6700;&#x521D;&#x7684;&#x6587;&#x6863;&#x6A21;&#x5F0F;&#x6709;: <code>&#x6DF7;&#x6742;&#x6A21;&#x5F0F;</code> &#x548C; <code>&#x6807;&#x51C6;&#x6A21;&#x5F0F;</code>.</p>
-<pre><code>`&#x6DF7;&#x6742;&#x6A21;&#x5F0F;` &#x4F1A;&#x8BA9; IE &#x7684;&#x884C;&#x4E3A;&#x4E0E; IE5(&#x5305;&#x542B;&#x975E;&#x6807;&#x51C6;&#x6027;&#x7684;) &#x76F8;&#x540C;.
-`&#x6807;&#x51C6;&#x6A21;&#x5F0F;` &#x5219;&#x8BA9;IE&#x884C;&#x4E3A;&#x66F4;&#x63A5;&#x8FD1;&#x4E0E;&#x6807;&#x51C6;&#x884C;&#x4E3A;.
-</code></pre><p>&#x8FD9;&#x4E24;&#x79CD;&#x6A21;&#x5F0F;&#x4E3B;&#x8981;&#x5F71;&#x54CD; CSS &#x5185;&#x5BB9;&#x7684;&#x5448;&#x73B0;, &#x4F46;&#x5728;&#x67D0;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#x4E5F;&#x4F1A;&#x5F71;&#x54CD; JavaScript &#x7684;&#x89E3;&#x91CA;&#x6267;&#x884C;.</p>
-<p>&#x5982;&#x679C;&#x5728;&#x6587;&#x6863;&#x5F00;&#x59CB;&#x53D1;&#x73B0;&#x6CA1;&#x6709;&#x6587;&#x6863;&#x7C7B;&#x578B;&#x58F0;&#x660E;, &#x5219;&#x6240;&#x6709;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x90FD;&#x4F1A;&#x9ED8;&#x8BA4;&#x5F00;&#x542F; <code>&#x6DF7;&#x6742;&#x6A21;&#x5F0F;</code>, &#x5728;&#x4E0D;&#x503C;&#x5F97;&#x63A8;&#x8350;.</p>
-<p>&#x5BF9;&#x4E8E;&#x6807;&#x51C6;&#x6A21;&#x5F0F;, &#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x4EFB;&#x4F55;&#x4E00;&#x79CD;&#x6587;&#x6863;&#x7C7B;&#x578B;&#x6765;&#x5F00;&#x542F;:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- HTML 4.01 &#x4E25;&#x683C;&#x578B; --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- XHTML 1.0 &#x4E25;&#x683C;&#x578B; --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- HTML 5 --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div></pre></td></tr></table></figure>
-<p>&#x800C;&#x5BF9;&#x4E8E;&#x51C6;&#x6807;&#x51C6;&#x6A21;&#x5F0F;, &#x5219;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4F7F;&#x7528;&#x8FC7;&#x6E21;&#x578B;(transitional)&#x6216;&#x6846;&#x67B6;&#x96C6;&#x578B;(frameset) &#x6587;&#x6863;&#x7C7B;&#x578B;&#x6765;&#x89E6;&#x53D1;:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- HTML 4.01 &#x8FC7;&#x6E21;&#x578B; --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- HTML 4.01 &#x6846;&#x67B6;&#x96C6;&#x578B; --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Frameset//EN&quot; &quot;http://www.w3.org/TR/html4/frameset.dtd&quot;&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- XHTML 1.0 &#x8FC7;&#x6E21;&#x578B; --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- XHTML 1.0 &#x6846;&#x67B6;&#x96C6;&#x578B; --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Frameset//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd&quot;&gt;</span></div></pre></td></tr></table></figure>
-<p>&#x73B0;&#x5728;&#x5927;&#x591A;&#x6570;&#x6587;&#x6863;&#x6E32;&#x67D3;&#x6A21;&#x5F0F;, &#x90FD;&#x5DF2;&#x503E;&#x5411;&#x4E8E; html5.</p>
+<p>文档模式</p>
+<p>IE 5.5 引入了文档模式的概念, 是使用文档类型 (doctype) 切换实现的. 最初的文档模式有: <code>混杂模式</code> 和 <code>标准模式</code>.</p>
+<pre><code>`混杂模式` 会让 IE 的行为与 IE5(包含非标准性的) 相同.
+`标准模式` 则让IE行为更接近与标准行为.
+</code></pre><p>这两种模式主要影响 CSS 内容的呈现, 但在某些情况下也会影响 JavaScript 的解释执行.</p>
+<p>如果在文档开始发现没有文档类型声明, 则所有的浏览器都会默认开启 <code>混杂模式</code>, 在不值得推荐.</p>
+<p>对于标准模式, 可以通过使用下面任何一种文档类型来开启:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- HTML 4.01 严格型 --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- XHTML 1.0 严格型 --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- HTML 5 --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div></pre></td></tr></table></figure>
+<p>而对于准标准模式, 则可以通过使用过渡型(transitional)或框架集型(frameset) 文档类型来触发:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- HTML 4.01 过渡型 --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- HTML 4.01 框架集型 --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd"&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- XHTML 1.0 过渡型 --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- XHTML 1.0 框架集型 --&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"&gt;</span></div></pre></td></tr></table></figure>
+<p>现在大多数文档渲染模式, 都已倾向于 html5.</p>
 <blockquote>
-<p>&#x8003;&#x8651;&#x7981;&#x7528; JavaScript &#x7684;&#x573A;&#x666F;</p>
+<p>考虑禁用 JavaScript 的场景</p>
 </blockquote>
-<p>&#x65E9;&#x671F;&#x6D4F;&#x89C8;&#x5668;&#x9762;&#x4E34;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;&#x95EE;&#x9898;, &#x5373;&#x5F53;&#x6D4F;&#x89C8;&#x5668;&#x4E0D;&#x652F;&#x6301; JavaScript &#x65F6;&#x5982;&#x4F55;&#x8BA9;&#x9875;&#x9762;&#x5E73;&#x7A33;&#x7684;&#x9000;&#x5316;. &#x5BF9;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6CD5;&#x662F;&#x521B;&#x5EFA;&#x4E00;&#x4E2A; &lt;noscript&gt;, &#x7528;&#x4EE5;&#x5728;&#x4E0D;&#x652F;&#x6301; JavaScript &#x7684;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x663E;&#x793A;&#x66FF;&#x4EE3;&#x7684;&#x5185;&#x5BB9;.</p>
-<p>&lt;noscript&gt; &#x51FA;&#x73B0;&#x7684;&#x6761;&#x4EF6;:</p>
+<p>早期浏览器面临一个特殊的问题, 即当浏览器不支持 JavaScript 时如何让页面平稳的退化. 对这个问题的解决方法是创建一个 &lt;noscript&gt;, 用以在不支持 JavaScript 的浏览器中显示替代的内容.</p>
+<p>&lt;noscript&gt;出现的条件:</p>
 <ul>
-<li>&#x6D4F;&#x89C8;&#x5668;&#x4E0D;&#x652F;&#x6301;&#x811A;&#x672C;</li>
-<li>&#x6D4F;&#x89C8;&#x5668;&#x652F;&#x6301;&#x811A;&#x672C;, &#x4F46;&#x811A;&#x672C;&#x88AB;&#x7981;&#x7528;</li>
+<li>浏览器不支持脚本</li>
+<li>浏览器支持脚本, 但脚本被禁用</li>
 </ul>
-<p>&#x793A;&#x4F8B;:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Demo For NoScript<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">defer</span>=<span class="string">&quot;defer&quot;</span> <span class="attr">src</span>=<span class="string">&quot;demo.js&quot;</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">defer</span>=<span class="string">&quot;defer&quot;</span> <span class="attr">src</span>=<span class="string">&quot;fun.js&quot;</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">noscript</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#x672C;&#x9875;&#x9762;&#x9700;&#x8981;&#x6D4F;&#x89C8;&#x5668;&#x652F;&#x6301;&#x6216;&#x542F;&#x7528; Javascript<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>示例:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Demo For NoScript<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">defer</span>=<span class="string">"defer"</span> <span class="attr">src</span>=<span class="string">"demo.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">defer</span>=<span class="string">"defer"</span> <span class="attr">src</span>=<span class="string">"fun.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">noscript</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>本页面需要浏览器支持或启用 Javascript<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <blockquote>
-<p>&#x603B;&#x7ED3;</p>
+<p>总结<br>考虑到页面加载的性能于顺序, 通常我们把 Script 脚本放在页脚, 即主要内容后面, </body> 标签前面.</p>
 </blockquote>
-<p>&#x8003;&#x8651;&#x5230;&#x9875;&#x9762;&#x52A0;&#x8F7D;&#x7684;&#x6027;&#x80FD;&#x4E8E;&#x987A;&#x5E8F;, &#x901A;&#x5E38;&#x6211;&#x4EEC;&#x628A; Script &#x811A;&#x672C;&#x653E;&#x5728;&#x9875;&#x811A;, &#x5373;&#x4E3B;&#x8981;&#x5185;&#x5BB9;&#x540E;&#x9762;, &lt;/body&gt; &#x6807;&#x7B7E;&#x524D;&#x9762;.</p>
-
+</script></p>
 
                 <hr>
 
@@ -264,11 +256,6 @@ type: &#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x662F; language &#x7684;&#x66FF;&#x4EE3;
                 
 
                 <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/2017/02/09/experiences-browser-compatible/" data-toggle="tooltip" data-placement="top"
-                           title="How to remind IE upgrade in new version 11.">&larr; Previous Post</a>
-                    </li>
                     
                     
                     <li class="next">
