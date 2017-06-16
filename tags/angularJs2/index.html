@@ -88,11 +88,11 @@
                     
                     
                     
-                    <li><a href="/archives/"> Archives </a></li>
-                    
-                    
-                    
                     <li><a href="/tags/"> Tags </a></li>
+                    
+                    
+                    
+                    <li><a href="/archive/"> Archives </a></li>
                     
                     
                 </ul>
@@ -151,8 +151,10 @@
 <!-- Main Content -->
 <div class="container">
     <div class="row">
+        
 
-        <!--<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">-->
+        <!-- USE SIDEBAR -->
+        <!-- Post Container -->
         <div class="
                 col-lg-8 col-lg-offset-1
                 col-md-8 col-md-offset-1
@@ -161,174 +163,92 @@
                 post-container
             ">
 
-            <!-- 归档列表 -->
             
 
-            <!-- 归档列表 -->
-            
-            <div class="one-tag-list">
-                <span class="fa fa-calendar-times-o listing-seperator" id="2017">
-                    <span class="tag-text">2017</span>
-                </span>
-                <ul>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        03-16
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/03/16/angular-js-2-validator-with-formbuilder/" style="color: #0085a1">
-                        <span>
-                            Using FormBuilder to Validate Reactive Forms in AngularJs2.
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        03-01
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/03/01/js-array/" style="color: #0085a1">
-                        <span>
-                            Have a look on Array in Javascript.
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        02-16
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/02/16/angular-js-2-communicate-via-a-service/" style="color: #0085a1">
-                        <span>
-                            Parent and children communicate via a service in AngularJs2.
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        02-09
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/02/09/experiences-browser-compatible/" style="color: #0085a1">
-                        <span>
-                            How to remind IE upgrade in new version 11.
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        01-29
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/01/29/js-javascript/" style="color: #0085a1">
-                        <span>
-                            How to use Javascript in Html.
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        01-16
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/01/16/hello-angular-js-2/" style="color: #0085a1">
-                        <span>
-                            AngularJs 2.0 Structure
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        01-12
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/01/12/hello-mini-apps/" style="color: #0085a1">
-                        <span>
-                            Welcome to Mini Apps from WeChat
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        01-03
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/01/03/nice-blessing/" style="color: #0085a1">
-                        <span>
-                            Happy New Year - 2017
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        01-03
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/01/03/js-history/" style="color: #0085a1">
-                        <span>
-                            Javascript History
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
-                    <!-- <li class="listing-item">
-                    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                    </li> -->
-                    <li>
-                        01-01
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                        <a href="/2017/01/01/hello-2017/" style="color: #0085a1">
-                        <span>
-                            Welcome to Twilight Blog
-                        </span>
-                        </a>
-                        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                    </li>
-                    
+<div class="post-preview">
 
-                </ul>
-            </div>
+    <a href="/2017/03/16/angular-js-2-validator-with-formbuilder/">
+        <h2 class="post-title">
+            Using FormBuilder to Validate Reactive Forms in AngularJs2.
+        </h2>
+        <h3 class="post-subtitle">
+            使用 FormBuilder 来更灵活的制作响应式表单验证
+        </h3>
+        <div class="post-content-preview">
+            
+&#x524D;&#x8A00;
+
+&#x60F3;&#x5F31;&#x5F31;&#x7684;&#x95EE;&#x4E00;&#x53E5;, &#x4ECE;&#x4E8B;&#x6280;&#x672F;&#x9886;&#x57DF;, &#x4F60;&#x6709;&#x6CA1;&#x6709;&#x4E00;&#x4E24;&#x9879;&#x6280;&#x672......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Zhenzhen Lin on
+        2017-03-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/02/16/angular-js-2-communicate-via-a-service/">
+        <h2 class="post-title">
+            Parent and children communicate via a service in AngularJs2.
+        </h2>
+        <h3 class="post-subtitle">
+            通俗易懂的父组件和多个子组件之间通讯之服务通讯
+        </h3>
+        <div class="post-content-preview">
+            
+&#x524D;&#x8A00;
+
+&#x76EE;&#x524D;&#x5728;&#x63A5;&#x624B;&#x516C;&#x53F8;&#x7684;&#x4E00;&#x4E2A;&#x5F00;&#x53D1;&#x76F8;&#x518C;&#x7684;&#x4EFB;&#x52A1;, &#x5728;&#x7F16;&#x7801;&#x7684;&#x8FC7;......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Zhenzhen Lin on
+        2017-02-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/01/16/hello-angular-js-2/">
+        <h2 class="post-title">
+            AngularJs 2.0 Structure
+        </h2>
+        <h3 class="post-subtitle">
+            学习Angular2之前 先了解一下它的架构
+        </h3>
+        <div class="post-content-preview">
+            
+&#x524D;&#x8A00;
+
+&#x4E4B;&#x524D;&#x4E5F;&#x66FE;&#x901A;&#x8BFB;&#x8FC7; &lt;AngularJs&#x6743;&#x5A01;&#x6559;&#x7A0B;&gt; &#x57FA;&#x4E8E;1.2.+&#x7684;&#x4E66;, &#x5E76;&#x5F00;&#x53D1;&#x4E86;......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by mslinzz on
+        2017-01-16
+    </p>
+
+</div>
+<hr>
+
+
+<!-- Pager -->
+<ul class="pager">
+    
+    
+</ul>
+
+
+            <!-- 如果开启评论功能 -->
             
 
         </div>
-
         <!-- Sidebar Container -->
         <div class="
                 col-lg-3 col-lg-offset-0
@@ -469,9 +389,10 @@
 <!--</ul>-->
 
         </div>
-
+        
     </div> <!-- /.row -->
 </div> <!-- /.container -->
+
 
     <!-- Footer -->
 <footer>
