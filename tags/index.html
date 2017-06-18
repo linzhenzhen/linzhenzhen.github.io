@@ -84,7 +84,7 @@
                     
                     
                     
-                    <li><a href="/tags/"> Tags </a></li>
+                    <li><a href="/archive/"> Archives </a></li>
                     
                     
                     
@@ -92,7 +92,7 @@
                     
                     
                     
-                    <li><a href="/archive/"> Archives </a></li>
+                    <li><a href="/tags/"> Tags </a></li>
                     
                     
                 </ul>
@@ -210,13 +210,13 @@
                 <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                 </li> -->
                 <div class="post-preview">
-                    <a href="/2017/02/16/angular-js-2-communicate-via-a-service/">
+                    <a href="/2017/03/16/angular-js-2-validator-with-formbuilder/">
                         <h2 class="post-title">
-                            Parent and children communicate via a service in AngularJs2.
+                            Using FormBuilder to Validate Reactive Forms in AngularJs2.
                         </h2>
                         
                         <h3 class="post-subtitle">
-                            通俗易懂的父组件和多个子组件之间通讯之服务通讯
+                            使用 FormBuilder 来更灵活的制作响应式表单验证
                         </h3>
                         
                     </a>
@@ -229,13 +229,13 @@
                 <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                 </li> -->
                 <div class="post-preview">
-                    <a href="/2017/03/16/angular-js-2-validator-with-formbuilder/">
+                    <a href="/2017/02/16/angular-js-2-communicate-via-a-service/">
                         <h2 class="post-title">
-                            Using FormBuilder to Validate Reactive Forms in AngularJs2.
+                            Parent and children communicate via a service in AngularJs2.
                         </h2>
                         
                         <h3 class="post-subtitle">
-                            使用 FormBuilder 来更灵活的制作响应式表单验证
+                            通俗易懂的父组件和多个子组件之间通讯之服务通讯
                         </h3>
                         
                     </a>
@@ -293,25 +293,6 @@
                 <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                 </li> -->
                 <div class="post-preview">
-                    <a href="/2017/02/16/angular-js-2-communicate-via-a-service/">
-                        <h2 class="post-title">
-                            Parent and children communicate via a service in AngularJs2.
-                        </h2>
-                        
-                        <h3 class="post-subtitle">
-                            通俗易懂的父组件和多个子组件之间通讯之服务通讯
-                        </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                <!-- <li class="listing-item">
-                <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                </li> -->
-                <div class="post-preview">
                     <a href="/2017/02/09/experiences-browser-compatible/">
                         <h2 class="post-title">
                             How to remind IE upgrade in new version 11.
@@ -338,6 +319,25 @@
                         
                         <h3 class="post-subtitle">
                             使用 FormBuilder 来更灵活的制作响应式表单验证
+                        </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                <!-- <li class="listing-item">
+                <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                </li> -->
+                <div class="post-preview">
+                    <a href="/2017/02/16/angular-js-2-communicate-via-a-service/">
+                        <h2 class="post-title">
+                            Parent and children communicate via a service in AngularJs2.
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            通俗易懂的父组件和多个子组件之间通讯之服务通讯
                         </h3>
                         
                     </a>
@@ -492,13 +492,13 @@
                 <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                 </li> -->
                 <div class="post-preview">
-                    <a href="/2017/01/29/js-javascript/">
+                    <a href="/2017/01/03/js-history/">
                         <h2 class="post-title">
-                            How to use Javascript in Html.
+                            Javascript History
                         </h2>
                         
                         <h3 class="post-subtitle">
-                            在 HTML 中使用 Javascript
+                            Javascript的诞生历史
                         </h3>
                         
                     </a>
@@ -511,13 +511,13 @@
                 <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                 </li> -->
                 <div class="post-preview">
-                    <a href="/2017/01/03/js-history/">
+                    <a href="/2017/01/29/js-javascript/">
                         <h2 class="post-title">
-                            Javascript History
+                            How to use Javascript in Html.
                         </h2>
                         
                         <h3 class="post-subtitle">
-                            Javascript的诞生历史
+                            在 HTML 中使用 Javascript
                         </h3>
                         
                     </a>
@@ -836,6 +836,23 @@
 </script>
 
 <!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-101227779-1';
+    var _gaDomain = 'http://linzhenzhen.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    //ga('create', _gaId, _gaDomain);
+    ga('create', _gaId, 'auto');
+    ga('send', 'pageview');
+</script>
+
 
 
 <!-- Baidu Tongji -->
