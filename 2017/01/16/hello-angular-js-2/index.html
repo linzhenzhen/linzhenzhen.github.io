@@ -88,11 +88,11 @@
                     
                     
                     
-                    <li><a href="/tags/"> Tags </a></li>
-                    
-                    
-                    
                     <li><a href="/archive/"> Archives </a></li>
+                    
+                    
+                    
+                    <li><a href="/tags/"> Tags </a></li>
                     
                     
                 </ul>
@@ -218,7 +218,7 @@ bootstrap - &#x6307;&#x5B9A;&#x5E94;&#x7528;&#x7684;&#x4E3B;&#x89C6;&#x56FE; (&#
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { platformBrowserDynamic } from <span class="string">&apos;@angular/platform-browser-dynamic&apos;</span>;</div><div class="line"><span class="keyword">import</span> { AppModule } from <span class="string">&apos;./app.module&apos;</span>;</div><div class="line"></div><div class="line">platformBrowserDynamic().bootstrapModule(AppModule);</div></pre></td></tr></table></figure>
 <p>Angular &#x6A21;&#x5757;&#x5E93;&#x90FD;&#x5E26;&#x6709; <code>@angular</code> &#x7684;&#x524D;&#x7F00;.  &#x7528; <code>npm</code> &#x5305;&#x7BA1;&#x7406;&#x5DE5;&#x5177;&#x5B89;&#x88C5;&#x5B83;&#x4EEC;, &#x7528; JavaScript &#x7684; <code>import</code> &#x8BED;&#x53E5;&#x5BFC;&#x5165;&#x5176;&#x4E2D;&#x67D0;&#x4E9B;&#x90E8;&#x4EF6;. &#x4F8B;&#x5982;:</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="section">import</span> { <span class="attribute">Component</span> } from <span class="string">&apos;<span class="variable">@angular</span>/core&apos;</span>;</div></pre></td></tr></table></figure>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { BrowserModule } <span class="keyword">from</span> <span class="string">&apos;@angular/platform-browser&apos;</span>;   <span class="comment">// &#x4F7F;&#x7528; JavaScript &#x7684;&#x5BFC;&#x5165;&#x8BED;&#x53E5;&#x4ECE; Angular &#x5E93;&#x4E2D;&#x5BFC;&#x5165;Angular&#x6A21;&#x5757;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { BrowserModule } <span class="keyword">from</span> <span class="string">&apos;@angular/platform-browser&apos;</span>;   <span class="comment">// &#x4F7F;&#x7528; JavaScript &#x7684;&#x5BFC;&#x5165;&#x8BED;&#x53E5;&#x4ECE; Angular &#x5E93;&#x4E2D;&#x5BFC;&#x5165;Angular&#x6A21;&#x5757;</span></div></pre></td></tr></table></figure>
 <p>&#x5728;&#x4E0A;&#x9762;&#x8BED;&#x53E5;&#x4E2D;, &#x9700;&#x8981;&#x7528;&#x5230; <code>BrowserModule</code> &#x7684;&#x67D0;&#x4E9B;&#x7D20;&#x6750;, &#x9700;&#x8981;&#x628A;&#x5B83;&#x52A0;&#x5165; <code>@NgModule</code> &#x5143;&#x6570;&#x636E; <code>imports</code> &#x4E2D;, &#x5982;&#x4E0B;:</p>
 <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">imports:      <span class="string">[ BrowserModule ]</span>,</div></pre></td></tr></table></figure>
 <p>&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;, &#x540C;&#x65F6;&#x4F7F;&#x7528;&#x4E86; Angular &#x548C; Javascript &#x7684;&#x6A21;&#x5757;&#x5316;&#x7CFB;&#x7EDF;. &#x5B83;&#x4EEC;&#x5F15;&#x5165;&#x4E86;&#x5171;&#x540C;&#x7684;&#x8BCD;&#x6C47; <code>imports</code> &#x548C; <code>exports</code>, &#x9700;&#x8981;&#x4E0D;&#x65AD;&#x5B9E;&#x8DF5;&#x6162;&#x6162;&#x5C31;&#x4F1A;&#x5206;&#x6E05;.</p>

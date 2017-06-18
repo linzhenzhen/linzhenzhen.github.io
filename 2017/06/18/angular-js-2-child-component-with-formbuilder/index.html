@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Front-end">
+    <meta name="keyword" content="mslinzz,frontend,web,js,javascript,html,html5,css,css3,less,sass,boostrap,php,laravel,codeIginter,ci,git,sourcetree">
+    <link rel="shortcut icon" href="/img/favicon16.ico">
+
+    <title>
+        
+            Using FormBuilder to validate a child component. - Linzhenzhen的博客 | Linzhenzhen&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://linzhenzhen.github.io/2017/06/18/angular-js-2-child-component-with-formbuilder/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <!--<link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="/img/plum-blossom.png" alt="Zhenzhen Lin">
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/"> Home </a></li>
+                    
+                    
+                    
+                    
+                    <li><a href="/about/"> About </a></li>
+                    
+                    
+                    
+                    <li><a href="/archive/"> Archives </a></li>
+                    
+                    
+                    
+                    <li><a href="/tags/"> Tags </a></li>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://linzhenzhen.github.io /img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/bg-home.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#angularJs2"
+                           title="angularJs2">angularJs2</a>
+                        
+                        <a class="tag" href="/tags/#experiences"
+                           title="experiences">experiences</a>
+                        
+                    </div>
+                    <h1>Using FormBuilder to validate a child component.</h1>
+                    <h2 class="subheading">使用 FormBuilder 来验证子组件的值, 如 Select</h2>
+                    <span class="meta">
+                        Posted by Zhenzhen Lin on
+                        2017-06-18
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>&#x524D;&#x8A00;</p>
+</blockquote>
+<p>&#x4E0D;&#x7BA1;&#x56E2;&#x961F;&#x662F;&#x5426;&#x6162;&#x6162;&#x58EE;&#x5927;, &#x7EC4;&#x4EF6;&#x5F00;&#x53D1;&#x662F;&#x5FC5;&#x4E0D;&#x53EF;&#x5C11;&#x7684;, &#x5C24;&#x5176;&#x662F;&#x9879;&#x76EE;&#x591A;, &#x4F19;&#x4F34;&#x591A;, &#x9700;&#x6C42;&#x91CF;&#x5927;&#x4E14;&#x5FEB;&#x901F;&#x5F00;&#x53D1;&#x9891;&#x7E41;&#x7684;&#x65F6;&#x5019;, <code>&#x7EC4;&#x4EF6;</code>&#x5F0F;&#x7684;&#x5F00;&#x53D1;&#x5C31;&#x663E;&#x5F97;&#x683C;&#x5916;&#x7684;&#x91CD;&#x8981;&#x4E86;. &#x5BF9;&#x4E8E;&#x524D;&#x7AEF;&#x6765;&#x8BF4;, HTML&#x3001;CSS&#x3001;JS &#x90FD;&#x53EF;&#x4EE5;&#x5C01;&#x88C5;&#x6210;&#x7EC4;&#x4EF6;, &#x4E3A;&#x7684;&#x662F;&#x63D0;&#x9AD8;&#x5F00;&#x53D1;&#x6548;&#x7387;&#x548C;&#x964D;&#x4F4E;&#x6210;&#x672C;&#x4ED8;&#x51FA;&#x7B49;.</p>
+<p>&#x5728;&#x57FA;&#x4E8E; <code>AngularJS-2</code> &#x7684;&#x57FA;&#x7840;&#x4E0A;, &#x6211;&#x6240;&#x5728;&#x7684;&#x56E2;&#x961F;&#x4E5F;&#x5F00;&#x59CB;&#x4E86;&#x66F4;&#x65B9;&#x9762;&#x7684;&#x7EC4;&#x4EF6;&#x5316;, &#x867D;&#x7136;&#x56E2;&#x961F;&#x5728; AngularJS-1 &#x7684;&#x57FA;&#x7840;&#x4E5F;&#x4F5C;&#x4E86;&#x4E0D;&#x5C11;&#x7EC4;&#x4EF6;&#x5316;&#x7684;&#x5C01;&#x88C5;, &#x4F46;&#x8FC7;&#x4E8E;&#x677E;&#x6563;, &#x8FD9;&#x6B21;&#x89C9;&#x5F97;&#x5E94;&#x8BE5;&#x5BF9;&#x7EC4;&#x4EF6;&#x8FDB;&#x884C;&#x4E00;&#x6B21;&#x5347;&#x7EA7;&#x6539;&#x9020;&#x4E86;.</p>
+<p>&#x672C;&#x8282;&#x662F;&#x5728;&#x8BB0;&#x5F55;&#x7236;&#x7EA7;&#x5728;&#x4F7F;&#x7528; <code>FormBuilder</code> &#x9A8C;&#x8BC1;&#x8868;&#x5355;&#x7684;&#x60C5;&#x51B5;&#x4E0B;, &#x63CF;&#x8FF0;&#x600E;&#x6837;&#x53BB;&#x9A8C;&#x8BC1;&#x4E00;&#x4E2A;&#x65F6;&#x65F6;&#x53D8;&#x6362;&#x5B50;&#x7EC4;&#x4EF6;&#x7684;&#x503C;, &#x5C31;&#x662F;&#x7236;&#x7EA7;&#x7684;&#x8868;&#x5355;&#x9A8C;&#x8BC1;&#x5982;&#x4F55;&#x4E0E;&#x5B50;&#x7EC4;&#x4EF6;&#x8FDB;&#x884C;&#x901A;&#x8BAF;&#x9A8C;&#x8BC1;.</p>
+<blockquote>
+<p>&#x80CC;&#x666F;</p>
+</blockquote>
+<p>&#x672C;&#x8BB0;&#x5F55;&#x662F;&#x57FA;&#x4E8E;&#x4E86;&#x89E3; <code>Angular FormBuilder</code> &#x7684;&#x60C5;&#x51B5;&#x6240;&#x8BB0;&#x5F55;&#x7684;, &#x5982;&#x4E0D;&#x592A;&#x4E86;&#x89E3;, &#x8BF7;&#x5148;&#x770B; <a href="https://linzhenzhen.github.io/2017/03/16/angular-js-2-validator-with-formbuilder/">Using FormBuilder to Validate Reactive Forms in AngularJs2.</a></p>
+<p>&#x672C;&#x7BC7;&#x7684;&#x95EE;&#x9898;&#x662F;&#x57FA;&#x4E8E;&#x4E00;&#x4E2A;&#x9875;&#x9762;&#x5199;&#x597D;&#x7684;&#x8868;&#x5355;&#x9A8C;&#x8BC1;&#x60C5;&#x51B5;&#x4E0B;, &#x628A; <code>&#x94F6;&#x884C;&#x4E0B;&#x62C9;&#x6846;</code> &#x63D0;&#x53D6;&#x6210;&#x4E3A;&#x4E00;&#x4E2A;&#x516C;&#x5171;&#x7684;&#x5B50;&#x7EC4;&#x4EF6;, &#x8FD9;&#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x4E3A;&#x6F14;&#x793A;&#x95EE;&#x9898;&#x5E76;&#x89E3;&#x51B3;&#x95EE;&#x9898;, &#x7528;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;, &#x4F46;&#x66F4;&#x591A;&#x60C5;&#x51B5;&#x662F;&#x5B9E;&#x73B0;&#x5176;&#x4ED6;&#x590D;&#x6742;&#x7684;&#x7236;&#x7EC4;&#x4EF6;&#x9A8C;&#x8BC1;&#x5B50;&#x7EC4;&#x4EF6;&#x65F6;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;, &#x5982;&#x4E0B;&#x4E00;&#x6B65;&#x4F1A;&#x63D0;&#x53D6; &#x57CE;&#x5E02;&#x4E09;&#x7EA7;&#x8054;&#x4E0B;&#x62C9;&#x6846;&#x7B49;.</p>
+<p>&#x5148;&#x6765;&#x770B;&#x6BB5;&#x9875;&#x9762;&#x7684;&#x8868;&#x5355;&#x9A8C;&#x8BC1;:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- HTML FORM &#x90E8;&#x5206; --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> [<span class="attr">formGroup</span>]=<span class="string">&quot;myForm&quot;</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;form-item&quot;</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">i</span>&gt;</span>&#x59D3;&#x540D;: <span class="tag">&lt;/<span class="name">i</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">formControlName</span>=<span class="string">&quot;accountName&quot;</span> <span class="attr">required</span> <span class="attr">iFocus</span> [(<span class="attr">ngModel</span>)]=<span class="string">&quot;pay.accountName&quot;</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">&quot;formErrors.accountName&quot;</span> <span class="attr">class</span>=<span class="string">&quot;alert alert-danger&quot;</span>&gt;</span></div><div class="line">      {{ formErrors.accountName }}</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;form-item&quot;</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">i</span>&gt;</span>&#x94F6;&#x884C;&#x5361;&#x53F7;: <span class="tag">&lt;/<span class="name">i</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">formControlName</span>=<span class="string">&quot;cardNo&quot;</span> <span class="attr">required</span> <span class="attr">iFocus</span> [(<span class="attr">ngModel</span>)]=<span class="string">&quot;pay.cardNo&quot;</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">&quot;formErrors.cardNo&quot;</span> <span class="attr">class</span>=<span class="string">&quot;alert alert-danger&quot;</span>&gt;</span></div><div class="line">      {{ formErrors.cardNo }}</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;form-item&quot;</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">i</span>&gt;</span>&#x8BF7;&#x9009;&#x62E9;&#x94F6;&#x884C;: <span class="tag">&lt;/<span class="name">i</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">formControlName</span>=<span class="string">&quot;bankCode&quot;</span> [(<span class="attr">ngModel</span>)]=<span class="string">&quot;pay.bankCode&quot;</span> (<span class="attr">change</span>)=<span class="string">&quot;onChangeBank()&quot;</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">option</span> *<span class="attr">ngFor</span>=<span class="string">&quot;let bank of banks&quot;</span> <span class="attr">value</span>=<span class="string">&quot;{{ bank.id }}&quot;</span>&gt;</span>{{ bank.value }}<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">&quot;formErrors.bankCode&quot;</span> <span class="attr">class</span>=<span class="string">&quot;alert alert-danger&quot;</span>&gt;</span></div><div class="line">      {{ formErrors.bankCode }}</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> [<span class="attr">class.disabled-btn</span>]=<span class="string">&quot;!myForm.valid&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-primary&quot;</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> (<span class="attr">click</span>)=<span class="string">&quot;submit()&quot;</span>&gt;</span>&#x63D0;&#x4EA4;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* &#x8868;&#x5355;&#x9A8C;&#x8BC1;&#x90E8;&#x5206; */</span></div><div class="line"><span class="keyword">import</span> { Component, OnInit } <span class="keyword">from</span> <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"><span class="keyword">import</span> { FormBuilder, FormGroup, Validators, FormControl } <span class="keyword">from</span> <span class="string">&apos;@angular/forms&apos;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { SelectBankService } <span class="keyword">from</span> <span class="string">&quot;public/core/services/select-bank.service&quot;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { VALIDATE } <span class="keyword">from</span> <span class="string">&apos;public/core/services/validate.service&apos;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { PatternValidator } <span class="keyword">from</span> <span class="string">&quot;public/core/directives/v-pattern.directive&quot;</span>;</div><div class="line"><span class="keyword">import</span> { NotZeroValidator } <span class="keyword">from</span> <span class="string">&quot;public/core/directives/v-not-zero.directive&quot;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { Pay } <span class="keyword">from</span> <span class="string">&quot;pay.class&quot;</span>;</div><div class="line"></div><div class="line">@Component({</div><div class="line">  <span class="attr">selector</span>: <span class="string">&apos;payment-form&apos;</span>,</div><div class="line">  <span class="attr">templateUrl</span>: <span class="string">&apos;payment-form.html&apos;</span>,</div><div class="line">  <span class="attr">styleUrls</span>: [</div><div class="line">    <span class="string">&apos;payment-form.css&apos;</span></div><div class="line">  ]</div><div class="line">})</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">PaymentFormComponent</span> <span class="title">implements</span> <span class="title">OnInit</span> </span>{</div><div class="line"></div><div class="line">    <span class="keyword">constructor</span>(private selectBankService:SelectBankService) {}</div><div class="line"></div><div class="line">    ngOnInit():<span class="keyword">void</span> {</div><div class="line">        <span class="keyword">this</span>.buildForm();</div><div class="line">    }</div><div class="line"></div><div class="line">    private myForm:FormGroup;</div><div class="line"></div><div class="line">    private pay:Pay;</div><div class="line"></div><div class="line">    private buildForm():<span class="keyword">void</span> {</div><div class="line">        <span class="keyword">let</span> _that = <span class="keyword">this</span>;</div><div class="line"></div><div class="line">        <span class="keyword">let</span> formObj:any = {</div><div class="line">          <span class="string">&apos;accountName&apos;</span>: [</div><div class="line">            _that.pay.accountName, [</div><div class="line">              Validators.required,</div><div class="line">              PatternValidator(VALIDATE.anyAtLeast20.reg)</div><div class="line">            ]],</div><div class="line">            <span class="string">&apos;cardNo&apos;</span>: [</div><div class="line">              _that.pay.cardNo, [</div><div class="line">                Validators.required,</div><div class="line">                PatternValidator(VALIDATE.number.reg, <span class="string">&apos;number&apos;</span>),</div><div class="line">                PatternValidator(VALIDATE.between12and20.reg)</div><div class="line">            ]],</div><div class="line">            <span class="string">&apos;bankCode&apos;</span>: [</div><div class="line">              _that.pay.bankCode, [</div><div class="line">                NotZeroValidator()</div><div class="line">            ]]</div><div class="line">        };</div><div class="line"></div><div class="line">        _that.myForm = _that.fb.group(formObj);</div><div class="line"></div><div class="line">        _that.myForm.valueChanges.subscribe(<span class="function"><span class="params">data</span> =&gt;</span> _that.onValueChanged(data));</div><div class="line"></div><div class="line">        _that.onValueChanged(); <span class="comment">// (re)set validation messages now</span></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// &#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5C31;&#x4E0D;&#x8D34;&#x4EE3;&#x7801;&#x4E86;, &#x5728;&#x4E0A;&#x8FF0;&#x63D0;&#x5230;&#x4E86;&#x53E6;&#x5916;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#x6709;&#x5199;, &#x590D;&#x5236;&#x5373;&#x53EF;.</span></div><div class="line">    onValueChanged(): <span class="keyword">void</span> {}</div><div class="line"></div><div class="line">    private formErrors = {</div><div class="line">        <span class="string">&apos;accountName&apos;</span>: <span class="string">&apos;&apos;</span>,</div><div class="line">        <span class="string">&apos;cardNo&apos;</span>: <span class="string">&apos;&apos;</span>,</div><div class="line">        <span class="string">&apos;bankCode&apos;</span>: <span class="string">&apos;&apos;</span></div><div class="line">    };</div><div class="line"></div><div class="line">    private validationMessages = {</div><div class="line">        <span class="string">&apos;accountName&apos;</span>: {</div><div class="line">          <span class="string">&apos;required&apos;</span>: VALIDATE.required.msg,      <span class="comment">// &apos;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&apos;,</span></div><div class="line">          <span class="string">&apos;pattern&apos;</span>: VALIDATE.anyAtLeast20.msg    <span class="comment">// &apos;&#x81F3;&#x5C11;20&#x4F4D;&#x5B57;&#x7B26;&apos;</span></div><div class="line">        },</div><div class="line">        <span class="string">&apos;cardNo&apos;</span>: {</div><div class="line">          <span class="string">&apos;required&apos;</span>: VALIDATE.required.msg,      <span class="comment">// &apos;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&apos;,</span></div><div class="line">          <span class="string">&apos;number&apos;</span>: VALIDATE.number.msg,          <span class="comment">// &apos;&#x53EA;&#x80FD;&#x662F;&#x6570;&#x5B57;&apos;,</span></div><div class="line">          <span class="string">&apos;pattern&apos;</span>: VALIDATE.between12and20.msg  <span class="comment">// &apos;&#x81F3;&#x5C11;&#x5728;12-20&#x4F4D;&#x5B57;&#x7B26;&apos;</span></div><div class="line">        }</div><div class="line">        <span class="string">&apos;bankCode&apos;</span>: {</div><div class="line">          <span class="string">&apos;notZero&apos;</span>: VALIDATE.required.msg        <span class="comment">// &apos;&#x8BF7;&#x9009;&#x62E9;&#x94F6;&#x884C;&apos;</span></div><div class="line">        }</div><div class="line">     };</div><div class="line"></div><div class="line">    <span class="comment">// &#x83B7;&#x53D6;&#x94F6;&#x884C;&#x4FE1;&#x606F;</span></div><div class="line">    private banks: any = <span class="keyword">this</span>.selectBankService.getBanks;</div><div class="line"></div><div class="line">    onChangeBank(): <span class="keyword">void</span> {</div><div class="line">        <span class="keyword">let</span> id = event.target.value;</div><div class="line">        <span class="comment">// do sth when bank`s select tag is been changing.</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x4E0A;&#x8FF0;&#x4EE3;&#x7801;&#x5206;&#x522B;&#x662F; HTML &#x8868;&#x5355;&#x90E8;&#x5206;&#x548C;&#x7236;&#x7EC4;&#x4EF6;&#x57FA;&#x4E8E; <code>FormBuilder</code> &#x7684;&#x9A8C;&#x8BC1;, &#x5728;&#x9A8C;&#x8BC1;&#x94F6;&#x884C;&#x9884;&#x7559;&#x59D3;&#x540D;, &#x94F6;&#x884C;&#x5361;&#x53F7;&#x53CA;&#x6240;&#x5728;&#x5F00;&#x6237;&#x94F6;&#x884C;. &#x5728;&#x8FD9;&#x4E2A;&#x57FA;&#x7840;&#x4E0A;&#x628A;&#x94F6;&#x884C;&#x4E0B;&#x62C9;&#x6846;&#x63D0;&#x53D6;&#x51FA;&#x6765;&#x6210;&#x4E3A;&#x4E00;&#x4E2A;&#x5B50;&#x7EC4;&#x4EF6;, &#x8FD9;&#x6837;, &#x7236;&#x7EC4;&#x4EF6;&#x53EA;&#x9700;&#x50CF;&#x4E0B;&#x9762;&#x4EE3;&#x7801;&#x5F15;&#x5165;&#x5728;&#x8868;&#x5355;&#x4E2D;&#x5C31;&#x597D;&#x4E86;, &#x65E0;&#x9700;&#x83B7;&#x53D6;&#x6570;&#x636E;&#x5E76;&#x904D;&#x5386;&#x6570;&#x636E;, &#x4EE5;&#x53CA;&#x505A;&#x6570;&#x636E; (change) &#x7684;&#x76D1;&#x63A7;.</p>
+<p>&#x6211;&#x4EEC;&#x8981;&#x628A;&#x4E0B;&#x62C9;&#x6846;&#x53D8;&#x6210;&#x8FD9;&#x6837;&#x7684;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;select-bank&gt;<span class="xml"><span class="tag">&lt;/<span class="name">select-bank</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<p>&#x53D8;&#x6210;&#x4E00;&#x4E2A;&#x5B50;&#x7EC4;&#x4EF6;&#x975E;&#x5E38;&#x5BB9;&#x6613;, &#x518D;&#x5199;&#x4E00;&#x4E2A;&#x7EC4;&#x4EF6;&#x58F0;&#x660E;&#x5C31;&#x597D;&#x4E86;, &#x8BF7;&#x76F4;&#x63A5;&#x770B;&#x4EE3;&#x7801;:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">class</span>=<span class="string">&quot;form-bank&quot;</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">option</span> *<span class="attr">ngFor</span>=<span class="string">&quot;let bank of banks&quot;</span> <span class="attr">value</span>=<span class="string">&quot;{{ bank.id }}&quot;</span>&gt;</span>{{ bank.value }}<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { Component } <span class="keyword">from</span> <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { SelectBankService } <span class="keyword">from</span> <span class="string">&quot;public/core/services/select-bank.service&quot;</span>;</div><div class="line"></div><div class="line">@Component({</div><div class="line">  <span class="attr">selector</span>: <span class="string">&apos;select-bank&apos;</span>,</div><div class="line">  <span class="attr">templateUrl</span>: <span class="string">&apos;select-bank.component.html&apos;</span>,</div><div class="line">  <span class="attr">styleUrls</span>: [</div><div class="line">    <span class="string">&apos;select-bank.component.css&apos;</span></div><div class="line">  ]</div><div class="line">})</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">SelectBankComponent</span> </span>{</div><div class="line"></div><div class="line">  <span class="keyword">constructor</span>(private selectBankService:SelectBankService) {}</div><div class="line"></div><div class="line">  private banks:any = <span class="keyword">this</span>.selectBankService.getBanks;</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x6837;&#x5148;&#x5B8C;&#x6210;&#x4E86;&#x63D0;&#x53D6;&#x4E00;&#x4E2A;&#x5B50;&#x7EC4;&#x4EF6;, &#x4F46;&#x672C;&#x7AE0;&#x662F;&#x8BB2;, &#x5982;&#x4F55;&#x628A;&#x5B50;&#x7EC4;&#x4EF6;&#x5728;&#x901A;&#x8BAF;&#x65AD;&#x5F00;&#x7684;&#x57FA;&#x7840;&#x4E0A;, &#x8BA9;&#x7236;&#x7EC4;&#x4EF6;&#x8FD8;&#x662F;&#x50CF;&#x539F;&#x6765;&#x4E00;&#x6837;&#x53BB;&#x9A8C;&#x8BC1;&#x8FD9;&#x4E2A;&#x5B50;&#x7EC4;&#x4EF6;.</p>
+<blockquote>
+<p>&#x53CC;&#x5411;&#x7ED1;&#x5B9A;&#x7236;&#x4E0E;&#x5B50;</p>
+</blockquote>
+<p>&#x9996;&#x5148;&#x7236;&#x7EC4;&#x4EF6;&#x662F;&#x8FD9;&#x6837;&#x8C03;&#x7528;&#x5B50;&#x7EC4;&#x4EF6;&#x7684;:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;form-item&quot;</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">i</span>&gt;</span>&#x8BF7;&#x9009;&#x62E9;&#x94F6;&#x884C;: <span class="tag">&lt;/<span class="name">i</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">select-bank</span> <span class="attr">formControlName</span>=<span class="string">&quot;bankCode&quot;</span> [(<span class="attr">model</span>)]=<span class="string">&quot;pay.bankCode&quot;</span> <span class="attr">ngDefaultControl</span>&gt;</span><span class="tag">&lt;/<span class="name">select-bank</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">&quot;formErrors.bankCode&quot;</span> <span class="attr">class</span>=<span class="string">&quot;alert alert-danger&quot;</span>&gt;</span></div><div class="line">      {{ formErrors.bankCode }}</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>&#x5148;&#x89E3;&#x91CA;&#x4E00;&#x4E0B;&#x4E0A;&#x8FF0;&#x7684;&#x4EE3;&#x7801;&#x7684;&#x6539;&#x53D8;<br><code>1</code>. <code>formControlName=&quot;bankName&quot;</code> &#x8FD8;&#x662F;&#x539F;&#x6765;&#x7ED1;&#x5B9A;&#x7684;&#x540D;&#x79F0;<br><code>2</code>. <code>ngDefaultControl</code> &#x8FD9;&#x91CC;&#x5FC5;&#x987B;&#x4E0E; <code>formControlName</code> &#x642D;&#x914D;&#x4F7F;&#x7528;, &#x662F;&#x4E3A;&#x8BA9;&#x5B83;&#x628A;&#x5B50;&#x7EC4;&#x4EF6;&#x5F53;&#x4F5C;&#x662F;&#x539F;&#x751F;&#x6807;&#x7B7E;&#x4E00;&#x6837;&#x5728;&#x9A8C;&#x8BC1;, &#x5982;&#x4E0D;&#x7136;&#x4ED6;&#x4F1A;&#x62A5;&#x5982;&#x4E0B;&#x7C7B;&#x4F3C;&#x7684;&#x9519;&#x8BEF;&#x4FE1;&#x606F;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">No value accessor <span class="keyword">for</span> form control <span class="keyword">with</span> unspecified name</div></pre></td></tr></table></figure>
+<p>&#x6211;&#x5728; <a href="https://stackoverflow.com/questions/38958347/angular2-rc-5-custom-input-no-value-accessor-for-form-control-with-unspecified/39235233" target="_blank" rel="external">Stackoverflow</a> &#x627E;&#x5230;&#x4E86;&#x8FD9;&#x4E2A;issue</p>
+<p><code>3</code>. <code>[(model)]=&quot;pay.bankCode&quot;</code> &#x8FD9;&#x91CC;&#x7684; <code>model</code> &#x4E3A;&#x53CC;&#x5411;&#x7ED1;&#x5B9A;, &#x4E3A;&#x4E86;&#x4E0E;  <code>[(ngModel)]</code> &#x76F8;&#x5BF9;&#x5E94;, &#x6211;&#x4EEC;&#x91C7;&#x7528;&#x547D;&#x540D;&#x4E3A; <code>model</code> &#x7684;&#x5F62;&#x5F0F;, &#x5982;&#x679C;&#x4F60;&#x6B63;&#x5728;&#x5199;&#x7A0B;&#x5E8F;, &#x53EF;&#x4EE5;&#x6253;&#x5F00;&#x63A7;&#x5236;&#x53F0;, &#x770B;&#x770B;&#x8868;&#x5355;&#x53D8;&#x6362;&#x7684;&#x65F6;&#x5019;, &#x6709;&#x4E2A; <code>ng-reflect-model</code> &#x7684;&#x540D;&#x79F0;, &#x547D;&#x540D;&#x4E3A; <code>model</code> &#x53EA;&#x4E3A;&#x4E86;&#x4E0E;&#x8FD9;&#x4E2A;&#x540D;&#x79F0;&#x76F8;&#x7B26;&#x5408;, &#x8BA9;&#x9075;&#x5FAA; <code>ngModel</code> &#x7684;&#x5F62;&#x5F0F;, &#x5E76;&#x4E14;&#x5BF9;&#x7ED1;&#x5B9A;&#x7684;&#x503C;&#x4E5F;&#x6709;&#x597D;&#x5904;.</p>
+<p>&#x4F46;&#x662F;&#x4EE5;&#x4E0A;<code>3</code>&#x63CF;&#x8FF0;&#x4E0D;&#x540C;&#x7684;&#x662F;, <code>[(ngModel)]</code> &#x662F; NG &#x4E8B;&#x4EF6;, <code>[(model)]</code> &#x81EA;&#x8EAB;&#x6CA1;&#x6709;&#x4E8B;&#x4EF6;, &#x6211;&#x4EEC;&#x9700;&#x8981;&#x5728;&#x5B50;&#x7EC4;&#x4EF6;&#x5185;&#x4E3A;&#x5B83;&#x5199;&#x5165;&#x4E00;&#x4E2A;&#x53CC;&#x5411;&#x7ED1;&#x5B9A;&#x4E8B;&#x4EF6;. &#x8FD9;&#x4E2A;&#x89E3;&#x51B3;&#x7684;&#x529E;&#x6CD5;, &#x6211;&#x662F;&#x5728;&#x5B98;&#x7F51;API-&#x6A21;&#x7248;&#x8BED;&#x6CD5;&#x4E2D;&#x53D7;&#x5230;&#x542F;&#x53D1;&#x7684;, &#x5176;&#x4E2D;&#x6709;&#x6BB5;&#x63CF;&#x8FF0; <a href="http://origin.angular.live/docs/ts/latest/guide/template-syntax.html#!#ngModel" target="_blank" rel="external">&#x53CC;&#x5411;&#x7ED1;&#x5B9A;- NgModel</a> &#x7684;&#x5185;&#x5BB9;:</p>
+<pre><code>&#x6211;&#x4EEC;&#x4E0D;&#x80FD;&#x628A;[(ngModel)]&#x7528;&#x5230;&#x975E;&#x8868;&#x5355;&#x7C7B;&#x7684;&#x539F;&#x751F;&#x5143;&#x7D20;&#x6216;&#x7B2C;&#x4E09;&#x65B9;&#x81EA;&#x5B9A;&#x4E49;&#x7EC4;&#x4EF6;&#x4E0A;&#xFF0C;&#x9664;&#x975E;&#x5199;&#x4E00;&#x4E2A;&#x5408;&#x9002;&#x7684;&#x503C;&#x8BBF;&#x95EE;&#x5668;&#xFF0C;&#x8FD9;&#x79CD;&#x6280;&#x5DE7;&#x8D85;&#x51FA;&#x4E86;&#x672C;&#x7AE0;&#x7684;&#x8303;&#x56F4;&#x3002;
+&#x6211;&#x4EEC;&#x81EA;&#x5DF1;&#x5199;&#x7684;Angular&#x7EC4;&#x4EF6;&#x4E0D;&#x9700;&#x8981;&#x503C;&#x8BBF;&#x95EE;&#x5668;&#xFF0C;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8BA9;&#x503C;&#x548C;&#x4E8B;&#x4EF6;&#x7684;&#x5C5E;&#x6027;&#x540D;&#x9002;&#x5E94;Angular&#x57FA;&#x672C;&#x7684;&#x53CC;&#x5411;&#x7ED1;&#x5B9A;&#x8BED;&#x6CD5;&#xFF0C;&#x800C;&#x4E0D;&#x4F7F;&#x7528;NgModel&#x3002;
+</code></pre><p>&#x5E78;&#x8FD0;&#x7684;&#x662F;, &#x5B98;&#x7F51;&#x8FD8;&#x6709;&#x4E2A;&#x4F8B;&#x5B50;, &#x63CF;&#x8FF0;&#x4E86; <code>x</code> &#x503C;&#x4E0E; <code>xChange</code> &#x4E8B;&#x4EF6;&#x7684;&#x6A21;&#x5F0F;, &#x8BF7;&#x7FFB;&#x9605;  <a href="http://origin.angular.live/docs/ts/latest/guide/template-syntax.html#!#two-way" target="_blank" rel="external">&#x524D;&#x9762;&#x770B;&#x8FC7;&#x7684;sizer&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x8FD9;&#x79CD;&#x6280;&#x5DE7;&#x7684;&#x4F8B;&#x5B50;&#x3002;</a></p>
+<blockquote>
+<p>&#x57FA;&#x4E8E;&#x5B98;&#x7F51; x &#x4E0E; xChange &#x6A21;&#x5F0F;, &#x5B8C;&#x5584;&#x4E00;&#x4E0B;&#x5B50;&#x7EC4;&#x4EF6;&#x7684;&#x4EE3;&#x7801;</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> (<span class="attr">change</span>)=<span class="string">&quot;sendSelectedId(bank.value)&quot;</span> <span class="attr">class</span>=<span class="string">&quot;select-bank&quot;</span> #<span class="attr">bank</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">option</span> *<span class="attr">ngFor</span>=<span class="string">&quot;let bank of banks&quot;</span> <span class="attr">value</span>=<span class="string">&quot;{{ bank.id }}&quot;</span>&gt;</span>{{ bank.value }}<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> { Component, Input, Output, EventEmitter } <span class="keyword">from</span> <span class="string">&apos;@angular/core&apos;</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> { SelectBankService } <span class="keyword">from</span> <span class="string">&quot;public/core/services/select-bank.service&quot;</span>;</div><div class="line"></div><div class="line">@Component({</div><div class="line">  <span class="attr">selector</span>: <span class="string">&apos;select-bank&apos;</span>,</div><div class="line">  <span class="attr">templateUrl</span>: <span class="string">&apos;select-bank.component.html&apos;</span>,</div><div class="line">  <span class="attr">styleUrls</span>: [</div><div class="line">    <span class="string">&apos;select-bank.component.css&apos;</span></div><div class="line">  ]</div><div class="line">})</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">SelectBankComponent</span> </span>{</div><div class="line"></div><div class="line">  <span class="keyword">constructor</span>(private selectBankService:SelectBankService) {}</div><div class="line"></div><div class="line">  private banks:any = <span class="keyword">this</span>.selectBankService.getBanks;</div><div class="line"></div><div class="line">  @Input() model:number;</div><div class="line"></div><div class="line">  @Output() modelChange = <span class="keyword">new</span> EventEmitter&lt;number&gt;();</div><div class="line"></div><div class="line">  sendSelectedId(id:number = <span class="number">0</span>) {</div><div class="line">    <span class="keyword">this</span>.model = id;</div><div class="line">    <span class="keyword">this</span>.modelChange.emit(<span class="keyword">this</span>.model);</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x4E0A;&#x8FF0; <code>@Input()</code> &#x548C; <code>@Output()</code> &#x4E3A; <code>x</code> &#x4E0E; <code>xChange</code> &#x6A21;&#x5F0F;, &#x4E5F;&#x7528;&#x5230;&#x4E86; <a href="http://origin.angular.live/docs/ts/latest/cookbook/component-communication.html#!#parent-to-child" target="_blank" rel="external">&#x7EC4;&#x4EF6;&#x901A;&#x8BAF;-&#x4F7F;&#x7528;&#x8F93;&#x5165;&#x7ED1;&#x5B9A;&#x628A;&#x6570;&#x636E;&#x4ECE;&#x7236;&#x7EC4;&#x4EF6;&#x4F20;&#x7ED9;&#x5B50;&#x7EC4;&#x4EF6;</a></p>
+<p>&#x5F53;&#x6211;&#x4EEC;&#x5B50;&#x7EC4;&#x4EF6; <code>(change)</code> &#x6539;&#x53D8;&#x65F6;&#x5019;, &#x5411;&#x7236;&#x7EC4;&#x4EF6; <code>sendSelectedId()</code> &#x53D1;&#x9001;&#x6539;&#x53D8;&#x7684;&#x503C;, &#x7236;&#x7EC4;&#x4EF6;&#x5728; <code>[(model)]</code> &#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x5C31;&#x63A5;&#x6536;&#x5230;&#x4E86;&#x6539;&#x53D8;&#x540E;&#x7684;&#x503C;, &#x800C;&#x4E14;&#x4F1A;&#x89E6;&#x53D1;&#x6539;&#x53D8;&#x4E8B;&#x4EF6;, &#x8FD9;&#x65F6;&#x5019; <code>FB</code> &#x5C31;&#x80FD;&#x4ECE;&#x8BA2;&#x9605;&#x4E2D;&#x77E5;&#x9053;, &#x8FD9;&#x4E2A;&#x503C;&#x7684;&#x6539;&#x53D8;&#x5C31;&#x4F1A;&#x89E6;&#x53D1;&#x8868;&#x5355;&#x7684;&#x9A8C;&#x8BC1;. &#x5176;&#x4E2D;&#x7236;&#x7EC4;&#x4EF6;&#x7684;&#x8BA2;&#x9605;&#x4FE1;&#x606F;&#x662F;&#x8FD9;&#x884C;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">_that.myForm.valueChanges.subscribe(<span class="function"><span class="params">data</span> =&gt;</span> _that.onValueChanged(data));  <span class="comment">// buildForm()</span></div></pre></td></tr></table></figure>
+<p>&#x5B8C;&#x7F8E;&#x7684;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#x4E86;~</p>
+<blockquote>
+<p>&#x603B;&#x7ED3;</p>
+</blockquote>
+<p>&#x62BD;&#x79BB;&#x5B50;&#x7EC4;&#x4EF6;, &#x4F53;&#x73B0;&#x5728;&#x4E86;&#x5C01;&#x88C5;&#x6027;, &#x4E0B;&#x4E00;&#x6B65;&#x5F00;&#x53D1;&#x7B80;&#x5355;&#x5FEB;&#x901F;&#x96C6;&#x6210;&#x5373;&#x53EF;, &#x5927;&#x5927;&#x6539;&#x5584;&#x4E86;&#x6211;&#x4EEC;&#x7684;&#x5F00;&#x53D1;&#x6548;&#x7387;.</p>
+<p>&#x6700;&#x540E;&#x7236;&#x4EB2;&#x8282;&#x5FEB;&#x4E50;, &#x7ED9;&#x8001;&#x7238;&#x53D1;&#x4E86;<code>6.18</code>&#x7684;&#x7EA2;&#x5305;. &#x5B8C;&#x7F8E;&#x7684;&#x88AB;&#x8001;&#x5988;&#x62A2;&#x4E86;&#x4E00;&#x534A;&#x513F;, &#x54C8;&#x54C8; ~</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/03/16/angular-js-2-validator-with-formbuilder/" data-toggle="tooltip" data-placement="top"
+                           title="Using FormBuilder to Validate Reactive Forms in AngularJs2.">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2017/06/18/angular-js-2-child-component-with-formbuilder/"
+                         data-title="Using FormBuilder to validate a child component."
+                         data-url="https://linzhenzhen.github.io/2017/06/18/angular-js-2-child-component-with-formbuilder/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+            <!-- Side Catalog Container -->
+            
+
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#angularJs2"
+                           title="angularJs2">angularJs2</a>
+                        
+                        <a class="tag" href="/tags/#experiences"
+                           title="experiences">experiences</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                    <li><a href="#" target="_blank">scarlett</a></li>
+                    
+                    <li><a href="http://www.malin.xyz/" target="_blank">malin&#39;s blog</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'linzhenzhen';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "linzhenzhen";
+    var disqus_identifier = "https://linzhenzhen.github.io/2017/06/18/angular-js-2-child-component-with-formbuilder/";
+    var disqus_url = "https://linzhenzhen.github.io/2017/06/18/angular-js-2-child-component-with-formbuilder/";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+                o = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) {
+            o.addEventListener('load', function (e) {
+                c(null, e);
+            }, false);
+        }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function () {
+        anchors.options = {
+            visible: 'always',
+            placement: 'right',
+            icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link {
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top: -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+<li>
+    <a target="_blank"
+       href="https://github.com/linzhenzhen"
+       data-toggle="tooltip" data-placement="top" title="linzhenzhen">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="http://weibo.com/mslinzz"
+       data-toggle="tooltip" data-placement="top" title="mslinzz">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="mailto:mslinzz@sina.com"
+       data-toggle="tooltip" data-placement="top" title="mslinzz@sina.com">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="javascript:void(0)"
+       data-toggle="tooltip" data-placement="top" title="549221572">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weixin fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ms.Linzz 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">
+                    <span style="display: inline-block; margin: 0 3px;">
+                        <i class="fa fa-thumbs-up"></i>
+                    </span> Huxpro </a>
+                    Ported by <a href="http://mslinzz.com"> Ms.Linzz </a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=linzhenzhen&repo=linzhenzhen.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://linzhenzhen.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!--http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js-->
+<script>
+    async("https://linzhenzhen.github.io/js/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'flase';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://linzhenzhen.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+</body>
+</html>
